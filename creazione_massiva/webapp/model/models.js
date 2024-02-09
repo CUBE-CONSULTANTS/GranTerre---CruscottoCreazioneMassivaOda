@@ -132,8 +132,19 @@ sap.ui.define(
 
         let odaDoc = new JSONModel({ odaDocs });
         return new JSONModel({ dati: odaDocs });
-      },
-       
+      },    
+      createFilterModel: function () {
+        let oFilterModel = new JSONModel({
+          tipoDocumento: "",
+          fornitore: "",
+          file: null,
+          download: false,
+          crea: false,
+          crea1: false,
+          simulazione: true
+        });
+        return oFilterModel;
+      }
     };
   }
 );

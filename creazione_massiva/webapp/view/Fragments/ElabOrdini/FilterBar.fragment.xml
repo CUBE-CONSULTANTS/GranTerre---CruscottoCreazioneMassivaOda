@@ -6,19 +6,20 @@
 >
 <f:DynamicPageHeader pinnable="false">
  <fb:FilterBar id="filterbar"
-search="onSearch"
-filterChange="onChangeFilter"
-showClearOnFB="true"
-defaultSpan="XL8 L8 M8 S8"
-showFilterConfiguration="false"
-useToolbar="false">
+    search="btnGoSearch"
+    filterChange="onChangeFilter"
+    showClearOnFB="true"
+    defaultSpan="XL8 L8 M8 S8"
+    showFilterConfiguration="false"
+    useToolbar="false">
 <fb:filterGroupItems>
     <fb:FilterGroupItem visibleInFilterBar="true"
         name="tipoDocumento"
         label="{i18n>tipoDocumento}"
-        groupName="Group1">
+        groupName="Group1"
+        >
         <fb:control>
-            <ComboBox></ComboBox>
+            <ComboBox value="{filterModel>tipoDocumento}"></ComboBox>
         </fb:control>
     </fb:FilterGroupItem>
     <fb:FilterGroupItem visibleInFilterBar="true"
@@ -26,7 +27,7 @@ useToolbar="false">
         label="{i18n>fornitore}"
         groupName="Group1">
         <fb:control>
-            <Input showValueHelp="true"></Input>
+            <Input showValueHelp="true" value="{filterModel>fornitore}"></Input>
         </fb:control>
     </fb:FilterGroupItem>
     <fb:FilterGroupItem visibleInFilterBar="true"
@@ -36,7 +37,7 @@ useToolbar="false">
         mandatory="true"
         >
         <fb:control>
-          <unified:FileUploader style="Emphasized" icon="sap-icon://search" iconOnly="true"></unified:FileUploader>
+          <unified:FileUploader value="{filterModel>file}" style="Emphasized" icon="sap-icon://search" iconOnly="true"></unified:FileUploader>
         </fb:control>
     </fb:FilterGroupItem> 
     <fb:FilterGroupItem visibleInFilterBar="true"
@@ -52,19 +53,19 @@ useToolbar="false">
 <fb:FilterGroupItem visibleInFilterBar="true"
         name="oda"
         label="{i18n>Crea}"
-        groupName="Group2"
+        groupName="Group1"
         >
         <fb:control>
-          <CheckBox ></CheckBox>
+          <CheckBox bindingContexts="{filterModel>crea}" ></CheckBox>
         </fb:control>
     </fb:FilterGroupItem>     
     <fb:FilterGroupItem visibleInFilterBar="true"
     name="oda1"
     label="{i18n>Crea1}"
-    groupName="Group2"
+    groupName="Group1"
     >
     <fb:control>
-      <CheckBox ></CheckBox>
+      <CheckBox bindingContexts="{filterModel>crea1}" ></CheckBox>
     </fb:control>
 </fb:FilterGroupItem>   
 <fb:FilterGroupItem visibleInFilterBar="true"
@@ -73,7 +74,7 @@ label="{i18n>Simulazione}"
 groupName="Group2"
 >
 <fb:control>
-  <CheckBox selected="true"></CheckBox>
+  <CheckBox bindingContexts="{filterModel>simulazione}" select="onSimulazioneCheck" ></CheckBox>
 </fb:control>
 </fb:FilterGroupItem>
 </fb:filterGroupItems>

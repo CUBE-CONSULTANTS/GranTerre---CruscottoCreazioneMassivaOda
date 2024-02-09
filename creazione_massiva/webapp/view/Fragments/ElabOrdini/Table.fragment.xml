@@ -3,10 +3,11 @@
     xmlns:f="sap.f"
     xmlns="sap.m"
 >
-    <Table
+    <Table id="tableOda"
         items="{odaDocs>/dati}"
-        headerText="{i18n>tableH} {i18n>modSim}"
+        headerText="{= ${checkedModel>/checked} ? ${i18n>tableH} + ' ' + ${i18n>modSim} : ${i18n>tableH} }"
         alternateRowColors="true"
+        visible="false"
     >
         <columns>
             <Column hAlign="Center">
