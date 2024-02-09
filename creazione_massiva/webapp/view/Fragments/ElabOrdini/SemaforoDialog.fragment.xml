@@ -1,0 +1,29 @@
+<core:FragmentDefinition xmlns:macros="sap.fe.macros"
+    xmlns:core="sap.ui.core"
+    xmlns:f="sap.f"
+    xmlns="sap.m"
+>
+<Dialog afterClose="" title="{i18n>ListaErrori}" contentWidth="600px">
+<Table items="{errorModel>/}">
+  <columns>
+    <Column >
+      <Label  text="Messaggio"></Label>
+    </Column>
+    <Column >
+      <Label  text="Descrizione" ></Label>
+    </Column>
+  </columns>
+  <items>
+    <ColumnListItem>
+      <cells>
+        <Text text="{errorModel>msg}" />
+        <Text text="{errorModel>descr}" />
+      </cells>
+    </ColumnListItem>
+  </items>
+</Table>
+<buttons>
+<Button type="Emphasized" press="onClose" icon="sap-icon://decline" text="{i18n>Chiudi}"/>
+</buttons>
+</Dialog>
+</core:FragmentDefinition>

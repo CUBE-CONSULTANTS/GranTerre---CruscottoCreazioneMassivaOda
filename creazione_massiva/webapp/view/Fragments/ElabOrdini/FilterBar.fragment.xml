@@ -1,0 +1,82 @@
+<core:FragmentDefinition xmlns:form="sap.ui.layout.form" xmlns:unified="sap.ui.unified" xmlns:upload="sap.m.upload"
+    xmlns:core="sap.ui.core"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns="sap.m"
+    xmlns:f="sap.f"
+>
+<f:DynamicPageHeader pinnable="false">
+ <fb:FilterBar id="filterbar"
+search="onSearch"
+filterChange="onChangeFilter"
+showClearOnFB="true"
+defaultSpan="XL8 L8 M8 S8"
+showFilterConfiguration="false"
+useToolbar="false">
+<fb:filterGroupItems>
+    <fb:FilterGroupItem visibleInFilterBar="true"
+        name="tipoDocumento"
+        label="{i18n>tipoDocumento}"
+        groupName="Group1">
+        <fb:control>
+            <ComboBox></ComboBox>
+        </fb:control>
+    </fb:FilterGroupItem>
+    <fb:FilterGroupItem visibleInFilterBar="true"
+        name="fornitore"
+        label="{i18n>fornitore}"
+        groupName="Group1">
+        <fb:control>
+            <Input showValueHelp="true"></Input>
+        </fb:control>
+    </fb:FilterGroupItem>
+    <fb:FilterGroupItem visibleInFilterBar="true"
+        name="File"
+        label="{i18n>file}"
+        groupName="Group1"
+        mandatory="true"
+        >
+        <fb:control>
+          <unified:FileUploader style="Emphasized" icon="sap-icon://search" iconOnly="true"></unified:FileUploader>
+        </fb:control>
+    </fb:FilterGroupItem> 
+    <fb:FilterGroupItem visibleInFilterBar="true"
+    name="Download"
+    label="{i18n>Download}"
+    groupName="Group1"
+    >
+    <fb:control>
+        <Button icon="sap-icon://download" class="button" type="Emphasized"/>
+    </fb:control>
+</fb:FilterGroupItem> 
+
+<fb:FilterGroupItem visibleInFilterBar="true"
+        name="oda"
+        label="{i18n>Crea}"
+        groupName="Group2"
+        >
+        <fb:control>
+          <CheckBox ></CheckBox>
+        </fb:control>
+    </fb:FilterGroupItem>     
+    <fb:FilterGroupItem visibleInFilterBar="true"
+    name="oda1"
+    label="{i18n>Crea1}"
+    groupName="Group2"
+    >
+    <fb:control>
+      <CheckBox ></CheckBox>
+    </fb:control>
+</fb:FilterGroupItem>   
+<fb:FilterGroupItem visibleInFilterBar="true"
+name="simulazione"
+label="{i18n>Simulazione}"
+groupName="Group2"
+>
+<fb:control>
+  <CheckBox selected="true"></CheckBox>
+</fb:control>
+</fb:FilterGroupItem>
+</fb:filterGroupItems>
+</fb:FilterBar> 
+</f:DynamicPageHeader>
+</core:FragmentDefinition>

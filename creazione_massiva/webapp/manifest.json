@@ -1,0 +1,134 @@
+{
+  "_version": "1.59.0",
+  "sap.app": {
+    "id": "granterre.creazionemassiva",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:basic",
+      "version": "1.12.2",
+      "toolsId": "099d8f89-03e5-4e54-b851-85abf0745365"
+    }
+  },
+  "sap.ui": {
+    "fullWidth": false,
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": false,
+    "dependencies": {
+      "minUI5Version": "1.120.6",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.f": {},
+        "sap.suite.ui.generic.template": {},
+        "sap.ui.comp": {},
+        "sap.ui.generic.app": {},
+        "sap.ui.table": {},
+        "sap.ushell": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "granterre.creazionemassiva.i18n.i18n"
+        }
+      }
+    },
+    "resources": {
+      "css": [
+        {
+          "uri": "css/style.css"
+        }
+      ]
+    },
+    "routing": {
+      "config": {
+        "routerClass": "sap.f.routing.Router",
+        "viewType": "XML",
+        "async": true,
+        "viewPath": "granterre.creazionemassiva.view",
+        "controlAggregation": "pages",
+        "controlId": "app",
+        "clearControlAggregation": false
+      },
+      "routes": [
+        {
+          "name": "RouteLaunchTile",
+          "pattern": "",
+          "target": [
+            "TargetLaunchTile"
+          ]
+        },
+        {
+          "name": "ElabOrdini",
+          "pattern": "ordini",
+          "target": [
+            "TargetElabOrdini"
+          ]
+        },
+        {
+          "name": "ElabMerci",
+          "pattern": "merci",
+          "target": [
+            "TargetElabMerci"
+          ]
+        }
+      ],
+      "targets": {
+        "TargetLaunchTile": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "LaunchTile",
+          "viewName": "LaunchTile"
+        },
+        "TargetElabOrdini": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "ElabOrdini",
+          "viewName": "ElabOrdini"
+        },
+        "TargetElabMerci": {
+          "viewType": "XML",
+          "transition": "slide",
+          "clearControlAggregation": false,
+          "viewId": "ElabMerci",
+          "viewName": "ElabMerci"
+        } 
+      } 
+    },
+    "rootView": {
+      "viewName": "granterre.creazionemassiva.view.App",
+      "type": "XML",
+      "async": true,
+      "id": "App"
+    }
+  }
+}

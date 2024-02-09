@@ -1,0 +1,29 @@
+<mvc:View controllerName="granterre.creazionemassiva.controller.ElabORdini"
+xmlns="sap.m"
+xmlns:f="sap.f"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns:core="sap.ui.core"
+xmlns:l="sap.ui.layout"
+height="100%"
+displayBlock="true"
+>
+<f:DynamicPage showFooter="true" preserveHeaderStateOnScroll="false"
+toggleHeaderOnTitleClick="true">
+<f:title>
+  <core:Fragment fragmentName="granterre.creazionemassiva.view.Fragments.ElabOrdini.Header"
+      type="XML" />
+</f:title>
+<f:header>
+  <core:Fragment fragmentName="granterre.creazionemassiva.view.Fragments.ElabOrdini.FilterBar"
+    type="XML" />
+</f:header>
+<f:content>
+  <core:Fragment fragmentName="granterre.creazionemassiva.view.Fragments.ElabOrdini.Table"
+      type="XML" />
+</f:content>
+<f:footer>
+  <core:Fragment fragmentName="granterre.creazionemassiva.view.Fragments.ElabOrdini.Footer"
+  type="XML" />
+</f:footer>
+</f:DynamicPage>
+</mvc:View>

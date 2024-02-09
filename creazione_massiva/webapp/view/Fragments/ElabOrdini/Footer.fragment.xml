@@ -1,0 +1,14 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core"
+    xmlns="sap.m">
+    <OverflowToolbar >     
+        <Button text="{i18n>Indietro}"
+            type="Emphasized"
+            icon="sap-icon://nav-back"
+            press=".NavToLaunch" />
+        <ToolbarSpacer/>    
+        <Button text="{i18n>ScaricaExcel}"
+            type="Emphasized"
+            icon="sap-icon://excel-attachment"
+            press=".DownloadExcel" />
+    </OverflowToolbar>
+</core:FragmentDefinition>

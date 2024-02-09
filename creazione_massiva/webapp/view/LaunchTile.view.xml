@@ -1,0 +1,52 @@
+<mvc:View xmlns:cards="sap.f.cards" xmlns:mdc="sap.ui.mdc" xmlns:tnt="sap.tnt" controllerName="granterre.creazionemassiva.controller.LaunchTile"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns="sap.m"
+xmlns:f="sap.f"
+xmlns:layout="sap.ui.layout"
+>
+<f:DynamicPage id="page" showFooter="true" headerExpanded="false" toggleHeaderOnTitleClick="false" >
+    <f:title>
+        <f:DynamicPageTitle>
+            <f:heading >
+            <Title titleStyle="H2" text="{i18n>appTitle}"/>    
+          </f:heading>
+            <f:actions>
+          <layout:HorizontalLayout allowWrapping="true">
+            <layout:VerticalLayout>
+              <Image					
+                src="../public/logo-granterre_new.png"
+                height="45.00000000px"
+                width="100%"
+              />
+            </layout:VerticalLayout>
+          </layout:HorizontalLayout>
+        </f:actions>
+        </f:DynamicPageTitle>
+    </f:title>
+    
+    <f:content>
+        <HBox justifyContent="SpaceAround" class="sapUiLargeMarginTop margin" alignItems="Center" width="50%" >
+            <GenericTile   class="sapUiResponsiveMargin tileLayout" header="{i18n>elabOrdine}" press="navToElabOrdine">
+                <TileContent>
+                </TileContent>
+            </GenericTile>
+            <GenericTile class="sapUiResponsiveMargin tileLayout" header="{i18n>elaboraMerci}" press="navToElabMerci">
+                <TileContent>
+                </TileContent>
+            </GenericTile>          
+        </HBox>
+    </f:content>
+        <f:footer>
+      <OverflowToolbar >				
+        <ToolbarSpacer />		
+        <!-- <Button
+          type="Emphasized"
+          text="{}"
+          icon=""
+          press=""
+        /> -->
+      </OverflowToolbar>
+    </f:footer>
+ 
+</f:DynamicPage>
+</mvc:View>

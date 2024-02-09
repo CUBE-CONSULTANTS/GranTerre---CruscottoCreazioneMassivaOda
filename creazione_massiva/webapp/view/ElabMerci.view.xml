@@ -1,0 +1,7 @@
+<mvc:View controllerName="granterre.creazionemassiva.controller.ElabMerci"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns="sap.m"
+xmlns:f="sap.f"
+xmlns:layout="sap.ui.layout"
+>
+</mvc:View>
