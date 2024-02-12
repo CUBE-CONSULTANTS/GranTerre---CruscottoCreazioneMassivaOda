@@ -7,7 +7,7 @@
             press=".NavToLaunch" />
         <ToolbarSpacer/>    
         <Button text="{i18n>ScaricaExcel}"
-            visible="{= ${checkedModel>/checked} ? false : true}"
+            visible="{= ${filterModel>/simulazione} ? false : true}"
             type="Emphasized"
             icon="sap-icon://excel-attachment"
             press=".DownloadExcel" />

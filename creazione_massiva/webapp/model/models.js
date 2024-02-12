@@ -137,11 +137,11 @@ sap.ui.define(
         let oFilterModel = new JSONModel({
           tipoDocumento: "",
           fornitore: "",
-          file: null,
-          download: false,
-          crea: false,
-          crea1: false,
-          simulazione: true
+          file: "",
+          download: "",
+          crea: "",
+          crea1: "",
+          simulazione: ""
         });
         return oFilterModel;
       }

@@ -98,7 +98,7 @@
           mandatory="true"
         >
           <fb:control>
-            <CheckBox bindingContexts="{filterModel>crea}"/>
+            <CheckBox select="onOdaSelect"/>
           </fb:control>
         </fb:FilterGroupItem>
         <fb:FilterGroupItem
@@ -109,7 +109,7 @@
           mandatory="true"
         >
           <fb:control>
-            <CheckBox bindingContexts="{filterModel>crea1}"/>
+            <CheckBox select="onOdaMerceSelect"/>
           </fb:control>
         </fb:FilterGroupItem>
         <fb:FilterGroupItem
@@ -119,8 +119,7 @@
           groupName="Group2"
         >
           <fb:control>
-            <CheckBox
-              bindingContexts="{filterModel>simulazione}"
+            <CheckBox             
               select="onSimulazioneCheck"
             />
           </fb:control>
