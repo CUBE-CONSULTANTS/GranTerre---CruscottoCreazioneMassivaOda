@@ -24,9 +24,12 @@ sap.ui.define([
             this.setModel(models.createFilterModel(), "filterModel");
             this.btnGo1 = this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnGo")
             this.btnGo1.setProperty("text","Processa Entrate Merci")
-            this.btnGo2 = this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar2-btnGo")
-            this.btnGo2.setProperty("text","Schedula Entrate Merci")
+            
             this.checked;
+          },
+          onFilterBarClear:function(oEvent){
+            debugger
+            this.getModel("filterModel").setProperty("/","")
           },
           btnGoSearch: function () {
             debugger;
@@ -65,6 +68,8 @@ sap.ui.define([
             }
           },
           NavToLaunch: function () {
+            this.onFilterBarClear()
+            this.byId("tableMerci").setVisible(false)
             this.getRouter().navTo("RouteLaunchTile");
           },
       });

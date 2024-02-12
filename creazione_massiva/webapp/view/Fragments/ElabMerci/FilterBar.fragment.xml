@@ -8,17 +8,16 @@
 >
 
   <f:DynamicPageHeader pinnable="false">
-    <VBox direction="Row" justifyContent="SpaceAround" >
-      <HBox width="50%" class="prova" justifyContent="Center"
-      >        
+           
     <fb:FilterBar
       id="filterbar"
       search="btnGoSearch"
       filterChange="onChangeFilter"
       showClearOnFB="true"
-      defaultSpan="XL8 L8 M8 S8"
+      defaultSpan="XL12 L8 M8 S8"
       showFilterConfiguration="false"
       useToolbar="false"
+      clear="onFilterBarClear"
     >
       <fb:filterGroupItems>
         <fb:FilterGroupItem
@@ -30,7 +29,7 @@
           <fb:control>
             <Input
               showValueHelp="true"
-              value="{filterModel>oda}"
+              value="{filterModel>/oda}"
             />
           </fb:control>
         </fb:FilterGroupItem>
@@ -48,33 +47,9 @@
         </fb:FilterGroupItem>
       </fb:filterGroupItems>
     </fb:FilterBar>
-    </HBox>
+  
 
-    <HBox width="50%" class="sapUiMediumMarginBegin" justifyContent="Center">
-    <fb:FilterBar
-      id="filterbar2"
-      search="btnGoSearch"
-      filterChange="onChangeFilter"
-      showClearOnFB="true"
-      defaultSpan="XL12 L8 M8 S8"
-      showFilterConfiguration="false"
-      useToolbar="false"
-    >
-      <fb:filterGroupItems>
-        <fb:FilterGroupItem
-          visibleInFilterBar="true"
-          name="tipoDoc"
-          label="{i18n>tipoDocumento}"
-          groupName="Group1"
-        >
-          <fb:control>
-            <ComboBox value="{filterModel>tipoDocumento}"/>
-          </fb:control>
-        </fb:FilterGroupItem>
-       
-      </fb:filterGroupItems>
-    </fb:FilterBar>
-  </HBox>
-  </VBox>
+  
+
   </f:DynamicPageHeader>
 </core:FragmentDefinition>

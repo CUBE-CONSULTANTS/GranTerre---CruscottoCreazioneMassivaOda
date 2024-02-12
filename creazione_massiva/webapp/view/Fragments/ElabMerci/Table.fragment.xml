@@ -5,7 +5,7 @@
 >
     <Table id="tableMerci"
         items="{odaDocs>/dati}"
-        headerText="{= ${filterModel>/simulazione} ? ${i18n>tableH} + ' ' + ${i18n>modSim} : ${i18n>tableH} }"
+        headerText="{= ${filterModel>/simulazione} ? ${i18n>tableH2} + ' ' + ${i18n>modSim} : ${i18n>tableH2} }"
         alternateRowColors="true"
         visible="false"
     >

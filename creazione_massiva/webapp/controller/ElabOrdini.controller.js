@@ -32,27 +32,26 @@ sap.ui.define(
           );
           this.btnGo.setProperty("text", "Genera OdA");
           this.checked;
+          this.errors
         },
         btnGoSearch: function () {
           debugger;
-          let error;
+          this.errors;
           let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
           dataToCheck.forEach((element) => {
             if (element.color === "red") {
-              error = true;
+              this.errors = true;
             }
           });
-          if (!this.checked) {
-            this.byId("tableOda").setVisible(true);
-            if (error) {
-              MessageBox.error("Non è consentita l'Elaborazione con Errori");
-            }
-          } else {
-            this.byId("tableOda").setVisible(true);
-            if (error) {
+          if (this.checked) {
+            if (this.errors) {
               MessageToast.show("Sono presenti Errori in fase di Simulazione");
             }
           }
+          this.byId("tableOda").setVisible(true);
+        },
+        onFilterBarClear:function(){
+          this.getModel("filterModel").setProperty("/","")
         },
         onOdaSelect: function (oEvent) {
           debugger
@@ -84,6 +83,8 @@ sap.ui.define(
           this.getModel("filterModel").setProperty("/simulazione", this.checked);
         },
         NavToLaunch: function () {
+          this.onFilterBarClear()
+          this.byId("tableOda").setVisible(false)
           this.getRouter().navTo("RouteLaunchTile");
         },
         onIconPress: function (oEvent) {
@@ -99,11 +100,35 @@ sap.ui.define(
           debugger;
         },
         handleUploadPress: function (oEvent) {
-
+          debugger
+          let oFileUploader = oEvent.getSource().getParent().getParent().getAggregation("content")[3].getAggregation("content")[1]
+          if (!oFileUploader.getValue()) {
+            MessageToast.show("Choose a file first");
+            return;
+          }
+          oFileUploader.checkFileReadable().then(function() {
+            oFileUploader.upload();
+          }, function(error) {
+            MessageToast.show("The file cannot be read. It may have changed.");
+          }).then(function() {
+            oFileUploader.clear();
+          });
         },
         handleTypeMissmatch: function (oEvent) {
-
+          debugger
+          let aFileTypes = oEvent.getSource().getFileType();
+          aFileTypes.map(function(sType) {
+            return "*." + sType;
+          });
+          MessageToast.show("The file type *." + oEvent.getParameter("fileType") +
+                      " is not supported. Choose one of the following types: " +
+                      aFileTypes.join(", "));
         },
+        onSaveOda:function(oEvent){
+          if(this.errors){
+            MessageBox.error("Non è consentita l'Elaborazione con Errori")
+          }
+        }
       }
     );
   }

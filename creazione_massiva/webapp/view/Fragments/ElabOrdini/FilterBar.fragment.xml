@@ -12,6 +12,7 @@
       search="btnGoSearch"
       filterChange="onChangeFilter"
       showClearOnFB="true"
+      clear="onFilterBarClear"
       defaultSpan="XL10 L8 M8 S8"
       showFilterConfiguration="false"
       useToolbar="false"
@@ -24,7 +25,7 @@
           groupName="Group1"
         >
           <fb:control>
-            <ComboBox value="{filterModel>tipoDocumento}"/>
+            <ComboBox value="{filterModel>/tipoDocumento}" change="onDocChange" />
           </fb:control>
         </fb:FilterGroupItem>
         <fb:FilterGroupItem
@@ -36,7 +37,7 @@
           <fb:control>
             <Input
               showValueHelp="true"
-              value="{filterModel>fornitore}"
+              value="{filterModel>/fornitore}"
             />
           </fb:control>
         </fb:FilterGroupItem>
@@ -64,7 +65,7 @@
           <fb:control>
             <unified:FileUploader
               id="fileUploader"
-              value="{filterModel>file}"
+              value="{filterModel>/file}"
               style="Emphasized"
               icon="sap-icon://search"
               iconOnly="true"              
