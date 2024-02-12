@@ -2,39 +2,56 @@ sap.ui.define([
   "./BaseController",
   "../model/models",
   "sap/ui/core/Fragment",
-  "sap/ui/model/json/JSONModel"
+  "sap/ui/model/json/JSONModel",
+  "sap/m/MessageBox"
 ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
-  function (Controller, Models, Fragment,JSONModel) {
+  function (BaseController,
+	models,
+	Fragment,
+	JSONModel,
+	MessageBox) {
       "use strict";
 
-      return Controller.extend("granterre.creazionemassiva.controller.ElabOrdini", {
+      return BaseController.extend("granterre.creazionemassiva.controller.ElabOrdini", {
           onInit: function () {
             debugger
-            this.setModel(Models.odaDocModel(), "odaDocs");   
-            this.setModel(Models.createFilterModel(),"filterModel")   
+            this.setModel(models.odaDocModel(), "odaDocs");   
+            this.setModel(models.createFilterModel(),"filterModel")   
             this.btnGo = this.byId("container-granterre.creazionemassiva---ElabOrdini--filterbar-btnGo")
             this.btnGo.setProperty("text","Genera OdA")
-
+            this.checked
             let checkModel = new JSONModel({ checked: false });
             this.setModel(checkModel, "checkedModel");
           },
           btnGoSearch: function(){
-            debugger
-            this.byId("tableOda").setVisible(true)          
+            debugger   
+            let error       
+            let dataToCheck =this.getModel("odaDocs").getContext("/dati").getObject()
+            if(!this.checked){
+              dataToCheck.forEach(element => {
+                if(element.color === "red"){
+                  error = true
+                }
+              }); 
+            }           
+            this.byId("tableOda").setVisible(true)   
+            if(error) {
+              MessageBox.error("Elaborazione fallita, correggere gli Errori")  
+            }  
            },
           onSimulazioneCheck: function (oEvent) { 
-            let checked = oEvent.getParameter("selected")
-            if(checked){
+            this.checked = oEvent.getParameter("selected")
+            this.byId("tableOda").setVisible(false)
+            if(this.checked){             
               this.btnGo.setProperty("text","Elabora Simulazione")           
-            }else{
-              this.btnGo.setProperty("text","Genera OdA")
+            }else{            
+              this.btnGo.setProperty("text","Genera OdA")             
             }
-            this.getModel("checkedModel").setProperty("/checked", checked);
-           },
-           
+            this.getModel("checkedModel").setProperty("/checked", this.checked);
+           },         
           NavToLaunch: function ()
           {
             this.getRouter().navTo("RouteLaunchTile")
@@ -48,6 +65,10 @@ sap.ui.define([
               this.onOpenDialog("mDialog","granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog",this,"errorModel")
             }                   
           },
+          DownloadExcel:function(oEvent){
+            debugger
+            
+          }
           
       });
   });
