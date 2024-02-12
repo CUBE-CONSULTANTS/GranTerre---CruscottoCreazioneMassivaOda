@@ -3,7 +3,8 @@ sap.ui.define([
   "../model/models",
   "sap/ui/core/Fragment",
   "sap/ui/model/json/JSONModel",
-  "sap/m/MessageBox"
+  "sap/m/MessageBox",
+  "sap/m/MessageToast"
 ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -12,7 +13,7 @@ sap.ui.define([
 	models,
 	Fragment,
 	JSONModel,
-	MessageBox) {
+	MessageBox,MessageToast) {
       "use strict";
 
       return BaseController.extend("granterre.creazionemassiva.controller.ElabOrdini", {
@@ -30,17 +31,22 @@ sap.ui.define([
             debugger   
             let error       
             let dataToCheck =this.getModel("odaDocs").getContext("/dati").getObject()
+            dataToCheck.forEach(element => {
+              if(element.color === "red"){
+                error = true
+              }
+            }); 
             if(!this.checked){
-              dataToCheck.forEach(element => {
-                if(element.color === "red"){
-                  error = true
-                }
-              }); 
-            }           
-            this.byId("tableOda").setVisible(true)   
-            if(error) {
-              MessageBox.error("Elaborazione fallita, correggere gli Errori")  
-            }  
+              this.byId("tableOda").setVisible(true)
+              if(error) {
+                MessageBox.error("Elaborazione fallita, correggere gli Errori")  
+              }
+            }else{
+              this.byId("tableOda").setVisible(true)
+              if(error) {
+                MessageToast.show("Sono presenti Errori in fase di Simulazione")  
+              }
+            }                    
            },
           onSimulazioneCheck: function (oEvent) { 
             this.checked = oEvent.getParameter("selected")
@@ -68,7 +74,12 @@ sap.ui.define([
           DownloadExcel:function(oEvent){
             debugger
             
-          }
-          
+          },
+          handleUploadPress: function(oEvent) {
+           
+          },
+          handleTypeMissmatch: function(oEvent) {
+           
+          },       
       });
   });
