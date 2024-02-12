@@ -6,5 +6,7 @@
   width: 10%!important;
 }
 .prova{
-  background-color: aquamarine!important;
+  /* background-color: aquamarine!important; */
+  border-right: 1px dotted rgb(180, 179, 193)!important;
+  
 }

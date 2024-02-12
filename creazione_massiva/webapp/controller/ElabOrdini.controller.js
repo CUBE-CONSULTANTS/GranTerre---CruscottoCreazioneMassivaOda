@@ -45,7 +45,7 @@ sap.ui.define(
           if (!this.checked) {
             this.byId("tableOda").setVisible(true);
             if (error) {
-              MessageBox.error("Elaborazione fallita, correggere gli Errori");
+              MessageBox.error("Non è consentita l'Elaborazione con Errori");
             }
           } else {
             this.byId("tableOda").setVisible(true);
@@ -56,21 +56,21 @@ sap.ui.define(
         },
         onOdaSelect: function (oEvent) {
           debugger
-          this.checked = oEvent.getParameter("selected")
-          if(this.checked) {          
+          let checked = oEvent.getParameter("selected")
+          if(checked) {          
             this.getModel("filterModel").setProperty("/crea1",false);
             oEvent.getSource().getParent().getParent().getAggregation("content")[6].getAggregation("content")[1].setSelected(false)          
           }
-            this.getModel("filterModel").setProperty("/crea",this.checked);
+            this.getModel("filterModel").setProperty("/crea",checked);
         },
         onOdaMerceSelect: function (oEvent) {
           debugger
-          this.checked = oEvent.getParameter("selected")
-          if(this.checked){
+          let checked = oEvent.getParameter("selected")
+          if(checked){
             this.getModel("filterModel").setProperty("/crea",false);  
             oEvent.getSource().getParent().getParent().getAggregation("content")[5].getAggregation("content")[1].setSelected(false)          
           } 
-            this.getModel("filterModel").setProperty("/crea",this.checked);
+            this.getModel("filterModel").setProperty("/crea",checked);
         },
         onSimulazioneCheck: function (oEvent) {
           debugger;

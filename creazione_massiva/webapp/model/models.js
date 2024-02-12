@@ -17,7 +17,6 @@ sap.ui.define(
         oModel.setDefaultBindingMode("OneWay");
         return oModel;
       },
-
       odaDocModel: function () {
         let odaDocs = [
           {
@@ -133,6 +132,106 @@ sap.ui.define(
         let odaDoc = new JSONModel({ odaDocs });
         return new JSONModel({ dati: odaDocs });
       },    
+      odaDocModel2: function () {
+        let odaDocs = [
+          {
+            dialog:"ko",
+            color: "green",
+            semaforo: "sap-icon://color-fill",
+            tpDoc: "ZCMX",
+            forn: "10001",
+            orgAcq: "ITS0",
+            grpAcq: "CUS",
+            tpPos: "P",
+            tpCont: "",
+            codMat: "",
+            descr: "",
+            tBreve: "",
+            qta: "",
+            um: "",
+            prz: "",
+            consegna: "",
+            ordAcq: "450000001",
+            pos: "10",
+            eMerci: "50000001",
+            pos2: "10",         
+          },
+          {
+            dialog:"ko",
+            color: "green",
+            semaforo: "sap-icon://color-fill",
+            tpDoc: "ZCMX",
+            forn: "10002",
+            orgAcq: "ITS0",
+            grpAcq: "CUS",
+            tpPos: "P",
+            tpCont: "",
+            codMat: "",
+            descr: "",
+            tBreve: "",
+            qta: "",
+            um: "",
+            prz: "",
+            consegna: "",
+            ordAcq: "450000002",
+            pos: "10",
+            eMerci: "50000002",
+            pos2: "10",
+          },
+          {
+            dialog:"ko",
+            color: "green",
+            semaforo: "sap-icon://color-fill",
+            tpDoc: "ZTST",
+            forn: "10001",
+            orgAcq: "ITS0",
+            grpAcq: "CUS",
+            tpPos: "",
+            tpCont: "",
+            codMat: "",
+            descr: "",
+            tBreve: "",
+            qta: "",
+            um: "",
+            prz: "",
+            consegna: "",
+            ordAcq: "450000003",
+            pos: "10",
+            eMerci: "50000003",
+            pos2: "10",
+          },
+          {
+            dialog:"ok",
+            color: "orange",
+            semaforo: "sap-icon://color-fill",
+            tpDoc: "ZTST",
+            forn: "10001",
+            orgAcq: "ITS0",
+            grpAcq: "CUS",
+            tpPos: "",
+            tpCont: "",
+            codMat: "",
+            descr: "",
+            tBreve: "",
+            qta: "",
+            um: "",
+            prz: "",
+            consegna: "",
+            ordAcq: "450000003",
+            pos: "20",
+            eMerci: "50000003",
+            pos2: "20",
+            errors: [
+              {
+                msg: "W",
+                descr: "La data consegna può essere rispettata?"
+              }
+            ]
+          },
+        ];
+        let odaDoc = new JSONModel({ odaDocs });
+        return new JSONModel({ dati: odaDocs });
+      }, 
       createFilterModel: function () {
         let oFilterModel = new JSONModel({
           tipoDocumento: "",

@@ -1,7 +1,30 @@
 <mvc:View controllerName="granterre.creazionemassiva.controller.ElabMerci"
-xmlns:mvc="sap.ui.core.mvc"
 xmlns="sap.m"
 xmlns:f="sap.f"
-xmlns:layout="sap.ui.layout"
+xmlns:mvc="sap.ui.core.mvc"
+xmlns:core="sap.ui.core"
+xmlns:l="sap.ui.layout"
+height="100%"
+displayBlock="true"
 >
+<f:DynamicPage showFooter="true" preserveHeaderStateOnScroll="false"
+toggleHeaderOnTitleClick="true">
+<f:title>
+  <core:Fragment fragmentName="granterre.creazionemassiva.view.Fragments.ElabMerci.Header"
+      type="XML" />
+</f:title>
+<f:header>
+  <core:Fragment fragmentName="granterre.creazionemassiva.view.Fragments.ElabMerci.FilterBar"
+    type="XML" />
+    
+</f:header>
+<f:content>
+  <core:Fragment fragmentName="granterre.creazionemassiva.view.Fragments.ElabMerci.Table"
+      type="XML" />
+</f:content>
+<f:footer>
+  <core:Fragment fragmentName="granterre.creazionemassiva.view.Fragments.ElabMerci.Footer"
+  type="XML" />
+</f:footer>
+</f:DynamicPage>
 </mvc:View>
