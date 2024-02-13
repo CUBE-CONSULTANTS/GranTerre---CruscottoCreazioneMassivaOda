@@ -16,6 +16,7 @@
       defaultSpan="XL10 L8 M8 S8"
       showFilterConfiguration="false"
       useToolbar="false"
+      class="sapUiLargeMarginBegin"
     >
       <fb:filterGroupItems>
         <fb:FilterGroupItem
@@ -125,6 +126,7 @@
             />
           </fb:control>
         </fb:FilterGroupItem>
+       
       </fb:filterGroupItems>
     </fb:FilterBar>
   </f:DynamicPageHeader>

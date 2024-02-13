@@ -23,9 +23,10 @@ sap.ui.define([
             this.setModel(models.odaDocModel2(), "odaDocs");
             this.setModel(models.createFilterModel(), "filterModel");
             this.btnGo1 = this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnGo")
-            this.btnGo1.setProperty("text","Processa Entrate Merci")
-            
+            this.btnGo1.setProperty("text","Esegui")
+            this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnClear").setProperty("text","Resetta Filtri")
             this.checked;
+            this.setModel(models.createErrorModel(),"selectOda")
           },
           onFilterBarClear:function(oEvent){
             debugger
@@ -71,6 +72,9 @@ sap.ui.define([
             this.onFilterBarClear()
             this.byId("tableMerci").setVisible(false)
             this.getRouter().navTo("RouteLaunchTile");
+          },
+          navToElabOrdine: function () {
+            this.getRouter().navTo("ElabOrdini");
           },
       });
   });

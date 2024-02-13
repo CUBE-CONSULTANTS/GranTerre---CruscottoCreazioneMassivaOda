@@ -6,9 +6,7 @@
   xmlns="sap.m"
   xmlns:f="sap.f"
 >
-
   <f:DynamicPageHeader pinnable="false">
-           
     <fb:FilterBar
       id="filterbar"
       search="btnGoSearch"
@@ -27,10 +25,18 @@
           groupName="Group1"
         >
           <fb:control>
-            <Input
-              showValueHelp="true"
-              value="{filterModel>/oda}"
-            />
+            <MultiComboBox
+              showSelectAll="true"
+              id="oda"
+              items="{
+                path: 'selectOda>/dati'
+              }"
+            >
+              <core:Item
+                key="{selectOda>oda}"
+                text="{selectOda>oda}"
+              />
+            </MultiComboBox>
           </fb:control>
         </fb:FilterGroupItem>
         <fb:FilterGroupItem
@@ -40,16 +46,10 @@
           groupName="Group2"
         >
           <fb:control>
-            <CheckBox             
-              select="onSimulazioneCheck"
-            />
+            <CheckBox select="onSimulazioneCheck" />
           </fb:control>
         </fb:FilterGroupItem>
       </fb:filterGroupItems>
     </fb:FilterBar>
-  
-
-  
-
   </f:DynamicPageHeader>
 </core:FragmentDefinition>

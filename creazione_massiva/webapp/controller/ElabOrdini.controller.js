@@ -30,7 +30,8 @@ sap.ui.define(
           this.btnGo = this.byId(
             "container-granterre.creazionemassiva---ElabOrdini--filterbar-btnGo"
           );
-          this.btnGo.setProperty("text", "Genera OdA");
+          this.btnGo.setProperty("text", "Esegui");
+          this.byId("container-granterre.creazionemassiva---ElabOrdini--filterbar-btnClear").setProperty("text","Resetta Filtri")
           this.checked;
           this.errors
         },
@@ -78,7 +79,7 @@ sap.ui.define(
           if (this.checked) {
             this.btnGo.setProperty("text", "Elabora Simulazione");
           } else {
-            this.btnGo.setProperty("text", "Genera OdA");
+            this.btnGo.setProperty("text", "Esegui");
           }
           this.getModel("filterModel").setProperty("/simulazione", this.checked);
         },
@@ -128,7 +129,10 @@ sap.ui.define(
           if(this.errors){
             MessageBox.error("Non è consentita l'Elaborazione con Errori")
           }
-        }
+        },
+        navToElabMerci: function () {
+          this.getRouter().navTo("ElabMerci");
+        },
       }
     );
   }

@@ -36,8 +36,8 @@ sap.ui.define(
             um: "",
             prz: "",
             consegna: "",
-            ordAcq: "",
-            pos: "",
+            ordAcq: "450000001",
+            pos: "10",
             eMerci: "",
             pos2: "",
             errors: [
@@ -73,7 +73,7 @@ sap.ui.define(
             prz: "",
             consegna: "",
             ordAcq: "450000001",
-            pos: "10",
+            pos: "20",
             eMerci: "",
             pos2: "",
           },
@@ -95,7 +95,7 @@ sap.ui.define(
             prz: "",
             consegna: "",
             ordAcq: "450000002",
-            pos: "10",
+            pos: "20",
             eMerci: "",
             pos2: "",
           },
@@ -243,6 +243,15 @@ sap.ui.define(
           simulazione: ""
         });
         return oFilterModel;
+      },
+      createErrorModel: function (){
+        let oError = [
+            {oda : "450000001"},
+            {oda : "450000002"},
+            {oda : "450000003"}
+          ]
+        let errorMod = new JSONModel({ oError });
+        return new JSONModel({ dati: oError });  
       }
     };
   }

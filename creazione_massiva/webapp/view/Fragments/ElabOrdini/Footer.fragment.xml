@@ -11,11 +11,11 @@
             type="Emphasized"
             icon="sap-icon://excel-attachment"
             press=".DownloadExcel" />
-        <Button text="{i18n>elabOrdine}"
+        <Button text="{i18n>goMerce}"
             visible="{= ${filterModel>/simulazione} ? false : true}"
-            type="Reject"
-            icon="sap-icon://excel-attachment"
-            press=".onSaveOda" />
+            type="Success"
+            icon="sap-icon://navigation-right-arrow"
+            press=".navToElabMerci" />
        
     </OverflowToolbar>
 </core:FragmentDefinition>
