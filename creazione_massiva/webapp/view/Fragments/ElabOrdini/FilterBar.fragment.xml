@@ -51,6 +51,7 @@
           <fb:control>
             <Button
               icon="sap-icon://download"
+              press="DownloadExcel"
               class="button"
               type="Emphasized"
             />

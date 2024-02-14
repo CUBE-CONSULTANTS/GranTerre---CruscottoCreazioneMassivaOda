@@ -97,8 +97,37 @@ sap.ui.define(
         },
         DownloadExcel: function (oEvent) {
           debugger;
+          let sExcelFilePath = "public/TemplateTracciato.xlsx"
+          let link = document.createElement("a");
+          link.href = sExcelFilePath;
+          link.download = "TemplateTracciato.xlsx"; 
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         },
+        handleUploadPress: function (oEvent) {
+          debugger
+          let oView = this.getView()
+          let oFileUploader = oEvent.getSource().getParent().getParent().getAggregation("content")[3].getAggregation("content")[1]
+          if(!oFileUploader.getValue()){
+            MessageBox.error("Allegare obbligatoriamente un File")
+          }else if(oFileUploader.getFileType()[0]!== 'csv'){
+            MessageBox.error("Allegare File con estensione .csv")
+          }else{
+            oFileUploader.checkFileReadable().then(function() {
+              oView.setBusy(true)
+              oFileUploader.upload();
+              MessageBox.success("Upload Completato")
+              oView.setBusy(false)
+            }, function(error) {
+              MessageToast.show("The file cannot be read. It may have changed.");
+              oView.setBusy(false)
+            }).then(function() {
+              oFileUploader.clear();
+            });
+          }
 
+        },
         onSelectOda:function (oEvent) {
           debugger
           let selectedRows = oEvent.getSource().getSelectedContexts("odaDocs")
