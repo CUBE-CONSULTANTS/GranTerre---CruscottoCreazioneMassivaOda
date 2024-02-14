@@ -95,7 +95,7 @@ sap.ui.define(
             prz: "",
             consegna: "",
             ordAcq: "450000002",
-            pos: "20",
+            pos: "10",
             eMerci: "",
             pos2: "",
           },

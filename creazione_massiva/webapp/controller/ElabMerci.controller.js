@@ -21,16 +21,26 @@ sap.ui.define([
           onInit: function () {
             debugger
             this.setModel(models.odaDocModel2(), "odaDocs");
-            this.setModel(models.createFilterModel(), "filterModel");
             this.btnGo1 = this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnGo")
             this.btnGo1.setProperty("text","Esegui")
             this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnClear").setProperty("text","Resetta Filtri")
             this.checked;
-            this.setModel(models.createErrorModel(),"selectOda")
+            this.getRouter().getRoute("ElabMerci").attachMatched(this._onRouteMatched, this);
           },
-          onFilterBarClear:function(oEvent){
+          _onRouteMatched: async function(oEvent) {
             debugger
-            this.getModel("filterModel").setProperty("/","")
+            this.getView().setBusy(false)
+            let oda = oEvent.getParameter("arguments").selected;
+            let selectedOda = JSON.parse(oda)
+            let odaData = [];
+            selectedOda.forEach(function(item) {
+              odaData.push({ "oda": item}); 
+            });         
+            let odaModel = new JSONModel(odaData);
+            this.setModel(odaModel, "odaModel");
+            let odaKeys = Object.values(odaModel.getProperty("/"));
+            this.getView().byId("odaComboBox").setSelectedKeys(odaKeys)
+            this.getView().setBusy(false)
           },
           btnGoSearch: function () {
             debugger;
@@ -69,7 +79,6 @@ sap.ui.define([
             }
           },
           NavToLaunch: function () {
-            this.onFilterBarClear()
             this.byId("tableMerci").setVisible(false)
             this.getRouter().navTo("RouteLaunchTile");
           },

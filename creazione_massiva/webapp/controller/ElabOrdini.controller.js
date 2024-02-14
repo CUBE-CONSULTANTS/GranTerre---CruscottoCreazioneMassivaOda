@@ -34,6 +34,7 @@ sap.ui.define(
           this.byId("container-granterre.creazionemassiva---ElabOrdini--filterbar-btnClear").setProperty("text","Resetta Filtri")
           this.checked;
           this.errors
+          this.selectedOda
         },
         btnGoSearch: function () {
           debugger;
@@ -48,8 +49,10 @@ sap.ui.define(
             if (this.errors) {
               MessageToast.show("Sono presenti Errori in fase di Simulazione");
             }
+          }else{
+            this.onSaveOda()
           }
-          this.byId("tableOda").setVisible(true);
+          this.byId("tableOda").setVisible(true);        
         },
         onFilterBarClear:function(){
           this.getModel("filterModel").setProperty("/","")
@@ -125,13 +128,24 @@ sap.ui.define(
                       " is not supported. Choose one of the following types: " +
                       aFileTypes.join(", "));
         },
-        onSaveOda:function(oEvent){
+        onSelectOda:function (oEvent) {
+          debugger
+          let selectedRows = oEvent.getSource().getSelectedContexts("odaDocs")
+          this.selectedOda = []; 
+          selectedRows.forEach(row => {
+            this.selectedOda.push(row.getObject().ordAcq); 
+          });
+        },
+        onSaveOda:function(){
           if(this.errors){
-            MessageBox.error("Non è consentita l'Elaborazione con Errori")
+            MessageBox.error("Sono presenti Errori, Elaborazione non eseguita")
           }
         },
         navToElabMerci: function () {
-          this.getRouter().navTo("ElabMerci");
+          debugger
+          this.getRouter().navTo("ElabMerci", {
+            selected: JSON.stringify(this.selectedOda),
+          });
         },
       }
     );

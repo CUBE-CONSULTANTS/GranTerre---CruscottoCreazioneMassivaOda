@@ -11,6 +11,7 @@ sap.ui.define(
       {
         onInit: function () {},
         navToElabOrdine: function () {
+          debugger
           this.getRouter().navTo("ElabOrdini");
         },
         navToElabMerci: function () {

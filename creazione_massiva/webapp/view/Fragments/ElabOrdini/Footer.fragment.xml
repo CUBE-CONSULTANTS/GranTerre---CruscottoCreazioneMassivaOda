@@ -3,7 +3,7 @@
     <OverflowToolbar >     
         <Button text="{i18n>Indietro}"
             type="Emphasized"
-            icon="sap-icon://nav-back"
+            icon="sap-icon://home"
             press=".NavToLaunch" />
         <ToolbarSpacer/>    
         <Button text="{i18n>ScaricaExcel}"

@@ -49,7 +49,7 @@
             <Column hAlign="Center" demandPopin="true">
                 <Text text="{i18n>prz}" />
             </Column>
-            <Column hAlign="Center" demandPopin="true">
+            <Column width="6rem" hAlign="Center" demandPopin="true">
                 <Text text="{i18n>consegna}" />
             </Column>
             <Column hAlign="Center" demandPopin="true" width="110px">
@@ -67,8 +67,7 @@
         </columns>
         <items>
             <ColumnListItem
-                type="Active"
-                press="onLinePress"
+                
             >
                 <cells>
                     <core:Icon press=".onIconPress" src="{odaDocs>semaforo}" size="1.3rem" color="{odaDocs>color}"/>

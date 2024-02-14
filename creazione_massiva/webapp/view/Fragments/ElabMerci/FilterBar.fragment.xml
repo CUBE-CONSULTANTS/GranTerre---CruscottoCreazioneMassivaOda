@@ -11,11 +11,11 @@
       id="filterbar"
       search="btnGoSearch"
       filterChange="onChangeFilter"
-      showClearOnFB="true"
+      showClearOnFB="false"
       defaultSpan="XL12 L8 M8 S8"
       showFilterConfiguration="false"
       useToolbar="false"
-      clear="onFilterBarClear"
+      
     >
       <fb:filterGroupItems>
         <fb:FilterGroupItem
@@ -27,14 +27,14 @@
           <fb:control>
             <MultiComboBox
               showSelectAll="true"
-              id="oda"
+              id="odaComboBox"
               items="{
-                path: 'selectOda>/dati'
+                path: 'odaModel>/'
               }"
             >
               <core:Item
-                key="{selectOda>oda}"
-                text="{selectOda>oda}"
+                key="{odaModel>oda}"
+                text="{odaModel>oda}"
               />
             </MultiComboBox>
           </fb:control>
