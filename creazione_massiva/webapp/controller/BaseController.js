@@ -85,20 +85,24 @@ sap.ui.define(
             const aCols = [];
             
             oTable.getColumns().forEach((el, key) => {
+              debugger
+         
                 let property = "";
-                    oTable.getItems().forEach((row, i) => {
-                      const cell = row.getCells()[key]
-                      if(cell.getMetadata().getElementName() === 'sap.ui.core.Icon') {
-                        property = "note";
-                      }else if(cell.getBindingInfo("text")){
-                        property = cell.getBindingInfo("text").parts[0].path
-                      }
-                    })       
-                    aCols.push({
-                        label: el.getHeader().getText(),
-                        property: property,
-                        type: String
-                    });             
+                oTable.getItems().forEach((row, i) => {
+                  const cell = row.getCells()[key]
+                  if(cell.getMetadata().getElementName() === 'sap.ui.core.Icon') {
+                    property = "note";
+                  }else if(cell.getBindingInfo("text")){
+                    property = cell.getBindingInfo("text").parts[0].path
+                  }
+                })       
+                aCols.push({
+                    label: el.getHeader().getText(),
+                    property: property,
+                    type: String
+                });            
+              
+                 
             });
             return aCols;
         },
