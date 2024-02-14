@@ -111,7 +111,7 @@
           mandatory="true"
         >
           <fb:control>
-            <CheckBox select="onOdaMerceSelect"/>
+            <CheckBox  select="onOdaMerceSelect"/>
           </fb:control>
         </fb:FilterGroupItem>
         <fb:FilterGroupItem

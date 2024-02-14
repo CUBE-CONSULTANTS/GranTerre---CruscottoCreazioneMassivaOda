@@ -31,15 +31,17 @@ sap.ui.define([
             debugger
             this.getView().setBusy(false)
             let oda = oEvent.getParameter("arguments").selected;
-            let selectedOda = JSON.parse(oda)
-            let odaData = [];
-            selectedOda.forEach(function(item) {
-              odaData.push({ "oda": item}); 
-            });         
-            let odaModel = new JSONModel(odaData);
-            this.setModel(odaModel, "odaModel");
-            let odaKeys = Object.values(odaModel.getProperty("/"));
-            this.getView().byId("odaComboBox").setSelectedKeys(odaKeys)
+            if(oda){
+              let selectedOda = JSON.parse(oda)
+              let odaModel = new JSONModel()
+              let odaData = {};
+              selectedOda.forEach(function(item,index) {
+                odaData["oda" + (index + 1)] = { "oda": item };
+              });         
+              odaModel.setData(odaData)
+              this.setModel(odaModel, "odaModel");           
+              this.byId("odaComboBox").setSelectedKeys(selectedOda)
+            }           
             this.getView().setBusy(false)
           },
           btnGoSearch: function () {
@@ -79,6 +81,10 @@ sap.ui.define([
             }
           },
           NavToLaunch: function () {
+            debugger
+            if(this.getModel("odaModel") !== undefined){
+              this.getModel("odaModel").setProperty("/","")
+            } 
             this.byId("tableMerci").setVisible(false)
             this.getRouter().navTo("RouteLaunchTile");
           },

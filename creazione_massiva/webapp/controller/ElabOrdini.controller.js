@@ -31,7 +31,7 @@ sap.ui.define(
             "container-granterre.creazionemassiva---ElabOrdini--filterbar-btnGo"
           );
           this.btnGo.setProperty("text", "Esegui");
-          this.byId("container-granterre.creazionemassiva---ElabOrdini--filterbar-btnClear").setProperty("text","Resetta Filtri")
+          this.byId("container-granterre.creazionemassiva---ElabOrdini--filterbar-btnClear").setProperty("text","Resetta Campi")
           this.checked;
           this.errors
           this.selectedOda
@@ -86,11 +86,6 @@ sap.ui.define(
           }
           this.getModel("filterModel").setProperty("/simulazione", this.checked);
         },
-        NavToLaunch: function () {
-          this.onFilterBarClear()
-          this.byId("tableOda").setVisible(false)
-          this.getRouter().navTo("RouteLaunchTile");
-        },
         onIconPress: function (oEvent) {
           debugger;
           let errors = oEvent.getSource().getBindingContext("odaDocs").getObject().errors;
@@ -103,31 +98,7 @@ sap.ui.define(
         DownloadExcel: function (oEvent) {
           debugger;
         },
-        handleUploadPress: function (oEvent) {
-          debugger
-          let oFileUploader = oEvent.getSource().getParent().getParent().getAggregation("content")[3].getAggregation("content")[1]
-          if (!oFileUploader.getValue()) {
-            MessageToast.show("Choose a file first");
-            return;
-          }
-          oFileUploader.checkFileReadable().then(function() {
-            oFileUploader.upload();
-          }, function(error) {
-            MessageToast.show("The file cannot be read. It may have changed.");
-          }).then(function() {
-            oFileUploader.clear();
-          });
-        },
-        handleTypeMissmatch: function (oEvent) {
-          debugger
-          let aFileTypes = oEvent.getSource().getFileType();
-          aFileTypes.map(function(sType) {
-            return "*." + sType;
-          });
-          MessageToast.show("The file type *." + oEvent.getParameter("fileType") +
-                      " is not supported. Choose one of the following types: " +
-                      aFileTypes.join(", "));
-        },
+
         onSelectOda:function (oEvent) {
           debugger
           let selectedRows = oEvent.getSource().getSelectedContexts("odaDocs")
@@ -140,6 +111,11 @@ sap.ui.define(
           if(this.errors){
             MessageBox.error("Sono presenti Errori, Elaborazione non eseguita")
           }
+        },
+        NavToLaunch: function () {
+          this.onFilterBarClear()
+          this.byId("tableOda").setVisible(false)
+          this.getRouter().navTo("RouteLaunchTile");
         },
         navToElabMerci: function () {
           debugger
