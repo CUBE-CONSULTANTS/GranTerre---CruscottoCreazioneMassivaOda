@@ -33,13 +33,16 @@ sap.ui.define(
           this.btnGo.setProperty("text", "Esegui");
           this.byId("container-granterre.creazionemassiva---ElabOrdini--filterbar-btnClear").setProperty("text","Resetta Campi")
           this.checked;
+          this.flag
           this.errors
           this.selectedOda
         },
-        btnGoSearch: function () {
+        btnGoSearch: function (oEvent) {
           debugger;
-          this.errors;
-          let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
+          if(this.flag === undefined) {
+            MessageBox.error("Selezionare un'opzione di esecuzione")
+          }else{
+            let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
           dataToCheck.forEach((element) => {
             if (element.color === "red") {
               this.errors = true;
@@ -53,6 +56,8 @@ sap.ui.define(
             this.onSaveOda()
           }
           this.byId("tableOda").setVisible(true);        
+          }
+          
         },
         onFilterBarClear:function(){
           this.getModel("filterModel").setProperty("/","")
@@ -65,6 +70,7 @@ sap.ui.define(
             oEvent.getSource().getParent().getParent().getAggregation("content")[6].getAggregation("content")[1].setSelected(false)          
           }
             this.getModel("filterModel").setProperty("/crea",checked);
+            this.flag= "sel1"
         },
         onOdaMerceSelect: function (oEvent) {
           debugger
@@ -74,6 +80,7 @@ sap.ui.define(
             oEvent.getSource().getParent().getParent().getAggregation("content")[5].getAggregation("content")[1].setSelected(false)          
           } 
             this.getModel("filterModel").setProperty("/crea",checked);
+            this.flag= "sel2"
         },
         onSimulazioneCheck: function (oEvent) {
           debugger;
