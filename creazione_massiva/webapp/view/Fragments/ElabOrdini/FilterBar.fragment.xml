@@ -105,6 +105,7 @@
           </fb:control>
         </fb:FilterGroupItem>
         <fb:FilterGroupItem
+          
           visibleInFilterBar="true"
           name="oda1"
           label="{i18n>Crea1}"

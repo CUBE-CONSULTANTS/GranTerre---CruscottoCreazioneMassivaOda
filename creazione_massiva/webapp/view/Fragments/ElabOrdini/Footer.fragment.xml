@@ -10,7 +10,7 @@
             visible="{= ${filterModel>/simulazione} ? false : true}"
             type="Emphasized"
             icon="sap-icon://excel-attachment"
-            press=".DownloadExcel" />
+            press=".DownloadTable" />
         <Button text="{i18n>goMerce}"
             visible="{= ${filterModel>/simulazione} ? false : true}"
             type="Success"

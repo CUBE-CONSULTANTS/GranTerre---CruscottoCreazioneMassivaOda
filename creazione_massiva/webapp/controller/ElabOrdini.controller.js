@@ -6,6 +6,7 @@ sap.ui.define(
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
+    "sap/ui/export/Spreadsheet",
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
@@ -16,7 +17,8 @@ sap.ui.define(
     Fragment,
     JSONModel,
     MessageBox,
-    MessageToast
+    MessageToast,
+    Spreadsheet
   ) {
     "use strict";
 

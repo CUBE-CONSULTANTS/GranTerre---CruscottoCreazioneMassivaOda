@@ -1,6 +1,7 @@
 sap.ui.define(
-  ["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap/ui/core/UIComponent", "sap/ui/core/Fragment"],
-  function (Controller, History, UIComponent, Fragment) {
+  ["sap/ui/core/mvc/Controller", "sap/ui/core/routing/History", "sap/ui/core/UIComponent",
+   "sap/ui/core/Fragment", "sap/ui/export/Spreadsheet",],
+  function (Controller, History, UIComponent, Fragment, Spreadsheet) {
       "use strict";
 
       return Controller.extend("granterre.creazionemassiva.controller.BaseController", {
@@ -79,6 +80,47 @@ sap.ui.define(
                   this.getRouter().navTo("appHome", {}, true /* no history*/);
               }
           },
+          _getColumnsConfig: function(oTable) {
+            debugger
+            const aCols = [];
+            
+            oTable.getColumns().forEach((el, key) => {
+                let property = "";
+                    oTable.getItems().forEach((row, i) => {
+                      const cell = row.getCells()[key]
+                      if(cell.getMetadata().getElementName() === 'sap.ui.core.Icon') {
+                        property = "note";
+                      }else if(cell.getBindingInfo("text")){
+                        property = cell.getBindingInfo("text").parts[0].path
+                      }
+                    })       
+                    aCols.push({
+                        label: el.getHeader().getText(),
+                        property: property,
+                        type: String
+                    });             
+            });
+            return aCols;
+        },
+        
+        DownloadTable: function(oEvent) {
+            debugger
+            const oTable = oEvent.getSource().getParent().getParent().getAggregation("content")
+            const oRowBinding = oTable.getBinding('items');
+            const aCols = this._getColumnsConfig(oTable);
+            const oSheet = new Spreadsheet({
+                workbook: {
+                    columns: aCols,
+                    hierarchyLevel: 'Level'
+                },
+                dataSource: oRowBinding,
+                fileName: 'List'
+            });
+            
+            oSheet.build().finally(function() {
+                oSheet.destroy();
+            });
+        },
           onClose: function(oEvent){
             oEvent.getSource().getParent().close()
           }
