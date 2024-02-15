@@ -70,9 +70,12 @@ sap.ui.define(
           if(checked) {          
             this.getModel("filterModel").setProperty("/crea1",false);
             oEvent.getSource().getParent().getParent().getAggregation("content")[6].getAggregation("content")[1].setSelected(false)          
+            this.flag= "sel1"
+          }else{
+            this.flag= undefined;
           }
             this.getModel("filterModel").setProperty("/crea",checked);
-            this.flag= "sel1"
+            
         },
         onOdaMerceSelect: function (oEvent) {
           debugger
@@ -80,9 +83,12 @@ sap.ui.define(
           if(checked){
             this.getModel("filterModel").setProperty("/crea",false);  
             oEvent.getSource().getParent().getParent().getAggregation("content")[5].getAggregation("content")[1].setSelected(false)          
-          } 
-            this.getModel("filterModel").setProperty("/crea",checked);
             this.flag= "sel2"
+          }else{
+            this.flag= undefined;
+          }
+            this.getModel("filterModel").setProperty("/crea",checked);
+            
         },
         onSimulazioneCheck: function (oEvent) {
           debugger;
