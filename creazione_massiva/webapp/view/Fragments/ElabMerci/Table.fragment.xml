@@ -8,6 +8,7 @@
         headerText="{= ${filterModel>/simulazione} ? ${i18n>tableH2} + ' ' + ${i18n>modSim} : ${i18n>tableH2} }"
         alternateRowColors="true"
         visible="false"
+        class="sapUiMediumMarginTop"
     >
         <columns>
             <Column hAlign="Center">

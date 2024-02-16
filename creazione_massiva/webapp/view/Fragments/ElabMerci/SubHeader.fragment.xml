@@ -1,13 +1,42 @@
 <core:FragmentDefinition
-  xmlns:unified="sap.ui.unified"
-  xmlns:upload="sap.m.upload"
   xmlns:core="sap.ui.core"
-  xmlns:fb="sap.ui.comp.filterbar"
   xmlns="sap.m"
   xmlns:f="sap.f"
 >
   <f:DynamicPageHeader pinnable="false">
-    <fb:FilterBar
+    <OverflowToolbar
+        width="100%"
+        height="100%"
+        style="Clear"
+       >
+       <Label text="Ordini d'Acquisto:"
+      />
+          
+       <MultiComboBox
+              width="500px"
+              showSelectAll="true"
+              id="odaComboBox"
+              items="{
+                path: 'odaModel>/'
+              }"
+            >
+              <core:Item
+                key="{odaModel>oda}"
+                text="{odaModel>oda}"
+              />
+            </MultiComboBox>
+            <ToolbarSpacer />
+            <ToolbarSpacer />
+            
+            <CheckBox  
+            text="{i18n>Simulazione}"      
+            class="checkText"     
+            select="onSimulazioneCheck"
+            />
+            <ToolbarSpacer/>
+            <Button width="100px" class="button" press="btnGoSearch" type="Emphasized"  text="{i18n>Elabora}"/>  
+    </OverflowToolbar>
+    <!-- <fb:FilterBar
       id="filterbar"
       search="btnGoSearch"
       filterChange="onChangeFilter"
@@ -25,18 +54,7 @@
           groupName="Group1"
         >
           <fb:control>
-            <MultiComboBox
-              showSelectAll="true"
-              id="odaComboBox"
-              items="{
-                path: 'odaModel>/'
-              }"
-            >
-              <core:Item
-                key="{odaModel>oda}"
-                text="{odaModel>oda}"
-              />
-            </MultiComboBox>
+            
           </fb:control>
         </fb:FilterGroupItem>
         <fb:FilterGroupItem
@@ -50,6 +68,6 @@
           </fb:control>
         </fb:FilterGroupItem>
       </fb:filterGroupItems>
-    </fb:FilterBar>
+    </fb:FilterBar> -->
   </f:DynamicPageHeader>
 </core:FragmentDefinition>

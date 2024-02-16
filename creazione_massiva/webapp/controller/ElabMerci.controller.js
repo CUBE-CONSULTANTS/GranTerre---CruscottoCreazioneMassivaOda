@@ -21,10 +21,11 @@ sap.ui.define([
           onInit: function () {
             debugger
             this.setModel(models.odaDocModel2(), "odaDocs");
-            this.btnGo1 = this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnGo")
-            this.btnGo1.setProperty("text","Esegui")
-            this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnClear").setProperty("text","Resetta Filtri")
+            // this.btnGo1 = this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnGo")
+            // this.btnGo1.setProperty("text","Esegui")
+            // this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnClear").setProperty("text","Resetta Filtri")
             this.checked;
+            this.setModel(models.createFilterModel(), "filterModel");
             this.getRouter().getRoute("ElabMerci").attachMatched(this._onRouteMatched, this);
           },
           _onRouteMatched: async function(oEvent) {
