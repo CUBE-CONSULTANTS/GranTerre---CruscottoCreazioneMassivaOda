@@ -29,23 +29,17 @@ sap.ui.define(
           debugger;
           this.setModel(models.odaDocModel(), "odaDocs");
           this.setModel(models.createFilterModel(), "filterModel");
-          this.btnGo = this.byId(
-            "container-granterre.creazionemassiva---ElabOrdini--filterbar-btnGo"
-          );
-          this.btnGo.setProperty("text", "Esegui");
-          this.byId("container-granterre.creazionemassiva---ElabOrdini--filterbar-btnClear").setProperty("text","Resetta Campi")
           this.checked;
-          this.flag
           this.errors
           this.selectedOda
         },
-        btnGoSearch: function (oEvent) {
-          debugger;
-          if(this.flag === undefined) {
-            MessageBox.error("Selezionare un'opzione di esecuzione")
-          }else{
-            let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
-          dataToCheck.forEach((element) => {
+        onFilterBarClear:function(){
+          this.getModel("filterModel").setProperty("/","")
+        },
+        onOdaSelect: function (oEvent) {
+          debugger
+          let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
+            dataToCheck.forEach((element) => {
             if (element.color === "red") {
               this.errors = true;
             }
@@ -57,48 +51,33 @@ sap.ui.define(
           }else{
             this.onSaveOda()
           }
-          this.byId("tableOda").setVisible(true);        
-          }
-          
-        },
-        onFilterBarClear:function(){
-          this.getModel("filterModel").setProperty("/","")
-        },
-        onOdaSelect: function (oEvent) {
-          debugger
-          let checked = oEvent.getParameter("selected")
-          if(checked) {          
-            this.getModel("filterModel").setProperty("/crea1",false);
-            oEvent.getSource().getParent().getParent().getAggregation("content")[6].getAggregation("content")[1].setSelected(false)          
-            this.flag= "sel1"
-          }else{
-            this.flag= undefined;
-          }
-            this.getModel("filterModel").setProperty("/crea",checked);
-            
+          this.byId("tableOda").setVisible(true);         
         },
         onOdaMerceSelect: function (oEvent) {
           debugger
-          let checked = oEvent.getParameter("selected")
-          if(checked){
-            this.getModel("filterModel").setProperty("/crea",false);  
-            oEvent.getSource().getParent().getParent().getAggregation("content")[5].getAggregation("content")[1].setSelected(false)          
-            this.flag= "sel2"
+          let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
+            dataToCheck.forEach((element) => {
+            if (element.color === "red") {
+              this.errors = true;
+            }
+          });
+          if (this.checked) {
+            if (this.errors) {
+              MessageToast.show("Sono presenti Errori in fase di Simulazione");
+            }
           }else{
-            this.flag= undefined;
+            this.onSaveOda()
           }
-            this.getModel("filterModel").setProperty("/crea",checked);
+          let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content")
+          let header = table.getHeaderText()
+           table.setHeaderText(header += " e Documento Materiale" ) 
+          table.setVisible(true);        
             
         },
         onSimulazioneCheck: function (oEvent) {
           debugger;
           this.checked = oEvent.getParameter("selected");
           this.byId("tableOda").setVisible(false);
-          if (this.checked) {
-            this.btnGo.setProperty("text", "Elabora Simulazione");
-          } else {
-            this.btnGo.setProperty("text", "Esegui");
-          }
           this.getModel("filterModel").setProperty("/simulazione", this.checked);
         },
         onIconPress: function (oEvent) {
@@ -123,7 +102,7 @@ sap.ui.define(
         handleUploadPress: function (oEvent) {
           debugger
           let oView = this.getView()
-          let oFileUploader = oEvent.getSource().getParent().getParent().getAggregation("content")[3].getAggregation("content")[1]
+          let oFileUploader = oEvent.getSource().getParent().getAggregation("content")[2]
           if(!oFileUploader.getValue()){
             MessageBox.error("Allegare obbligatoriamente un File")
           }else if(oFileUploader.getFileType()[0]!== 'csv'){

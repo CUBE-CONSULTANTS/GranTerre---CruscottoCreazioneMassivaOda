@@ -14,7 +14,7 @@ toggleHeaderOnTitleClick="true">
       type="XML" />
 </f:title>
 <f:header>
-  <core:Fragment fragmentName="granterre.creazionemassiva.view.Fragments.ElabOrdini.FilterBar"
+  <core:Fragment fragmentName="granterre.creazionemassiva.view.Fragments.ElabOrdini.SubHeader"
     type="XML" />
 </f:header>
 <f:content>

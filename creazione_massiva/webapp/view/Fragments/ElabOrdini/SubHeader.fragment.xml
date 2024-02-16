@@ -7,7 +7,55 @@
   xmlns:f="sap.f"
 >
   <f:DynamicPageHeader pinnable="false">
-    <fb:FilterBar
+
+      <OverflowToolbar
+        width="100%"
+        height="100%"
+        style="Clear"
+       >
+      <Button
+        text="{i18n>Download}"
+        icon="sap-icon://download"
+        press="DownloadExcel"
+        
+        type="Emphasized"
+        />
+      <ToolbarSeparator class="sapUiSmallMarginBeginEnd"/>
+      <unified:FileUploader
+      id="fileUploader"
+      width="300px"
+      value="{filterModel>/file}"
+      style="Emphasized"
+      icon="sap-icon://search"
+      iconOnly="true"              
+      uploadUrl="upload/"
+      fileType="csv"          
+      />
+      <Button
+      text="{i18n>Carica}"
+      icon="sap-icon://upload"
+      class="button sapUiTinyMarginBegin"
+      type="Emphasized"
+      press="handleUploadPress"  
+      />     
+      
+      <ToolbarSpacer/>
+      <ToolbarSpacer/>
+      <ToolbarSpacer/>
+      <CheckBox  
+      text="{i18n>Simulazione}"      
+      class="checkText"     
+      select="onSimulazioneCheck"
+      />
+      <ToolbarSpacer/>
+      <Button width="100px" press="onOdaSelect" type="Emphasized"  text="{i18n>Crea}"/>  
+      <ToolbarSeparator class="sapUiSmallMarginBeginEnd"/>
+      <Button press="onOdaMerceSelect"  type="Emphasized" text="{i18n>Crea1}"/>
+ 
+    </OverflowToolbar>
+  </f:DynamicPageHeader>
+</core:FragmentDefinition>
+    <!-- <fb:FilterBar
       id="filterbar"
       search="btnGoSearch"
       filterChange="onChangeFilter"
@@ -130,6 +178,4 @@
         </fb:FilterGroupItem>
        
       </fb:filterGroupItems>
-    </fb:FilterBar>
-  </f:DynamicPageHeader>
-</core:FragmentDefinition>
+    </fb:FilterBar> -->
