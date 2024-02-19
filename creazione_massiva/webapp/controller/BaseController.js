@@ -5,19 +5,21 @@ sap.ui.define(
     "sap/ui/core/UIComponent",
     "sap/ui/core/Fragment",
     "sap/ui/export/Spreadsheet",
-	"sap/ui/model/Sorter",
+	  "sap/ui/model/Sorter",
+    "granterre/creazionemassiva/model/formatter"
   ],
   function (Controller,
 	History,
 	UIComponent,
 	Fragment,
 	Spreadsheet,
-	Sorter) {
+	Sorter, formatter  ) {
     "use strict";
 
     return Controller.extend(
       "granterre.creazionemassiva.controller.BaseController",
       {
+        formatter: formatter,
         /**
          * Convenience method for getting the view model by name in every controller of the application.
          * @public
@@ -165,6 +167,33 @@ sap.ui.define(
         onClose: function (oEvent) {
           oEvent.getSource().getParent().close();
         },
+        base64ToBlob: function (base64) {
+          base64 = base64.replaceAll("-", "+").replaceAll("_", "/");
+          const binaryString = window.atob(base64);
+          const len = binaryString.length;
+          const bytes = new Uint8Array(len);
+          for (let i = 0; i < len; ++i) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+          return new Blob([bytes], {
+            type: "application/pdf"
+          });
+        },
+        convertToBase64: function (file) {
+          debugger
+          return new Promise((resolve, reject) => {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+              let base64Data = e.target.result.split(",")[1];
+              resolve(base64Data);
+            };
+            reader.onerror = function(error) {
+              reject(error);
+            };
+            let blob = new Blob([file]);
+            reader.readAsDataURL(blob);
+          });
+        }
       }
     );
   }

@@ -86,7 +86,9 @@ sap.ui.define(
           let errorModel = new JSONModel(errors);
           this.setModel(errorModel, "errorModel");
           if (errors) {
-            this.onOpenDialog("mDialog","granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog",this,"errorModel");
+            // this.onOpenDialog("mDialog","granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog",this,"errorModel");
+            this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog"})
+            this.pDialog.then((oDialog)=>oDialog.open())
           }
         },
         DownloadExcel: function (oEvent) {
@@ -102,7 +104,7 @@ sap.ui.define(
         handleUploadPress: function (oEvent) {
           debugger
           let oView = this.getView()
-          let that = this;
+          let self = this;
           let oFileUploader = oEvent.getSource().getParent().getAggregation("content")[2]
           if(!oFileUploader.getValue()){
             MessageBox.error("Allegare obbligatoriamente un File")
@@ -111,7 +113,7 @@ sap.ui.define(
           }else{
             oFileUploader.checkFileReadable().then(function() {
               oView.setBusy(true)
-              that.convertToBase64(oFileUploader.getValue())
+              self.convertToBase64(oFileUploader.getValue())
               .then(function(base64Data) {
                 // oModel.create("/EntitySet", base64Data, {
                 //   success: function(data) {
@@ -139,21 +141,6 @@ sap.ui.define(
           });
         }
       },
-        convertToBase64: function (file) {
-          debugger
-          return new Promise((resolve, reject) => {
-            let reader = new FileReader();
-            reader.onload = function(e) {
-              let base64Data = e.target.result.split(",")[1];
-              resolve(base64Data);
-            };
-            reader.onerror = function(error) {
-              reject(error);
-            };
-            let blob = new Blob([file]);
-            reader.readAsDataURL(blob);
-          });
-        },   
         onSelectOda:function (oEvent) {
           debugger
           let selectedRows = oEvent.getSource().getSelectedContexts("odaDocs")

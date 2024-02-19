@@ -16,6 +16,17 @@
       "toolsId": "099d8f89-03e5-4e54-b851-85abf0745365"
     }
   },
+  "dataSources": {
+    "mainService": {
+      "uri": "",
+      "type": "OData",
+      "settings": {
+        "annotations": [],
+        "localUri": "localService/metadata.xml",
+        "odataVersion": "2.0"
+      }
+    }    
+  },
   "sap.ui": {
     "fullWidth": false,
     "technology": "UI5",
@@ -57,6 +68,15 @@
         "type": "sap.ui.model.resource.ResourceModel",
         "settings": {
           "bundleName": "granterre.creazionemassiva.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "metadataUrlParams": {
+            "sap-language": "IT"
+            }
         }
       }
     },
