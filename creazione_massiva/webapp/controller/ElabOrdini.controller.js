@@ -33,9 +33,9 @@ sap.ui.define(
           this.errors
           this.selectedOda
         },
-        onFilterBarClear:function(){
-          this.getModel("filterModel").setProperty("/","")
-        },
+        // onFilterBarClear:function(){
+        //   this.getModel("filterModel").setProperty("/","")
+        // },
         onOdaSelect: function (oEvent) {
           debugger
           let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
@@ -102,26 +102,58 @@ sap.ui.define(
         handleUploadPress: function (oEvent) {
           debugger
           let oView = this.getView()
+          let that = this;
           let oFileUploader = oEvent.getSource().getParent().getAggregation("content")[2]
           if(!oFileUploader.getValue()){
             MessageBox.error("Allegare obbligatoriamente un File")
-          }else if(oFileUploader.getFileType()[0]!== 'csv'){
-            MessageBox.error("Allegare File con estensione .csv")
+          }else if(oFileUploader.getFileType()[0]!== 'xlsx'){
+            MessageBox.error("Allegare File con estensione .xlsx")
           }else{
             oFileUploader.checkFileReadable().then(function() {
               oView.setBusy(true)
-              oFileUploader.upload();
-              MessageBox.success("Upload Completato")
-              oView.setBusy(false)
-            }, function(error) {
-              MessageToast.show("The file cannot be read. It may have changed.");
-              oView.setBusy(false)
-            }).then(function() {
-              oFileUploader.clear();
-            });
-          }
-
-        },
+              that.convertToBase64(oFileUploader.getValue())
+              .then(function(base64Data) {
+                // oModel.create("/EntitySet", base64Data, {
+                //   success: function(data) {
+                //     MessageBox.success("Upload Completato");
+                //     oView.setBusy(false);
+                //   },
+                //   error: function(error) {
+                //     MessageBox.error("Si è verificato un errore durante l'upload: " + error);
+                //     oView.setBusy(false);
+                //   }
+                // });
+                MessageBox.success("Upload Completato");
+                oView.setBusy(false);
+              })
+              .catch(function(error) {
+                MessageToast.show("Impossibile leggere il file. Potrebbe essere cambiato.");
+                oView.setBusy(false);
+              })
+              .finally(function() {
+                oFileUploader.clear();
+              });
+          }.bind(this), function(error) {
+            MessageToast.show("Impossibile leggere il file. Potrebbe essere cambiato.");
+            oView.setBusy(false);
+          });
+        }
+      },
+        convertToBase64: function (file) {
+          debugger
+          return new Promise((resolve, reject) => {
+            let reader = new FileReader();
+            reader.onload = function(e) {
+              let base64Data = e.target.result.split(",")[1];
+              resolve(base64Data);
+            };
+            reader.onerror = function(error) {
+              reject(error);
+            };
+            let blob = new Blob([file]);
+            reader.readAsDataURL(blob);
+          });
+        },   
         onSelectOda:function (oEvent) {
           debugger
           let selectedRows = oEvent.getSource().getSelectedContexts("odaDocs")
@@ -136,7 +168,7 @@ sap.ui.define(
           }
         },
         NavToLaunch: function () {
-          this.onFilterBarClear()
+          // this.onFilterBarClear()
           this.byId("tableOda").setVisible(false)
           this.getRouter().navTo("RouteLaunchTile");
         },

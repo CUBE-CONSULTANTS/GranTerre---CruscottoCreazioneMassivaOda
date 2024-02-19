@@ -29,7 +29,7 @@
       icon="sap-icon://search"
       iconOnly="true"              
       uploadUrl="upload/"
-      fileType="csv"          
+      fileType="xlsx"        
       />
       <Button
       text="{i18n>Carica}"

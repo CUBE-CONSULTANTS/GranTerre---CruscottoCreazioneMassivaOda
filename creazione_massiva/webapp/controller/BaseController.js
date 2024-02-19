@@ -5,8 +5,14 @@ sap.ui.define(
     "sap/ui/core/UIComponent",
     "sap/ui/core/Fragment",
     "sap/ui/export/Spreadsheet",
+	"sap/ui/model/Sorter",
   ],
-  function (Controller, History, UIComponent, Fragment, Spreadsheet) {
+  function (Controller,
+	History,
+	UIComponent,
+	Fragment,
+	Spreadsheet,
+	Sorter) {
     "use strict";
 
     return Controller.extend(
@@ -32,6 +38,30 @@ sap.ui.define(
         setModel: function (oModel, sName) {
           return this.getView().setModel(oModel, sName);
         },
+        _getDbPromised: function (Entity, Property, aFilters, aSorters, Expands) {
+          let model = this.getOwnerComponent().getModel();
+          let urlParameters = {};
+          if (Expands && Array.isArray(Expands) && Expands.length > 0) {
+            urlParameters.$expand = Expands.join(",");
+          }
+          return new Promise((resolve, reject) => {
+            model.read(Entity, {
+              filters: aFilters,
+              sorters: aSorters,
+              urlParameters: urlParameters,
+              success: (odata) => {
+                let sProp = Property;
+                resolve({
+                  [sProp]: odata.results,
+                  success: true
+                });
+              },
+              error: (err) => {
+                reject({ success: false, error: err })
+              },
+            });
+          });
+        },  
         onOpenDialog: function (dialName, fragmName, self, ...oModel) {
           let oView = this.getView();
           dialName = self.dialName;
@@ -116,11 +146,7 @@ sap.ui.define(
 
         DownloadTable: function (oEvent) {
           debugger;
-          const oTable = oEvent
-            .getSource()
-            .getParent()
-            .getParent()
-            .getAggregation("content");
+          const oTable = oEvent.getSource().getParent().getParent().getAggregation("content");
           const oRowBinding = oTable.getBinding("items");
           const aCols = this._getColumnsConfig(oTable);
           const oSheet = new Spreadsheet({
@@ -129,7 +155,7 @@ sap.ui.define(
               hierarchyLevel: "Level",
             },
             dataSource: oRowBinding,
-            fileName: "List",
+            fileName: "Lista OdA Elaborati",
           });
 
           oSheet.build().finally(function () {
