@@ -32,11 +32,20 @@ sap.ui.define(
           this.checked;
           this.errors
           this.selectedOda
+          this.getRouter().getRoute("ElabOrdini").attachMatched(this._onRouteMatched, this);
+          
+        },
+        _onRouteMatched: async function(oEvent) {
+          debugger
+          this.getView().setBusy(true)
+          //chiamata ultimo log
+          this.getView().setBusy(false)
         },
         // onFilterBarClear:function(){
         //   this.getModel("filterModel").setProperty("/","")
         // },
         onOdaSelect: function (oEvent) {
+          //genera Ordine + check progresso
           debugger
           let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
             dataToCheck.forEach((element) => {
@@ -51,10 +60,12 @@ sap.ui.define(
           }else{
             this.onSaveOda()
           }
-          this.byId("tableOda").setVisible(true);         
+          this.byId("tableOda").setVisible(true);        
+          
         },
         onOdaMerceSelect: function (oEvent) {
           debugger
+          //genera Ordine + check progresso e documento
           let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
             dataToCheck.forEach((element) => {
             if (element.color === "red") {
@@ -71,8 +82,17 @@ sap.ui.define(
           let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content")
           let header = table.getHeaderText()
            table.setHeaderText(header += " e Documento Materiale" ) 
-          table.setVisible(true);        
+           table.setVisible(true);        
             
+        },
+        onCheckProgress: async function(flag) {
+          setInterval(async () => {
+            try {
+              let aModel = await this._getDbPromised("/prova(flag='" + flag + "')")
+            } catch (error) {
+              console.error("Errore:", error);
+            }
+          }, 15000);
         },
         onSimulazioneCheck: function (oEvent) {
           debugger;
@@ -86,9 +106,9 @@ sap.ui.define(
           let errorModel = new JSONModel(errors);
           this.setModel(errorModel, "errorModel");
           if (errors) {
-            // this.onOpenDialog("mDialog","granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog",this,"errorModel");
-            this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog"})
-            this.pDialog.then((oDialog)=>oDialog.open())
+            this.onOpenDialog("mDialog","granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog",this,"errorModel");
+            // this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog"})
+            // this.pDialog.then((oDialog)=>oDialog.open())
           }
         },
         DownloadExcel: function (oEvent) {

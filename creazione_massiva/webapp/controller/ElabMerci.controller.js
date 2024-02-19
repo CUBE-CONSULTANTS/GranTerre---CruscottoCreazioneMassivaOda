@@ -30,7 +30,7 @@ sap.ui.define([
           },
           _onRouteMatched: async function(oEvent) {
             debugger
-            this.getView().setBusy(false)
+            this.getView().setBusy(true)
             let oda = oEvent.getParameter("arguments").selected;
             if(oda){
               let selectedOda = JSON.parse(oda)
