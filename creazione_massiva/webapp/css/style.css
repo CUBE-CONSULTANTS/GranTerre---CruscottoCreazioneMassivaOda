@@ -14,3 +14,6 @@
   font-weight: 900!important;
   font-size: large;
 }
+.sap.m.ProgressIndicator{
+  margin: auto!important;
+}

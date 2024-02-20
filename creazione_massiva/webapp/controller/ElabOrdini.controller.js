@@ -32,7 +32,7 @@ sap.ui.define(
           this.checked;
           this.errors;
           this.selectedOda;
-          this.progressInterval
+          this.progressInterval = 0
           this.progress = 0
           this.getRouter().getRoute("ElabOrdini").attachMatched(this._onRouteMatched, this);
         },
@@ -55,48 +55,67 @@ sap.ui.define(
           //genera Ordine + check progresso
           debugger;
           let flag = "1";
-          this.onCheckProgress(flag,oEvent);
+          this.onOpenProgressDialog(flag)
         },
         onOdaMerceSelect: function (oEvent) {
           //genera Ordine + check progresso e documento
           debugger;
           let flag = "2";
-          this.onCheckProgress(flag,oEvent);
+          this.onOpenProgressDialog(flag)
         },
-        onCheckProgress: async function (flag,oEvent) {
+        onOpenProgressDialog: function(flag){
+          let that = this
+          this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog"})
+          this.pDialog.then((oDialog)=>{
+            debugger
+            let progressBar = new sap.m.ProgressIndicator({
+              width: "17rem",
+              displayValue: "0%",
+              percentValue: 0,
+              state: "Information",
+            });          
+            if (!oDialog.getContent().length) {
+              oDialog.addContent(progressBar);
+            }
+            progressBar.setBusy(true)
+            oDialog.open()         
+            that.onCheckProgress(flag, progressBar);
+          })
+        },
+        onCheckProgress: async function (flag, progressBar) {
           let aModel;
           let that = this;
-          this.onOpenDialog("pDialog","granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog",this,"");
+       
           this.progressInterval = setInterval( () => {
             try {
               // aModel = await that._getDbPromised("/(flag='" + flag + "')")
-               that.simulateBackendProgress(flag,oEvent) 
+               that.simulateBackendProgress(flag,progressBar)
               console.log("Controllo del progresso...");
             } catch (error) {
               console.error("Errore durante il controllo del progresso:",error);
             }
-          }, 5000);
+          }, 2000);
         },
-        simulateBackendProgress: async function (flag,oEvent) {
+        simulateBackendProgress: async function (flag,progressBar) {
           debugger
           const totalSteps = 4;
-          const progressPercentage = Math.floor((this.progress / totalSteps) * 100);
+          let progressPercentage = Math.floor((this.progress / totalSteps) * 100);
           
-          this.updateProgressDialog(progressPercentage, flag, oEvent);           
-          this.progress ++
-        },
-        updateProgressDialog: function (progressPercentage,flag,oEvent) {
-          let progressBar = this.getView().getAggregation("dependents")[0].getAggregation("content")[0]
           progressBar.setDisplayValue(progressPercentage + "%")
-          progressBar.setPercentValue(progressPercentage)
-          if (progressPercentage === 100) {
-            progressBar.setBusy(false)
+          progressBar.setPercentValue(progressPercentage)           
+          this.progress ++
+          
+          if(this.progress > totalSteps && progressPercentage === 100){
             clearInterval(this.progressInterval);
-            let dialog = this.getView().getAggregation("dependents")[0]
-            this.onCloseProgress(dialog,flag)
-          }
+            progressBar.setBusy(false)
+            this.onCloseProgress(progressBar.getParent(),flag)
+            this.progressInterval = 0
+            progressPercentage = 0
+            this.progress = 0
+          }    
         },
-        onCloseProgress:function(dialog,flag){
+        onCloseProgress:function(dialog,flag){   
+          dialog.removeAllContent();    
           dialog.close()
           this.showResultsInTable(flag);
         },

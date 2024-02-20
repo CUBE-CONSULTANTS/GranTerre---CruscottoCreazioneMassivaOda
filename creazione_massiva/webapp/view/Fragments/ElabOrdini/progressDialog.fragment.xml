@@ -5,16 +5,16 @@
   title="Progresso Elaborazione"
   contentWidth="300px"
   contentHeight="100px"
+  class="sapUiResponsivePadding--content"
   >
-  <ProgressIndicator
+  <!-- <ProgressIndicator
   class="sapUiResponsiveMargin"
   percentValue="0"
   displayValue="0%"
   state="Information"
   busyIndicatorSize="Small"
-  busy="true"
   width="15rem"
- />
+ /> -->
 <!-- <buttons>
   <Button
   text="{i18n>Chiudi}"
