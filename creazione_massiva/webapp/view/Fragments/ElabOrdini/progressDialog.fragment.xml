@@ -5,10 +5,8 @@
   title="Progresso Elaborazione"
   contentWidth="300px"
   contentHeight="100px"
-  
   >
   <ProgressIndicator
-  id="progressBar"
   class="sapUiResponsiveMargin"
   percentValue="0"
   displayValue="0%"
@@ -17,11 +15,11 @@
   busy="true"
   width="15rem"
  />
-<buttons>
+<!-- <buttons>
   <Button
   text="{i18n>Chiudi}"
   press="onCloseProgress"
   />
-</buttons>
+</buttons> -->
 </Dialog>
 </core:FragmentDefinition>

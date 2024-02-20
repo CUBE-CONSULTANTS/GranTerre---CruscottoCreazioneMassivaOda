@@ -67,10 +67,10 @@ sap.ui.define(
           let aModel;
           let that = this;
           this.onOpenDialog("pDialog","granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog",this,"");
-          this.progressInterval = setInterval(async () => {
+          this.progressInterval = setInterval( () => {
             try {
               // aModel = await that._getDbPromised("/(flag='" + flag + "')")
-              await that.simulateBackendProgress(flag,oEvent) 
+               that.simulateBackendProgress(flag,oEvent) 
               console.log("Controllo del progresso...");
             } catch (error) {
               console.error("Errore durante il controllo del progresso:",error);
@@ -79,26 +79,25 @@ sap.ui.define(
         },
         simulateBackendProgress: async function (flag,oEvent) {
           debugger
-          const totalSteps = 10;
-          const incrementAmount = 10; 
+          const totalSteps = 4;
           const progressPercentage = Math.floor((this.progress / totalSteps) * 100);
-
-          if (this.progress >= totalSteps) {
-            clearInterval(this.progressInterval); 
-          } else {
-            const progressPercentage = Math.min(Math.floor((this.progress / totalSteps) * 100), 100); 
-            this.updateProgressDialog(progressPercentage, flag, oEvent); 
-            this.progress = Math.min(this.progress + incrementAmount, totalSteps); 
-        }
+          
+          this.updateProgressDialog(progressPercentage, flag, oEvent);           
+          this.progress ++
         },
         updateProgressDialog: function (progressPercentage,flag,oEvent) {
-          this.getView().byId("progressBar").setPercentValue(progressPercentage)
-          if (progressPercentage === '100') {
-            this.onCloseProgress(oEvent,flag)
+          let progressBar = this.getView().getAggregation("dependents")[0].getAggregation("content")[0]
+          progressBar.setDisplayValue(progressPercentage + "%")
+          progressBar.setPercentValue(progressPercentage)
+          if (progressPercentage === 100) {
+            progressBar.setBusy(false)
+            clearInterval(this.progressInterval);
+            let dialog = this.getView().getAggregation("dependents")[0]
+            this.onCloseProgress(dialog,flag)
           }
         },
-        onCloseProgress:function(oEvent,flag){
-          oEvent.getSource().getParent().close()
+        onCloseProgress:function(dialog,flag){
+          dialog.close()
           this.showResultsInTable(flag);
         },
         showResultsInTable: function (flag) {
