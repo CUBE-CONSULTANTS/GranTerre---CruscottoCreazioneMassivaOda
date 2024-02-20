@@ -1,0 +1,27 @@
+<core:FragmentDefinition
+	xmlns="sap.m"
+  xmlns:core="sap.ui.core">
+<Dialog
+  title="Progresso Elaborazione"
+  contentWidth="300px"
+  contentHeight="100px"
+  
+  >
+  <ProgressIndicator
+  id="progressBar"
+  class="sapUiResponsiveMargin"
+  percentValue="0"
+  displayValue="0%"
+  state="Information"
+  busyIndicatorSize="Small"
+  busy="true"
+  width="15rem"
+ />
+<buttons>
+  <Button
+  text="{i18n>Chiudi}"
+  press="onCloseProgress"
+  />
+</buttons>
+</Dialog>
+</core:FragmentDefinition>
