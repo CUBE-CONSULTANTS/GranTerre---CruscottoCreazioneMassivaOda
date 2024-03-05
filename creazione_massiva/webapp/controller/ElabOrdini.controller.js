@@ -168,7 +168,7 @@ sap.ui.define(
         },
         DownloadExcel: function (oEvent) {
           debugger;
-          let sExcelFilePath = "public/TemplateTracciato.xlsx";
+          let sExcelFilePath = "public/Tracciato.xlsx";
           let link = document.createElement("a");
           link.href = sExcelFilePath;
           link.download = "TemplateTracciato.xlsx";
