@@ -2,6 +2,7 @@ sap.ui.define(
   [
     "./BaseController",
     "../model/models",
+    "../model/API",
     "sap/ui/core/Fragment",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
@@ -14,6 +15,7 @@ sap.ui.define(
   function (
     BaseController,
     models,
+    API,
     Fragment,
     JSONModel,
     MessageBox,

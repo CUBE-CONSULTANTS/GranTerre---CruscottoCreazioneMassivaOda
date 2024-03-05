@@ -40,30 +40,6 @@ sap.ui.define(
         setModel: function (oModel, sName) {
           return this.getView().setModel(oModel, sName);
         },
-        _getDbPromised: function (Entity, Property, aFilters, aSorters, Expands) {
-          let model = this.getOwnerComponent().getModel();
-          let urlParameters = {};
-          if (Expands && Array.isArray(Expands) && Expands.length > 0) {
-            urlParameters.$expand = Expands.join(",");
-          }
-          return new Promise((resolve, reject) => {
-            model.read(Entity, {
-              filters: aFilters,
-              sorters: aSorters,
-              urlParameters: urlParameters,
-              success: (odata) => {
-                let sProp = Property;
-                resolve({
-                  [sProp]: odata.results,
-                  success: true
-                });
-              },
-              error: (err) => {
-                reject({ success: false, error: err })
-              },
-            });
-          });
-        },  
         onOpenDialog: function (dialName, fragmName, self, ...oModel) {
           let oView = this.getView();
           dialName = self.dialName;
