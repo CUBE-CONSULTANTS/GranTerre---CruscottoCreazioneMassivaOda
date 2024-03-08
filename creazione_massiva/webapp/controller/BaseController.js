@@ -102,7 +102,7 @@ sap.ui.define(
             debugger;
             if (key !== 0) {
               let property = "";
-              oTable.getItems().forEach((row, i) => {
+              oTable.getRows().forEach((row, i) => {
                 const cell = row.getCells()[key];
                 if (
                   cell.getMetadata().getElementName() === "sap.ui.core.Icon"
@@ -113,7 +113,7 @@ sap.ui.define(
                 }
               });
               aCols.push({
-                label: el.getHeader().getText(),
+                label: el.getLabel().getText(),
                 property: property,
                 type: String,
               });
@@ -125,7 +125,7 @@ sap.ui.define(
         DownloadTable: function (oEvent) {
           debugger;
           const oTable = oEvent.getSource().getParent().getParent().getAggregation("content");
-          const oRowBinding = oTable.getBinding("items");
+          const oRowBinding = oTable.getBinding("rows");
           const aCols = this._getColumnsConfig(oTable);
           const oSheet = new Spreadsheet({
             workbook: {

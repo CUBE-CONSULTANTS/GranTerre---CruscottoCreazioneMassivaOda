@@ -17,3 +17,6 @@
 .sap.m.ProgressIndicator{
   margin: auto!important;
 }
+.tableHeader{
+  font-size: larger!important;
+}
