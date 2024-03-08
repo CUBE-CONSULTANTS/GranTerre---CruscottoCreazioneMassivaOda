@@ -1,72 +1,330 @@
 <core:FragmentDefinition
     xmlns:core="sap.ui.core"
     xmlns:f="sap.f"
-    xmlns="sap.m"
+    xmlns="sap.ui.table"
+    xmlns:m="sap.m"
 >
     <Table id="tableMerci"
-        items="{odaDocs>/dati}"
-        headerText="{= ${filterModel>/simulazione} ? ${i18n>tableH2} + ' ' + ${i18n>modSim} : ${i18n>tableH2} }"
+        rows="{odaDocs>/dati}"
         alternateRowColors="true"
         visible="false"
         class="sapUiTinyMarginTop"
+        selectionMode="None"
     >
-        <columns>
-            <Column hAlign="Center">
-                <Text text="{i18n>Stato}" />
-            </Column>
-            <Column hAlign="Center">
-                <Text text="{i18n>TpDoc}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>codForn}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>orgAcq}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>grpAcq}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>TpPos}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>TpCont}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>codMat}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>descr}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>TestoBreve}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>qta}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>um}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>prz}" />
-            </Column>
-            <Column width="6rem" hAlign="Center" demandPopin="true">
-                <Text text="{i18n>consegna}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true" width="110px">
-                <Text text="{i18n>ordAcq}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>pos}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true" width="110px">
-                <Text text="{i18n>entrMer}" />
-            </Column>
-            <Column hAlign="Center" demandPopin="true">
-                <Text text="{i18n>pos2}" />
-            </Column>
-        </columns>
-        <items>
+    <extension>
+      <m:OverflowToolbar height="6vh">
+        <m:Text class="tableHeader sapUiResponsiveMargin"  text="{= ${filterModel>/simulazione} ? ${i18n>tableH2} + ' ' + ${i18n>modSim} : ${i18n>tableH2} }"></m:Text>
+      </m:OverflowToolbar>
+    </extension>
+    <columns>
+      <Column hAlign="Center" width="4rem">
+          <m:Text text="{i18n>Stato}" />
+            <template>
+              <core:Icon
+                  press=".onIconPress"
+                  src="{odaDocs>semaforo}"
+                  size="1.3rem"
+                  color="{odaDocs>color}"
+              />
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="7rem"
+      >
+          <m:Text text="{i18n>Doc Acquisto}" />
+            <template>
+              <m:Text text="{odaDocs>ordAcq}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="5rem"
+      >
+          <m:Text text="{i18n>Pos Doc Acquisto}" />
+            <template>
+              <m:Text text="{odaDocs>PosDoc}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="6rem"
+      >
+          <m:Text text="{i18n>Doc Materiale}" />
+            <template>
+              <m:Text text="{odaDocs>DocMat}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="4rem"
+      >
+          <m:Text text="{i18n>Pos Doc Materiale}" />
+            <template>
+              <m:Text text="{odaDocs>PosDocMat}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="4rem"
+      >
+          <m:Text text="{i18n>Società}" />
+            <template>
+              <m:Text text="{odaDocs>Soc}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="5rem"
+      >
+          <m:Text text="{i18n>codForn}" />
+            <template>
+              <m:Text text="{odaDocs>forn}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="6rem"
+      >
+          <m:Text text="{i18n>Condizioni Pagamento}" />
+            <template>
+              <m:Text text="{odaDocs>condPag}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center"
+          width="6rem"
+      >
+          <m:Text text="{i18n>Data Documento}" />
+            <template>
+              <m:Text text="{odaDocs>dataDoc}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column hAlign="Center" width="6rem">
+          <m:Text text="{i18n>Tipo Documento}" />
+            <template>
+              <m:Text text="{odaDocs>tpDoc}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>orgAcq}" />
+            <template>
+              <m:Text text="{odaDocs>orgAcq}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>grpAcq}" />
+            <template>
+              <m:Text text="{odaDocs>grpAcq}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="4rem"
+      >
+          <m:Text text="{i18n>Note Testata}" />
+            <template>
+              <m:Text text="{odaDocs>NoteTestata}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="4rem"
+      >
+          <m:Text text="{i18n>Ord AS400 migrato}" />
+            <template>
+              <m:Text text="{odaDocs>ord400migr}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="8rem"
+      >
+          <m:Text text="{i18n>Link}" />
+            <template>
+              <m:Text text="{odaDocs>link}" wrapping="false"/>
+          </template>
+      </Column>
+
+      <Column
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>pos}" />
+            <template>
+              <m:Text text="{odaDocs>pos}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>Tipo Pos}" />
+            <template>
+              <m:Text text="{odaDocs>tpPos}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>Pos Resi}" />
+            <template>
+              <m:Text text="{odaDocs>PosResi}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="8rem"
+      >
+          <m:Text text="{i18n>Tipo Contabilizzazione}" />
+            <template>
+              <m:Text text="{odaDocs>tpCont}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="5rem"
+      >
+          <m:Text text="{i18n>Codice Materiale}" />
+            <template>
+              <m:Text text="{odaDocs>codMat}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="6rem"
+      >
+          <m:Text text="{i18n>Descrizione Mat}" />
+            <template>
+              <m:Text text="{odaDocs>descr}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="5rem"
+      >
+          <m:Text text="{i18n>Numero Partita}" />
+            <template>
+              <m:Text text="{odaDocs>nPartita}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="5rem"
+      >
+          <m:Text text="{i18n>TestoBreve}" />
+            <template>
+              <m:Text text="{odaDocs>tBreve}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="6rem"
+      >
+          <m:Text text="{i18n>Attività}" />
+            <template>
+              <m:Text text="{odaDocs>attivita}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="8rem"
+      >
+          <m:Text text="{i18n>Descrizione Attività}" />
+            <template>
+              <m:Text text="{odaDocs>descrAtt}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="6rem"
+      >
+          <m:Text text="{i18n>Targa Autovettura}" />
+            <template>
+              <m:Text text="{odaDocs>targa}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="4rem"
+      >
+          <m:Text text="{i18n>qta}" />
+            <template>
+              <m:Text text="{odaDocs>qta}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="4rem"
+      >
+          <m:Text text="{i18n>um}" />
+            <template>
+              <m:Text text="{odaDocs>um}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="4rem"
+      >
+          <m:Text text="{i18n>prz}" />
+            <template>
+              <m:Text text="{odaDocs>prz}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          width="6rem"
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>consegna}" />
+            <template>
+              <m:Text text="{odaDocs>consegna}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          width="6rem"
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>Divisione}" />
+            <template>
+              <m:Text text="{odaDocs>divisione}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          width="6rem"
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>Magazzino}" />
+            <template>
+              <m:Text text="{odaDocs>mag}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          width="6rem"
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>Centro di Costo}" />
+            <template>
+              <m:Text text="{odaDocs>cdc}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          width="6rem"
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>Ordine Interno}" />
+            <template>
+              <m:Text text="{odaDocs>ordInt}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          width="6rem"
+          hAlign="Center"
+      >
+          <m:Text text="{i18n>Conto Co.Ge}" />
+            <template>
+              <m:Text text="{odaDocs>coge}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center"
+          width="7rem"
+      >
+          <m:Text text="{i18n>Data Registrazione}" />
+            <template>
+              <m:Text text="{odaDocs>dataReg}" wrapping="false"/>
+          </template>
+      </Column>
+      <Column
+          hAlign="Center" width="6rem"
+      >
+          <m:Text text="{i18n>Data Competenza}" />
+            <template>
+              <m:Text text="{odaDocs>dataComp}" wrapping="false"/>
+          </template>
+      </Column>
+  </columns>
+        <!-- <items>
             <ColumnListItem
                 
             >
@@ -91,6 +349,6 @@
                     <Text text="{odaDocs>pos2}" />
                 </cells>
             </ColumnListItem>
-        </items>
+        </items> -->
     </Table>
 </core:FragmentDefinition>
