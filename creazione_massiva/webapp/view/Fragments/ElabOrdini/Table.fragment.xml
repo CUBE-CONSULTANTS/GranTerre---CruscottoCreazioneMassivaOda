@@ -10,7 +10,7 @@
         alternateRowColors="true"
         selectionMode="MultiToggle"
         rowSelectionChange="onSelectOda"
-        visible="true"
+        visible="false"
         class="sapUiTinyMarginTop"
         width="100%"      
     >
