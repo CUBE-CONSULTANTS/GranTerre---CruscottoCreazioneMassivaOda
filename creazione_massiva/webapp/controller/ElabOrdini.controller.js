@@ -221,10 +221,11 @@ sap.ui.define(
         },
         onSelectOda: function (oEvent) {
           debugger;
-          let selectedRows = oEvent.getSource().getSelectedContexts("odaDocs");
+          let selectedRows = oEvent.getSource().getSelectedIndices();
           this.selectedOda = [];
           selectedRows.forEach((row) => {
-            this.selectedOda.push(row.getObject().ordAcq);
+            let oDa = oEvent.getSource().getContextByIndex(row).getObject().ordAcq
+            this.selectedOda.push(oDa);
           });
         },
         onSaveOda: function () {

@@ -12,6 +12,7 @@ sap.ui.define([
    */
   function (BaseController,
     models,
+    API,
     Fragment,
     JSONModel,
     MessageBox,
