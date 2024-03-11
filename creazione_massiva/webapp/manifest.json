@@ -17,7 +17,7 @@
     }
   },
   "dataSources": {
-    "Main": {
+    "mainService": {
       "uri": "/sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV/",
       "type": "OData",
       "settings": {
@@ -71,7 +71,7 @@
         }
       },
       "": {
-        "dataSource": "Main",
+        "dataSource": "mainService",
         "preload": true,
         "settings": {
           "metadataUrlParams": {

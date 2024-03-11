@@ -27,7 +27,7 @@ sap.ui.define(
     return BaseController.extend(
       "granterre.creazionemassiva.controller.ElabOrdini",
       {
-        onInit: function () {
+        onInit: async function () {
           debugger;
           this.setModel(models.odaDocModel(), "odaDocs");
           this.setModel(models.createFilterModel(), "filterModel");
@@ -37,6 +37,7 @@ sap.ui.define(
           this.progressInterval = 0
           this.progress = 0
           this.getRouter().getRoute("ElabOrdini").attachMatched(this._onRouteMatched, this);
+          let aModel = await this._getDbPromised("/OutputLogSet")
         },
         _onRouteMatched: async function (oEvent) {
           debugger;
