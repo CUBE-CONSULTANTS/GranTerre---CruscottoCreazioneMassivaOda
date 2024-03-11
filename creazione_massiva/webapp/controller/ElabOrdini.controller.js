@@ -40,9 +40,9 @@ sap.ui.define(
         },
         _onRouteMatched: async function (oEvent) {
           debugger;
-          this.getView().setBusy(true);
+          // this.getView().setBusy(true);
           //chiamata ultimo log
-          this.getView().setBusy(false);
+          // this.getView().setBusy(false);
         },
         // onFilterBarClear:function(){
         //   this.getModel("filterModel").setProperty("/","")

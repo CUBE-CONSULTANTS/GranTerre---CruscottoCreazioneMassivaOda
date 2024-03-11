@@ -1,4 +1,4 @@
-<mvc:View controllerName="granterre.creazionemassiva.controller.ElabORdini"
+<mvc:View controllerName="granterre.creazionemassiva.controller.ElabOrdini"
 xmlns="sap.m"
 xmlns:f="sap.f"
 xmlns:mvc="sap.ui.core.mvc"

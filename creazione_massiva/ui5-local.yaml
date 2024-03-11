@@ -29,6 +29,10 @@ server:
       afterMiddleware: compression
       configuration:
         ignoreCertError: false # If set to true, certificate errors will be ignored. E.g. self-signed certificates will be accepted
+        backend:
+          - path: /sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV
+            url: https://vhsgqds4ci.sap.granterre.it:44300
+            destination: S4_ODATA 
     - name: fiori-tools-preview
       afterMiddleware: fiori-tools-appreload
       configuration:

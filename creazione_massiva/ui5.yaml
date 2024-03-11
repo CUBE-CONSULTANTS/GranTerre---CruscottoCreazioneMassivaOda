@@ -15,6 +15,9 @@ server:
             - /resources
             - /test-resources
           url: https://ui5.sap.com
+        backend:
+          - path: /sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV
+            destination: S4_ODATA  
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
