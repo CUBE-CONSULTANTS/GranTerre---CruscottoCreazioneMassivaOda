@@ -34,6 +34,7 @@ sap.ui.define(
           this.checked;
           this.errors;
           this.file
+          this._csrfToken = "";
           this.selectedOda;
           this.progressInterval = 0
           this.progress = 0
@@ -179,8 +180,9 @@ sap.ui.define(
           link.click();
           document.body.removeChild(link);
         },
-        handleUpload: function(oEvent) {
+        handleUpload: async function(oEvent) {
           debugger
+          var oModel = this.getOwnerComponent().getModel();
           let oFileUploader = oEvent.getSource().getParent().getAggregation("content")[2];
           if (!oFileUploader.getValue()) {
               MessageBox.error("Allegare obbligatoriamente un File");
@@ -190,49 +192,81 @@ sap.ui.define(
             this.file = oEvent.getParameter("files")[0];
             oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
               name: "SLUG",
-              value: oFileUploader.getValue()
-          }));
-
+              value: this.file.name
+          }));          
+            oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
+              name: "Content-Type",
+              value: this.file.type
+          }));                   
+        
           oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
-              name: "x-csrf-token",
-              value: this.getOwnerComponent().getModel().getSecurityToken()
-          }));
-                       
-          }
+            name: "x-csrf-token",
+				    value: oModel.getSecurityToken()
+        }));
+      }
       },
-      handleUploadPress: function() {       
-          let self = this;
-          let fileName = this.file.name;
-          let fileType = this.file.type;
+      // getCfrToken: function(oEvent){
+      //   debugger
       
-          let reader = new FileReader();
-          reader.onload = function(event) {
-            let data = event.target.result;
-            self.byId("fileUploader").getHeaderParameters()
-            // let fileObject = {
-            //     "FileName": fileName,
-            //     // "Value": self.base64ToBlob(base64Data)
-            //     "Filetype":fileType,
-            //     "Filecontent": self.base64ToBlob(data)
-            // };
-    
-            self.getOwnerComponent().getModel().setUseBatch(false);
-            
-            self.getOwnerComponent().getModel().create("/UploadDataSet", {
-              FileName: fileName,
-              Filetype: fileType,
-              Filecontent: data
-          }, {
-              success: function(data) {
-                  MessageBox.success("Upload completato");
-              },
-              error: function(error) {
-                  MessageBox.error("Si è verificato un errore durante l'upload: " + error.message);
-              }
-          });
-          }
-          reader.readAsDataURL(this.file);
+      //   jQuery.ajax({
+      //       url: "/sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV/UploadDataSet",
+      //       headers: {
+      //           "X-CSRF-Token": "Fetch",
+      //           "X-Requested-With": "XMLHttpRequest",
+      //           "DataServiceVersion": "2.0"
+      //       },
+      //       type: "GET",
+      //       contentType: "application/json",
+      //       dataType: 'json',
+      //       success: function(data, textStatus, jqXHR) {
+      //         this._csrfToken  = jqXHR.getResponseHeader('x-csrf-token');
+      //       }
+      //   });
+      // },
+      handleUploadPress: async function(oEvent){
+        debugger
+        let oHeaders = this.byId("fileUploader").getHeaderParameters()
+        try {
+        let blob = await this.convertToBase64(this.file)
+
+          await this.uploadFile(this.file,oHeaders)
+        } catch (error) {
+            console.error('Si è verificato un errore durante la conversione del file:', error);
+        }
       },
+      // handleUploadPress: function() {       
+      //     let self = this;
+      //     let fileName = this.file.name;
+      //     let fileType = this.file.type;
+      
+      //     let reader = new FileReader();
+      //     reader.onload = function(event) {
+      //       let data = event.target.result;
+      //       self.byId("fileUploader").getHeaderParameters()
+      //       // let fileObject = {
+      //       //     "FileName": fileName,
+      //       //     // "Value": self.base64ToBlob(base64Data)
+      //       //     "Filetype":fileType,
+      //       //     "Filecontent": self.base64ToBlob(data)
+      //       // };
+    
+      //       self.getOwnerComponent().getModel().setUseBatch(false);
+            
+      //       self.getOwnerComponent().getModel().create("/UploadDataSet", {
+      //         FileName: fileName,
+      //         Filetype: fileType,
+      //         Filecontent: data
+      //     }, {
+      //         success: function(data) {
+      //             MessageBox.success("Upload completato");
+      //         },
+      //         error: function(error) {
+      //             MessageBox.error("Si è verificato un errore durante l'upload: " + error.message);
+      //         }
+      //     });
+      //     }
+      //     reader.readAsDataURL(this.file);
+      // },
         // handleUploadPress2: function (oEvent){
         // debugger  
         // var oFileUpload = 

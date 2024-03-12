@@ -50,11 +50,12 @@ sap.ui.define([
           }
         });
     },
-    uploadFile: function( oAttachment) {
+    uploadFile: function( oAttachment,oHeaders) {
       return new Promise((resolve, reject) => {
         let model = this.getOwnerComponent().getModel();
         model.create("/UploadDataSet", oAttachment,
         {
+          headers: oHeaders,
           success: function(res) {
             resolve(res);
           },
