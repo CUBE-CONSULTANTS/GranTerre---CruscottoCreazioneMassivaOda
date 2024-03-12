@@ -31,6 +31,7 @@ sap.ui.define([
     },     
     //POST
     _postExcel: function(entity,base64Data){
+      debugger
       let model = this.getOwnerComponent().getModel();
       let fileBlob = this._base64ToBlob(base64Data)
       let oFormData = new FormData();
@@ -48,7 +49,21 @@ sap.ui.define([
             oView.setBusy(false);
           }
         });
-    }
+    },
+    uploadFile: function( oAttachment) {
+      return new Promise((resolve, reject) => {
+        let model = this.getOwnerComponent().getModel();
+        model.create("/UploadDataSet", oAttachment,
+        {
+          success: function(res) {
+            resolve(res);
+          },
+          error: function(res) {
+            resolve(res);
+          }
+        })
+      })
+    },
     
   };
 });

@@ -11,8 +11,17 @@
   "main": "webapp/index.html",
   "dependencies": {},
   "devDependencies": {
+    "@babel/eslint-parser": "7.14.7",
+    "@sap-ux/eslint-plugin-fiori-tools": "^0.2.0",
+    "@sap/eslint-plugin-ui5-jsdocs": "2.0.5",
+    "@sap/ui5-builder-webide-extension": "^1.1.8",
+    "@sap/ux-ui5-tooling": "1",
+    "@sapui5/ts-types": "~1.120.0",
     "@ui5/cli": "^3.0.0",
-    "@sap/ux-ui5-tooling": "1"
+    "eslint": "7.32.0",
+    "eslint-plugin-fiori-custom": "2.6.7",
+    "mbt": "^1.2.18",
+    "ui5-task-zipper": "^0.5.0"
   },
   "scripts": {
     "start": "fiori run --open \"test/flpSandbox.html?sap-ui-xx-viewCache=false#granterrecreazionemassiva-display\"",
@@ -21,9 +30,18 @@
     "deploy": "fiori verify",
     "deploy-config": "fiori add deploy-config",
     "start-noflp": "fiori run --open \"index.html?sap-ui-xx-viewCache=false\"",
+    "build:cf": "ui5 build preload --clean-dest --config ui5-deploy.yaml --include-task=generateCachebusterInfo",
+    "build:mta": "rimraf resources mta_archives && mbt build",
     "start-variants-management": "fiori run --open \"preview.html?sap-ui-xx-viewCache=false&fiori-tools-rta-mode=true&sap-ui-rta-skip-flex-validation=true#preview-app\"",
     "unit-tests": "fiori run --open 'test/unit/unitTests.qunit.html'",
     "int-tests": "fiori run --open 'test/integration/opaTests.qunit.html'"
   },
-  "sapuxLayer": "CUSTOMER_BASE"
+  "sapuxLayer": "CUSTOMER_BASE",
+  "ui5": {
+    "dependencies": [
+        "@sap/ui5-builder-webide-extension",
+        "ui5-task-zipper",
+        "mbt"
+    ]
+  }
 }

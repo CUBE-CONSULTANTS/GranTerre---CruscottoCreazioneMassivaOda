@@ -28,8 +28,9 @@
       style="Emphasized"
       icon="sap-icon://search"
       iconOnly="true"              
-      uploadUrl="upload/"
-      fileType="xlsx"        
+      fileType="xlsx"
+      change="handleUpload"
+              
       />
       <Button
       text="{i18n>Carica}"

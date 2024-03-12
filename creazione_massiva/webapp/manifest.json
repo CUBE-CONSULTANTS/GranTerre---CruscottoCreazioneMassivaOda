@@ -14,8 +14,19 @@
       "id": "@sap/generator-fiori:basic",
       "version": "1.12.2",
       "toolsId": "099d8f89-03e5-4e54-b851-85abf0745365"
-    }
-  },
+    },
+    "crossNavigation": {
+      "inbounds": {
+          "CreazioneMassiva": {
+              "signature": {
+                  "parameters": {},
+                  "additionalParameters": "allowed"
+              },
+              "semanticObject": "CreazioneMassiva",
+              "action": "display"
+              }
+          }
+    },
   "dataSources": {
     "mainService": {
       "uri": "/sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV/",
@@ -25,7 +36,8 @@
         "localUri": "localService/metadata.xml",
         "odataVersion": "2.0"
       }
-    }    
+    }      
+    }
   },
   "sap.ui": {
     "fullWidth": false,
@@ -150,5 +162,9 @@
       "async": true,
       "id": "App"
     }
+  },
+  "sap.cloud": {
+      "public": true,
+      "service": "granterre.creazionemassiva"
   }
 }

@@ -40,30 +40,48 @@ sap.ui.define(
         setModel: function (oModel, sName) {
           return this.getView().setModel(oModel, sName);
         },
-        _getDbPromised: function (Entity, Property, aFilters, aSorters, Expands) {
-          let model = this.getOwnerComponent().getModel();
-          let urlParameters = {};
-          if (Expands && Array.isArray(Expands) && Expands.length > 0) {
-            urlParameters.$expand = Expands.join(",");
-          }
-          return new Promise((resolve, reject) => {
-            model.read(Entity, {
-              filters: aFilters,
-              sorters: aSorters,
-              urlParameters: urlParameters,
-              success: (odata) => {
-                let sProp = Property;
-                resolve({
-                  [sProp]: odata.results,
-                  success: true
-                });
-              },
-              error: (err) => {
-                reject({ success: false, error: err })
-              },
-            });
-          });
-        },     
+        // _getDbPromised: function (Entity, Property, aFilters, aSorters, Expands) {
+        //   let model = this.getOwnerComponent().getModel();
+        //   let urlParameters = {};
+        //   if (Expands && Array.isArray(Expands) && Expands.length > 0) {
+        //     urlParameters.$expand = Expands.join(",");
+        //   }
+        //   return new Promise((resolve, reject) => {
+        //     model.read(Entity, {
+        //       filters: aFilters,
+        //       sorters: aSorters,
+        //       urlParameters: urlParameters,
+        //       success: (odata) => {
+        //         let sProp = Property;
+        //         resolve({
+        //           [sProp]: odata.results,
+        //           success: true
+        //         });
+        //       },
+        //       error: (err) => {
+        //         reject({ success: false, error: err })
+        //       },
+        //     });
+        //   });
+        // },     
+        // _postExcel: function(entity,fileName,base64Data){
+        //   return new Promise(function (resolve, reject) {
+        //   debugger
+        //   let model = this.getOwnerComponent().getModel();
+        //   let fileBlob = this.base64ToBlob(base64Data)
+        //   let formData = new FormData();
+        //   let fileObject = new File([fileBlob], fileName);
+        //   formData.append("file", fileObject);
+        //   model.create(entity, formData, {
+        //       success: function(data) {
+        //         resolve(data)
+        //       },
+        //       error: function(error) {
+        //         reject(error)
+        //       }
+        //     });
+        //   }.bind(this));
+        // },
         onOpenDialog: function (dialName, fragmName, self, ...oModel) {
           let oView = this.getView();
           dialName = self.dialName;
@@ -168,16 +186,22 @@ sap.ui.define(
           oEvent.getSource().getParent().close();
         },
         base64ToBlob: function (base64) {
-          base64 = base64.replaceAll("-", "+").replaceAll("_", "/");
-          const binaryString = window.atob(base64);
-          const len = binaryString.length;
-          const bytes = new Uint8Array(len);
-          for (let i = 0; i < len; ++i) {
-            bytes[i] = binaryString.charCodeAt(i);
+          debugger;
+          // Rimuovi eventuali caratteri non validi dalla stringa Base64
+          base64 = base64.replace(/[^A-Za-z0-9+/]/g, '');
+
+          // Decodifica la stringa Base64
+          var binaryString = window.atob(base64);
+
+          // Crea un array di byte a 8-bit senza segno
+          var len = binaryString.length;
+          var bytes = new Uint8Array(len);
+          for (var i = 0; i < len; ++i) {
+              bytes[i] = binaryString.charCodeAt(i);
           }
-          return new Blob([bytes], {
-            type: "application/pdf"
-          });
+
+          // Restituisci il Blob creato dall'array di byte
+          return new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
         },
         convertToBase64: function (file) {
           debugger
