@@ -238,9 +238,9 @@ sap.ui.define(
           MessageBox.error("Allegare obbligatoriamente un File");
         }else{
           try {
-            // await API.uploadFile(this.file,oHeaders)
-            let blob = await this.getBase64(this.file)
-            await API.getUploadDataSet(this.getOwnerComponent().getModel(),"/UploadDataSet", blob)
+            await API.uploadFile(this.file,oHeaders)
+            // let blob = await this.getBase64(this.file)
+            // await API.getUploadDataSet(this.getOwnerComponent().getModel(),"/UploadDataSet", blob)
             MessageBox.success("Upload completato");
           } catch (error) {
             MessageBox.error('Si è verificato un errore durante la conversione del file');
