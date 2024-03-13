@@ -53,9 +53,29 @@ sap.ui.define([
           });
       });
     },
-    
-    // get Upload Error Log function
-    
+    //get file upload 
+    getUploadDataSet: function (oModel,Entity,file){
+      debugger
+      let filters = [];
+      filters.push(new sap.ui.model.Filter("FileName", sap.ui.model.FilterOperator.EQ, file));
+      return new Promise((resolve, reject) => {
+        oModel.read(Entity, {
+            filters: filters,
+            success: (odata) => {
+                resolve({
+                    "results": odata.results,
+                    success: true
+                });
+            },
+            error: (err) => {
+                reject({
+                    success: false,
+                    error: err
+                });
+            },
+        });
+      });
+    },
 
     //if errors ->log errori a video 
 
@@ -105,7 +125,7 @@ sap.ui.define([
       });
     },
     //potenziale get per fine update tabelle dopo inserimento ordine
-    
+
     // potenziale get ultimo log
   };
 });
