@@ -34,39 +34,44 @@ sap.ui.define(
           this.checked;
           this.errors;
           this.file
-          this._csrfToken = "";
           this.selectedOda;
           this.progressInterval = 0
           this.progress = 0
           this.getRouter().getRoute("ElabOrdini").attachMatched(this._onRouteMatched, this);
         },
+        // eventulae chiamata ultimo log
         _onRouteMatched: async function (oEvent) {
           debugger;
-          // this.getView().setBusy(true);
-          //chiamata ultimo log
-          // this.getView().setBusy(false);
+
         },
-        // onFilterBarClear:function(){
-        //   this.getModel("filterModel").setProperty("/","")
-        // },
+
+        //check simulation
         onSimulazioneCheck: function (oEvent) {
           debugger;
           this.checked = oEvent.getParameter("selected");
+          if(this.checked){
+            this.checked = "X"
+          }else{
+            this.checked =""
+          }
           this.byId("tableOda").setVisible(false);
           this.getModel("filterModel").setProperty("/simulazione",this.checked);
         },
-        onOdaSelect: function (oEvent) {
-          //genera Ordine + check progresso
+         //genera Ordine
+        onOdaSelect: function (oEvent) {         
           debugger;
-          let flag = "1";
-          this.onOpenProgressDialog(flag)
+          let flag = "process orders";
+          // this.onOpenProgressDialog(flag)
+          this.showResultsInTable(oEvent, flag)
         },
-        onOdaMerceSelect: function (oEvent) {
-          //genera Ordine + check progresso e documento
+        //genera Ordine + documento
+        onOdaMerceSelect: function (oEvent) {     
           debugger;
-          let flag = "2";
-          this.onOpenProgressDialog(flag)
+          let flag = "process orders and matdoc";
+          // this.onOpenProgressDialog(flag)
+          this.showResultsInTable(oEvent, flag)
         },
+        //eventuale gestione asincrona
         onOpenProgressDialog: function(flag){
           let that = this
           this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog"})
@@ -123,42 +128,65 @@ sap.ui.define(
           dialog.close()
           this.showResultsInTable(flag);
         },
-        showResultsInTable: function (flag) {
-          if (flag === 2) {
-            let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
-            dataToCheck.forEach((element) => {
-              if (element.color === "red") {
-                this.errors = true;
-              }
-            });
-            if (this.checked) {
-              if (this.errors) {
-                MessageToast.show("Sono presenti Errori in fase di Simulazione");
-              }
-            } else {
-              this.onSaveOda();
-            }
-            let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content");
-            let header = table.getHeaderText();
-            table.setHeaderText((header += " e Documento Materiale"));
-            table.setVisible(true);
-          } else {
-            let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
-            dataToCheck.forEach((element) => {
-              if (element.color === "red") {
-                this.errors = true;
-              }
-            });
-            if (this.checked) {
-              if (this.errors) {
-                MessageToast.show("Sono presenti Errori in fase di Simulazione");
-              }
-            } else {
-              this.onSaveOda();
-            }
-            this.byId("tableOda").setVisible(true);
+        //fine gestione asincrona
+
+        //get tabella con o senza errori
+        showResultsInTable: async function (oEvent, flag) {
+          debugger
+          let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content")
+          let header = oEvent.getSource().getParent().getParent().getParent().getAggregation("content").getAggregation("extension")[0].getAggregation("content")[0].getProperty("text")
+          if( flag === "process orders and matdoc"){
+            header += " e Documento Materiale";
+          }
+          try {
+            this.showBusy(0)
+            let output = await API.getOutputLogSet(this.getOwnerComponent().getModel(),"/OutputLogSet",this.checked, flag)
+            this.hideBusy(0)
+            table.setVisible(true)
+          } catch (error) {
+            console.log(error)
+          }
+          // if (flag === 2) {
+          //   let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
+          //   dataToCheck.forEach((element) => {
+          //     if (element.color === "red") {
+          //       this.errors = true;
+          //     }
+          //   });
+          //   if (this.checked) {
+          //     if (this.errors) {
+          //       MessageToast.show("Sono presenti Errori in fase di Simulazione");
+          //     }
+          //   } else {
+          //     this.onSaveOda();
+          //   }
+          //   let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content");
+          //   let header = table.getHeaderText();
+          //   table.setHeaderText((header += " e Documento Materiale"));
+          //   table.setVisible(true);
+          // } else {
+          //   let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
+          //   dataToCheck.forEach((element) => {
+          //     if (element.color === "red") {
+          //       this.errors = true;
+          //     }
+          //   });
+          //   if (this.checked) {
+          //     if (this.errors) {
+          //       MessageToast.show("Sono presenti Errori in fase di Simulazione");
+          //     }
+          //   } else {
+          //     this.onSaveOda();
+          //   }
+          //   this.byId("tableOda").setVisible(true);
+          // }
+        },
+        onSaveOda: function () {
+          if (this.errors) {
+            MessageBox.error("Sono presenti Errori, Elaborazione non eseguita");
           }
         },
+        //visualizzazione dialog errori x riga
         onIconPress: function (oEvent) {
           debugger;
           let errors = oEvent.getSource().getBindingContext("odaDocs").getObject().errors;
@@ -170,6 +198,7 @@ sap.ui.define(
             // this.pDialog.then((oDialog)=>oDialog.open())
           }
         },
+        //gestione download/upload tracciato
         DownloadExcel: function (oEvent) {
           debugger;
           let sExcelFilePath = "public/Tracciato.xlsx";
@@ -202,7 +231,6 @@ sap.ui.define(
       
       },
       handleUploadPress: async function(oEvent){
-
         let oFileUploader = this.byId("fileUploader")
         let oHeaders = oFileUploader.getHeaderParameters()
 
@@ -213,10 +241,14 @@ sap.ui.define(
             await API.uploadFile(this.file,oHeaders)
             MessageBox.success("Upload completato");
           } catch (error) {
-              MessageBox.error('Si è verificato un errore durante la conversione del file');
+            MessageBox.error('Si è verificato un errore durante la conversione del file');
           }
-        }      
-        },   
+          oFileUploader.setValue()
+          }      
+        }, 
+        //fine gestione download/upload tracciato  
+
+        // selezione degli ordini per cui ripetere elaborazione doc materiale
         onSelectOda: function (oEvent) {
           debugger;
           let selectedRows = oEvent.getSource().getSelectedIndices();
@@ -226,11 +258,8 @@ sap.ui.define(
             this.selectedOda.push(oDa);
           });
         },
-        onSaveOda: function () {
-          if (this.errors) {
-            MessageBox.error("Sono presenti Errori, Elaborazione non eseguita");
-          }
-        },
+
+        //navigation
         NavToLaunch: function () {
           // this.onFilterBarClear()
           this.byId("tableOda").setVisible(false);

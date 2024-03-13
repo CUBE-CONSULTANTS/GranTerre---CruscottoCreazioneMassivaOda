@@ -4,15 +4,14 @@ sap.ui.define([
 ], function (Filter, FilterOperator) {
   "use strict";
   return {
-    // Get
-    _getDbPromised: function (Entity, Property, aFilters, aSorters, Expands) {
-      let model = this.getOwnerComponent().getModel();
+    // Get generale
+    _getDbPromised: function (oModel,Entity, Property, aFilters, aSorters, Expands) {     
       let urlParameters = {};
       if (Expands && Array.isArray(Expands) && Expands.length > 0) {
         urlParameters.$expand = Expands.join(",");
       }
       return new Promise((resolve, reject) => {
-        model.read(Entity, {
+        oModel.read(Entity, {
           filters: aFilters,
           sorters: aSorters,
           urlParameters: urlParameters,
@@ -29,8 +28,8 @@ sap.ui.define([
         });
       });
     },     
-    //POST
-    uploadFile: function(file, oHeaders) {
+     //POST upload
+     uploadFile: function(file, oHeaders) {
       debugger;
       return new Promise((resolve, reject) => {         
           jQuery.ajax({
@@ -55,5 +54,58 @@ sap.ui.define([
       });
     },
     
+    // get Upload Error Log function
+    
+
+    //if errors ->log errori a video 
+
+    // if upload errol log === status ok --->
+    // get staging table function: 
+    // output tabella dati inseriti da utente, status blank
+
+
+    //
+
+    // async get Output: action (simulate/oda/oda + mat)
+    getOutputLogSet: function(oModel,Entity,check,button){
+      debugger
+      let filters = [];
+
+      if (button === "process orders" && check === 'X') {
+        filters.push(new sap.ui.model.Filter("OrderOnly", sap.ui.model.FilterOperator.EQ, 'X'));
+        filters.push(new sap.ui.model.Filter("Simulate", sap.ui.model.FilterOperator.EQ, 'X'));
+      } else if (button === "process orders and matdoc" && check === 'X') {
+          filters.push(new sap.ui.model.Filter("Ordermatdoc", sap.ui.model.FilterOperator.EQ, 'X'));
+          filters.push(new sap.ui.model.Filter("Simulate", sap.ui.model.FilterOperator.EQ, 'X'));
+      } else if (button === "process orders") {
+          filters.push(new sap.ui.model.Filter("OrderOnly", sap.ui.model.FilterOperator.EQ, 'X'));
+      } else if (button === "process orders and matdoc") {
+          filters.push(new sap.ui.model.Filter("Ordermatdoc", sap.ui.model.FilterOperator.EQ, 'X'));
+      }
+      let urlParameters = {
+        "$expand": "OutputToBapiret"
+      };
+      return new Promise((resolve, reject) => {
+        oModel.read(Entity, {
+            filters: filters,
+            urlParameters: urlParameters,
+            success: (odata) => {
+                resolve({
+                    "results": odata.results,
+                    success: true
+                });
+            },
+            error: (err) => {
+                reject({
+                    success: false,
+                    error: err
+                });
+            },
+        });
+      });
+    },
+    //potenziale get per fine update tabelle dopo inserimento ordine
+    
+    // potenziale get ultimo log
   };
 });

@@ -72,17 +72,6 @@ sap.ui.define(
           return this.getOwnerComponent().getModel("i18n").getResourceBundle();
         },
 
-        /**
-         * Method for navigation to specific view
-         * @public
-         * @param {string} psTarget Parameter containing the string for the target navigation
-         * @param {Object.<string, string>} pmParameters? Parameters for navigation
-         * @param {boolean} pbReplace? Defines if the hash should be replaced (no browser history entry) or set (browser history entry)
-         */
-        navTo: function (psTarget, pmParameters, pbReplace) {
-          this.getRouter().navTo(psTarget, pmParameters, pbReplace);
-        },
-
         getRouter: function () {
           return UIComponent.getRouterFor(this);
         },
@@ -146,6 +135,14 @@ sap.ui.define(
         onClose: function (oEvent) {
           oEvent.getSource().getParent().close();
         },        
+         showBusy: function(delay) {
+          // sap.ui.core.BusyIndicator.show(delay || 0);
+          sap.ui.core.BusyIndicator.show(delay);
+        },
+        hideBusy: function(delay) {
+          // sap.ui.core.BusyIndicator.hide(delay || 0);
+          sap.ui.core.BusyIndicator.hide(delay);
+        },
         getBase64: function (file) {
           debugger
           return new Promise((resolve, reject) => {

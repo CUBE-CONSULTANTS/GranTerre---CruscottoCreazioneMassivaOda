@@ -8,7 +8,6 @@
         id="tableOda"
         rows="{odaDocs>/dati}"    
         alternateRowColors="true"
-        selectionMode="MultiToggle"
         rowSelectionChange="onSelectOda"
         visible="false"
         class="sapUiTinyMarginTop"
