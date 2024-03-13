@@ -180,15 +180,11 @@ sap.ui.define(
           link.click();
           document.body.removeChild(link);
         },
-        handleUpload: async function(oEvent) {
+        handleChangeFile: async function(oEvent) {
           debugger
           var oModel = this.getOwnerComponent().getModel();
           let oFileUploader = oEvent.getSource().getParent().getAggregation("content")[2];
-          if (!oFileUploader.getValue()) {
-              MessageBox.error("Allegare obbligatoriamente un File");
-          } else if (oFileUploader.getFileType()[0] !== "xlsx") {
-              MessageBox.error("Allegare File con estensione .xlsx");
-          } else {
+
             this.file = oEvent.getParameter("files")[0];
             oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
               name: "SLUG",
@@ -203,145 +199,24 @@ sap.ui.define(
             name: "x-csrf-token",
 				    value: oModel.getSecurityToken()
         }));
-      }
-      },
-      // getCfrToken: function(oEvent){
-      //   debugger
       
-      //   jQuery.ajax({
-      //       url: "/sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV/UploadDataSet",
-      //       headers: {
-      //           "X-CSRF-Token": "Fetch",
-      //           "X-Requested-With": "XMLHttpRequest",
-      //           "DataServiceVersion": "2.0"
-      //       },
-      //       type: "GET",
-      //       contentType: "application/json",
-      //       dataType: 'json',
-      //       success: function(data, textStatus, jqXHR) {
-      //         this._csrfToken  = jqXHR.getResponseHeader('x-csrf-token');
-      //       }
-      //   });
-      // },
+      },
       handleUploadPress: async function(oEvent){
-        debugger
-        let oHeaders = this.byId("fileUploader").getHeaderParameters()
-        try {
-        let blob = await this.convertToBase64(this.file)
 
-          await this.uploadFile(this.file,oHeaders)
-        } catch (error) {
-            console.error('Si è verificato un errore durante la conversione del file:', error);
-        }
-      },
-      // handleUploadPress: function() {       
-      //     let self = this;
-      //     let fileName = this.file.name;
-      //     let fileType = this.file.type;
-      
-      //     let reader = new FileReader();
-      //     reader.onload = function(event) {
-      //       let data = event.target.result;
-      //       self.byId("fileUploader").getHeaderParameters()
-      //       // let fileObject = {
-      //       //     "FileName": fileName,
-      //       //     // "Value": self.base64ToBlob(base64Data)
-      //       //     "Filetype":fileType,
-      //       //     "Filecontent": self.base64ToBlob(data)
-      //       // };
-    
-      //       self.getOwnerComponent().getModel().setUseBatch(false);
-            
-      //       self.getOwnerComponent().getModel().create("/UploadDataSet", {
-      //         FileName: fileName,
-      //         Filetype: fileType,
-      //         Filecontent: data
-      //     }, {
-      //         success: function(data) {
-      //             MessageBox.success("Upload completato");
-      //         },
-      //         error: function(error) {
-      //             MessageBox.error("Si è verificato un errore durante l'upload: " + error.message);
-      //         }
-      //     });
-      //     }
-      //     reader.readAsDataURL(this.file);
-      // },
-        // handleUploadPress2: function (oEvent){
-        // debugger  
-        // var oFileUpload = 
-        // this.getView().byId("fileUploader")
-        // var domRef = oFileUpload.getDomRef();
-        // var file = domRef.firstElementChild.firstElementChild.childNodes[1].firstChild;
-        // var blobfile = this.convertToBase64(file)
-        // var that = this;
-        // this.fileName = oFileUpload.getValue()
-        // this.json_object=null
-             
-        //        var reader = new FileReader();
-        //          reader.onload = function(e) {
-        //         var data = e.target.result;
-        //         var workbook = XLSX.read(data, {
-        //           type: 'binary'
-        //         });
-        //         console.log(workbook)
+        let oFileUploader = this.byId("fileUploader")
+        let oHeaders = oFileUploader.getHeaderParameters()
 
-        //         workbook.SheetNames.forEach(function(sheetName) {
-                
-        //           var XL_row_object = 
-        //           XLSX.utils.sheet_to_row_object_array(
-        //           workbook.Sheets[sheetName]);
-        //           if(XL_row_object.length!==0){
-
-        //         that.json_object = JSON.stringify(XL_row_object);
-                  
-        //         }
-                  
-        //         })
-        //           that.updateFile(that.fileName, that.fileType,
-        //           that.json_object);
-
-        //       };
-
-        //       reader.onerror = function(ex) {
-        //         console.log(ex);
-        //       };
-
-        //       reader.readAsBinaryString(blobfile);
-
-        //    },
-        // handleUploadPress:  function (oEvent) {
-        //   debugger;
-        //   let oView = this.getView();
-        //   let self = this;
-        //   let oFileUploader = oEvent.getSource().getParent().getAggregation("content")[2];
-        //   if (!oFileUploader.getValue()) {
-        //     MessageBox.error("Allegare obbligatoriamente un File");
-        //   } else if (oFileUploader.getFileType()[0] !== "xlsx") {
-        //     MessageBox.error("Allegare File con estensione .xlsx");
-        //   } else {
-        //     oFileUploader.checkFileReadable().then(
-        //        function () {
-        //         oView.setBusy(true);
-        //         var file = oFileUploader.getFocusDomRef().files[0];
-        //         self.convertToBase64(file).then(async function (base64Data) {
-        //             try {
-        //                 let aModel = await self._postExcel("/UploadDataSet", oFileUploader.getValue(), base64Data);
-        //                 MessageBox.success("Upload Completato");
-        //                 oView.setBusy(false);
-        //             } catch (error) {
-        //                 MessageBox.error("Si è verificato un errore durante l'upload: " + error.message);
-        //                 oView.setBusy(false);
-        //             } finally {
-        //                 oFileUploader.clear();
-        //             }
-        //         }).catch(function (error) {
-        //             MessageToast.show("Impossibile leggere il file. Potrebbe essere cambiato.");
-        //             oView.setBusy(false);
-        //         });
-        //     });
-        //   }
-        // },
+        if(!oFileUploader.getValue()){
+          MessageBox.error("Allegare obbligatoriamente un File");
+        }else{
+          try {
+            await API.uploadFile(this.file,oHeaders)
+            MessageBox.success("Upload completato");
+          } catch (error) {
+              MessageBox.error('Si è verificato un errore durante la conversione del file');
+          }
+        }      
+        },   
         onSelectOda: function (oEvent) {
           debugger;
           let selectedRows = oEvent.getSource().getSelectedIndices();

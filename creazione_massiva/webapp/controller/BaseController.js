@@ -6,14 +6,17 @@ sap.ui.define(
     "sap/ui/core/Fragment",
     "sap/ui/export/Spreadsheet",
 	  "sap/ui/model/Sorter",
-    "granterre/creazionemassiva/model/formatter"
+    "granterre/creazionemassiva/model/formatter",
+	"sap/m/MessageBox"
   ],
   function (Controller,
 	History,
 	UIComponent,
 	Fragment,
 	Spreadsheet,
-	Sorter, formatter  ) {
+	Sorter,
+	formatter,
+	MessageBox  ) {
     "use strict";
 
     return Controller.extend(
@@ -40,48 +43,6 @@ sap.ui.define(
         setModel: function (oModel, sName) {
           return this.getView().setModel(oModel, sName);
         },
-        // _getDbPromised: function (Entity, Property, aFilters, aSorters, Expands) {
-        //   let model = this.getOwnerComponent().getModel();
-        //   let urlParameters = {};
-        //   if (Expands && Array.isArray(Expands) && Expands.length > 0) {
-        //     urlParameters.$expand = Expands.join(",");
-        //   }
-        //   return new Promise((resolve, reject) => {
-        //     model.read(Entity, {
-        //       filters: aFilters,
-        //       sorters: aSorters,
-        //       urlParameters: urlParameters,
-        //       success: (odata) => {
-        //         let sProp = Property;
-        //         resolve({
-        //           [sProp]: odata.results,
-        //           success: true
-        //         });
-        //       },
-        //       error: (err) => {
-        //         reject({ success: false, error: err })
-        //       },
-        //     });
-        //   });
-        // }, 
-        // _postExcel: function(entity,fileName,base64Data){
-        //   return new Promise(function (resolve, reject) {
-        //   debugger
-        //   let model = this.getOwnerComponent().getModel();
-        //   let fileBlob = this.base64ToBlob(base64Data)
-        //   let formData = new FormData();
-        //   let fileObject = new File([fileBlob], fileName);
-        //   formData.append("file", fileObject);
-        //   model.create(entity, formData, {
-        //       success: function(data) {
-        //         resolve(data)
-        //       },
-        //       error: function(error) {
-        //         reject(error)
-        //       }
-        //     });
-        //   }.bind(this));
-        // },
         onOpenDialog: function (dialName, fragmName, self, ...oModel) {
           let oView = this.getView();
           dialName = self.dialName;
@@ -184,54 +145,8 @@ sap.ui.define(
         },
         onClose: function (oEvent) {
           oEvent.getSource().getParent().close();
-        },
-        // base64ToBlob: function (base64) {
-        //   debugger;
-        //   // Rimuovi eventuali caratteri non validi dalla stringa Base64
-        //   base64 = base64.replace(/[^A-Za-z0-9+/]/g, '');
-
-        //   // Decodifica la stringa Base64
-        //   var binaryString = window.atob(base64);
-
-        //   // Crea un array di byte a 8-bit senza segno
-        //   var len = binaryString.length;
-        //   var bytes = new Uint8Array(len);
-        //   for (var i = 0; i < len; ++i) {
-        //       bytes[i] = binaryString.charCodeAt(i);
-        //   }
-
-        //   // Restituisci il Blob creato dall'array di byte
-        //   return new Blob([bytes], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        // },
-        uploadFile: function(blob, oHeaders) {
-          debugger;
-          return new Promise((resolve, reject) => {
-              let formData = new FormData();
-              formData.append("Filecontent", blob);
-      
-              jQuery.ajax({
-                  type: 'POST',
-                  url: '/sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV/UploadDataSet',
-                  slug : oHeaders[0].getValue(), 
-                  
-                  processData: false,
-                  contentType: oHeaders[1].getValue(),
-                  data: blob,
-                  success: function(res) {
-                      // La richiesta è stata completata con successo
-                      console.log("Upload completato", res);
-                      resolve(res);
-                  },
-                  error: function(xhr, status, error) {
-                      // Si è verificato un errore durante la richiesta
-                      console.error("Si è verificato un errore durante l'upload:", error);
-                      reject(error);
-                  }
-              });
-          });
-        },
-
-        convertToBase64: function (file) {
+        },        
+        getBase64: function (file) {
           debugger
           return new Promise((resolve, reject) => {
             let reader = new FileReader();

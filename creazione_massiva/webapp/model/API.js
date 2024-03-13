@@ -30,40 +30,29 @@ sap.ui.define([
       });
     },     
     //POST
-    _postExcel: function(entity,base64Data){
-      debugger
-      let model = this.getOwnerComponent().getModel();
-      let fileBlob = this._base64ToBlob(base64Data)
-      let oFormData = new FormData();
-      oFormData.append("file", fileBlob)
-      model.create(entity, oFormData, {
-        headers: {
-          'Content-type': 'multipart/form-data'
-        },
-          success: function(data) {
-            MessageBox.success("Upload Completato");
-            oView.setBusy(false);
-          },
-          error: function(error) {
-            MessageBox.error("Si è verificato un errore durante l'upload: " + error);
-            oView.setBusy(false);
-          }
-        });
-    },
-    uploadFile: function( oAttachment,oHeaders) {
-      return new Promise((resolve, reject) => {
-        let model = this.getOwnerComponent().getModel();
-        model.create("/UploadDataSet", oAttachment,
-        {
-          headers: oHeaders,
-          success: function(res) {
-            resolve(res);
-          },
-          error: function(res) {
-            resolve(res);
-          }
-        })
-      })
+    uploadFile: function(file, oHeaders) {
+      debugger;
+      return new Promise((resolve, reject) => {         
+          jQuery.ajax({
+              type: 'POST',
+              url: '/sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV/UploadDataSet',
+              headers: {
+                "SLUG": oHeaders[0].getValue(), 
+                "x-csrf-token": oHeaders[2].getValue()
+              },
+              processData : false,
+              contentType: oHeaders[1].getValue(),
+              data:file,
+              success: function(res) {
+                console.log("upload Completato");
+                  resolve(res);
+              },
+              error: function(error) {
+                  console.log("Si è verificato un errore durante l'upload:", error);
+                  reject(error);
+              }
+          });
+      });
     },
     
   };
