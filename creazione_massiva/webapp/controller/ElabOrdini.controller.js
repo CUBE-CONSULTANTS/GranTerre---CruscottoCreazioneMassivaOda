@@ -246,14 +246,20 @@ sap.ui.define(
             }
           } catch (error) {
             MessageBox.error('Si è verificato un errore durante la conversione del file');
+            this.hideBusy(0)
           }
           oFileUploader.setValue()
           }      
         }, 
         getErrorlog: async function(){
+          let oModel = new JSONModel()
           try {
             let errorLog = await API.getEntity(this.getOwnerComponent().getModel(),"/UploadOutputSet")
-            
+            oModel.setData({
+              results: errorLog
+            })
+            this.setModel(oModel, "errorUploadModel")
+            this.onOpenDialog("nDialog","granterre.creazionemassiva.view.Fragments.ErrorTable",this,"errorUploadModel");      
           }catch (error) {
             MessageBox.error("Si è verificato un errore durante l'operazione");
           }

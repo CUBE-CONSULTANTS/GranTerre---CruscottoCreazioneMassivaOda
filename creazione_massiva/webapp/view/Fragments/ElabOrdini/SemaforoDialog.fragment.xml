@@ -3,7 +3,7 @@
     xmlns:f="sap.f"
     xmlns="sap.m"
 >
-<Dialog afterClose="" title="{i18n>ListaErrori}" contentWidth="600px">
+<Dialog title="{i18n>ListaErrori}" contentWidth="600px">
 <Table items="{errorModel>/}">
   <columns>
     <Column >

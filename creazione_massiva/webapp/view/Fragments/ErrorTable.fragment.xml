@@ -2,4 +2,43 @@
 	xmlns="sap.m"
 	xmlns:c="sap.ui.core"
 >
+<Dialog title="{i18n>ListaErrori}" stretch="true">
+<Table
+	
+	items="{errorUploadModel>/results}"
+>
+	<columns>
+        <Column>
+            <Text text="LineItem"/>
+        </Column>
+        <Column>
+            <Text text="Type"/>
+        </Column>
+        <Column>
+            <Text text="ZzerrorMsg"/>
+        </Column>
+        <Column>
+            <Text text="Zzfieldlabel"/>
+        </Column>
+        <Column>
+            <Text text="Zzpart"/>
+        </Column>
+        <Column>
+            <Text text="Zzprogressive"/>
+        </Column>
+    </columns>
+    <items>
+        <ColumnListItem>
+            <cells>
+                <Text text="{LineItem}"/>
+                <Text text="{Type}"/>
+                <Text text="{ZzerrorMsg}"/>
+                <Text text="{Zzfieldlabel}"/>
+                <Text text="{Zzpart}"/>
+                <Text text="{Zzprogressive}"/>
+            </cells>
+        </ColumnListItem>
+    </items>
+</Table>
+</Dialog>
 </c:FragmentDefinition>
