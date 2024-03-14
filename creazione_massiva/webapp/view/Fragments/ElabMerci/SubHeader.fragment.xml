@@ -5,37 +5,32 @@
 >
   <f:DynamicPageHeader pinnable="false">
     <OverflowToolbar
-        width="100%"
-        height="100%"
-        style="Clear"
-       >
-       <Label text="Ordini d'Acquisto:"
+      width="100%"
+      height="100%"
+      style="Clear"
+    >
+      <Label text="Ordini d'Acquisto:" />
+      <MultiInput
+        width="400px"
+        id="idMultiInput"
+      >
+        <tokens>
+        </tokens>
+      </MultiInput>
+      <ToolbarSpacer />
+      <CheckBox
+        text="{i18n>Simulazione}"
+        class="checkText"
+        select="onSimulazioneCheck"
       />
-          
-       <MultiComboBox
-              width="500px"
-              showSelectAll="true"
-              id="odaComboBox"      
-              change="onChangeOda"
-              items="{
-                path: 'odaModel>/'
-              }"
-            >
-              <core:Item
-                key="{odaModel>oda}"
-                text="{odaModel>oda}"
-              />
-            </MultiComboBox>
-            <ToolbarSpacer />
-            <ToolbarSpacer />
-            
-            <CheckBox  
-            text="{i18n>Simulazione}"      
-            class="checkText"     
-            select="onSimulazioneCheck"
-            />
-            <ToolbarSpacer/>
-            <Button width="100px" class="button" press="btnGoSearch" type="Emphasized"  text="{i18n>Elabora}"/>  
+      <ToolbarSpacer />
+      <Button
+        width="100px"
+        class="button"
+        press="btnGoSearch"
+        type="Emphasized"
+        text="{i18n>Elabora}"
+      />
     </OverflowToolbar>
     <!-- <fb:FilterBar
       id="filterbar"

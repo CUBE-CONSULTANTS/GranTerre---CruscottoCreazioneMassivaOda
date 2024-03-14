@@ -33,22 +33,23 @@ sap.ui.define([
           _onRouteMatched: async function(oEvent) {
             debugger
             this.showBusy(0)
+            let aTokens = [];
             let odaModel = new JSONModel()
             let odaData = {};
             let oda = oEvent.getParameter("arguments").selected;
             if(oda){
               let selectedOda = JSON.parse(oda)             
               selectedOda.forEach(function(item,index) {
-                odaData["oda" + (index + 1)] = { "oda": item };
+                let oToken = new sap.m.Token({
+                  key: item,
+                  text: item
+                })
+                aTokens.push(oToken)
               });         
-              odaModel.setData(odaData)
-              this.setModel(odaModel, "odaModel");           
-              this.byId("odaComboBox").setSelectedKeys(selectedOda)
+              this.byId("idMultiInput").removeAllTokens()
+              this.byId("idMultiInput").setTokens(aTokens)
             }      
             this.hideBusy(0)
-          },
-          onChangeOda: function(oEvent){
-            debugger
           },
           btnGoSearch: function () {
             debugger;
