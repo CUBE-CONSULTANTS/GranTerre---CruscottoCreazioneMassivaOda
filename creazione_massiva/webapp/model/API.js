@@ -43,8 +43,7 @@ sap.ui.define([
               contentType: oHeaders[1].getValue(),
               data:file,
               success: function(res) {
-                console.log("upload Completato");
-                  resolve(res);
+                resolve(res);
               },
               error: function(error) {
                   console.log("Si è verificato un errore durante l'upload:", error);
@@ -53,14 +52,26 @@ sap.ui.define([
           });
       });
     },
-    //if errors ->get log errori (servizio)
-
+    //if errors ->get log errori (servizio) /sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV/UploadOutputSet?$format=json.
+    getEntity: function(oModel,Entity){
+      return new Promise((resolve, reject) => {
+        oModel.read(Entity, {
+          success: (odata) => {
+            resolve({
+              "results": odata.results,
+                success: true
+            });
+          },
+          error: (err) => {
+            reject({ success: false, error: err })
+          },
+        });
+      });
+    },
     // if upload status ok --->
     // get staging table function: (servizio)
     // output tabella dati inseriti da utente, status blank
 
-
-    
 
     // async get Output: action (simulate/oda/oda + mat) -->non è ancora async
     getOutputLogSet: function(oModel,Entity,check,button){

@@ -220,21 +220,47 @@ sap.ui.define(
       handleUploadPress: async function(oEvent){
         let oFileUploader = this.byId("fileUploader")
         let oHeaders = oFileUploader.getHeaderParameters()
-        
+        let that = this
+
         if(!oFileUploader.getValue()){
           MessageBox.error("Allegare obbligatoriamente un File");
         }else{
           try {
-            await API.uploadFile(this.file,oHeaders)
-            // let blob = await this.getBase64(this.file)
-            // await API.getUploadDataSet(this.getOwnerComponent().getModel(),"/UploadDataSet", blob)
-            MessageBox.success("Upload completato");
+            this.showBusy(0)
+            let res = await API.uploadFile(this.file,oHeaders)
+            this.hideBusy(0)
+            if (res && res.all[7].children[1].innerHTML === 'File validated. Errors Found') {
+              MessageBox.warning("File Caricato. Sono presenti Errori di Compilazione",{
+                actions: [MessageBox.Action.CLOSE],
+                onClose: function (sAction) {
+                 that.getErrorlog()
+                }
+              });
+            } else {
+                MessageBox.success("File Caricato con successo",{
+                  actions: [MessageBox.Action.CLOSE],
+                  onClose: function (sAction) {
+                   that.getStagingTable()
+                  }
+                });
+            }
           } catch (error) {
             MessageBox.error('Si è verificato un errore durante la conversione del file');
           }
           oFileUploader.setValue()
           }      
         }, 
+        getErrorlog: async function(){
+          try {
+            let errorLog = await API.getEntity(this.getOwnerComponent().getModel(),"/UploadOutputSet")
+            
+          }catch (error) {
+            MessageBox.error("Si è verificato un errore durante l'operazione");
+          }
+        },
+        getStagingTable: async function(){
+
+        },
         //fine gestione download/upload tracciato  
 
         // selezione degli ordini per cui ripetere elaborazione doc materiale
