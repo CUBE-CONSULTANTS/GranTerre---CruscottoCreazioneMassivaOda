@@ -53,30 +53,6 @@ sap.ui.define([
           });
       });
     },
-    //get file upload 
-    getUploadDataSet: function (oModel,Entity,file){
-      debugger
-      let filters = [];
-      filters.push(new sap.ui.model.Filter("FileName", sap.ui.model.FilterOperator.EQ, file));
-      return new Promise((resolve, reject) => {
-        oModel.read(Entity, {
-            filters: filters,
-            success: (odata) => {
-                resolve({
-                    "results": odata.results,
-                    success: true
-                });
-            },
-            error: (err) => {
-                reject({
-                    success: false,
-                    error: err
-                });
-            },
-        });
-      });
-    },
-
     //if errors ->log errori a video 
 
     // if upload errol log === status ok --->
@@ -125,6 +101,40 @@ sap.ui.define([
       });
     },
     //potenziale get per fine update tabelle dopo inserimento ordine
+
+     //get documento materiale 
+     getOutputLogMatDocSet: function (oModel,Entity,oda,check){
+      debugger
+      let filters = [];
+
+      if (Array.isArray(oda)) {
+        oda.forEach(function(oda) {
+            filters.push(new sap.ui.model.Filter("Ebeln", sap.ui.model.FilterOperator.EQ, oda));
+        });
+      } else {
+            filters.push(new sap.ui.model.Filter("Ebeln", sap.ui.model.FilterOperator.EQ, oda));
+      }
+      if(check === 'X'){
+        filters.push(new sap.ui.model.Filter("Simulate", sap.ui.model.FilterOperator.EQ, 'X'));
+      }
+      return new Promise((resolve, reject) => {
+        oModel.read(Entity, {
+            filters: filters,
+            success: (odata) => {
+                resolve({
+                    "results": odata.results,
+                    success: true
+                });
+            },
+            error: (err) => {
+                reject({
+                    success: false,
+                    error: err
+                });
+            },
+        });
+      });
+    },
 
     // potenziale get ultimo log
   };

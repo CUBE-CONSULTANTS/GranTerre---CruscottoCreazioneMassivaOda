@@ -44,19 +44,6 @@ sap.ui.define(
           debugger;
 
         },
-
-        //check simulation
-        onSimulazioneCheck: function (oEvent) {
-          debugger;
-          this.checked = oEvent.getParameter("selected");
-          if(this.checked){
-            this.checked = "X"
-          }else{
-            this.checked =""
-          }
-          this.byId("tableOda").setVisible(false);
-          this.getModel("filterModel").setProperty("/simulazione",this.checked);
-        },
          //genera Ordine
         onOdaSelect: function (oEvent) {         
           debugger;

@@ -51,32 +51,30 @@ sap.ui.define([
             }      
             this.hideBusy(0)
           },
-          btnGoSearch: function () {
+          onElabMatDoc: async function () {
             debugger;
-            let error;
-            let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
-            dataToCheck.forEach((element) => {
-              if (element.color === "red") {
-                error = true;
-              }
-            });
-            if (!this.checked) {
-              this.byId("tableMerci").setVisible(true);
-              if (error) {
-                MessageBox.error("Non è consentita l'Elaborazione con Errori");
-              }
-            } else {
-              this.byId("tableMerci").setVisible(true);
-              if (error) {
-                MessageToast.show("Sono presenti Errori in fase di Simulazione");
-              }
-            }
-          },
-          onSimulazioneCheck: function (oEvent) {
-            debugger;
-            this.checked = oEvent.getParameter("selected");
-            this.byId("tableMerci").setVisible(false);           
-            this.getModel("filterModel").setProperty("/simulazione", this.checked);
+            let aOda = []
+            this.byId("idMultiInput").getTokens().forEach(token=>{aOda.push(token.getProperty("text"))})
+            let output = await API.getOutputLogMatDocSet(this.getOwnerComponent().getModel(),"/OutputLogMatDocSet",aOda,this.checked)
+            this.byId("tableMerci").setVisible(true);
+            // let error;
+            // let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
+            // dataToCheck.forEach((element) => {
+            //   if (element.color === "red") {
+            //     error = true;
+            //   }
+            // });
+            // if (!this.checked) {
+            //   this.byId("tableMerci").setVisible(true);
+            //   if (error) {
+            //     MessageBox.error("Non è consentita l'Elaborazione con Errori");
+            //   }
+            // } else {
+            //   this.byId("tableMerci").setVisible(true);
+            //   if (error) {
+            //     MessageToast.show("Sono presenti Errori in fase di Simulazione");
+            //   }
+            // }
           },
           onIconPress: function (oEvent) {
             debugger;

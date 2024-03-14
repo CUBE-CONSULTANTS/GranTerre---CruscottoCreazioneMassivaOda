@@ -9,10 +9,11 @@
       height="100%"
       style="Clear"
     >
-      <Label text="Ordini d'Acquisto:" />
+      <Label text="{i18n>Oda}" />
       <MultiInput
         width="400px"
         id="idMultiInput"
+        required="true"
       >
         <tokens>
         </tokens>
@@ -27,7 +28,7 @@
       <Button
         width="100px"
         class="button"
-        press="btnGoSearch"
+        press="onElabMatDoc"
         type="Emphasized"
         text="{i18n>Elabora}"
       />

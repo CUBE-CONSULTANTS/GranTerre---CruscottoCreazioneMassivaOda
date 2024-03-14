@@ -134,7 +134,19 @@ sap.ui.define(
         },
         onClose: function (oEvent) {
           oEvent.getSource().getParent().close();
-        },        
+        }, 
+        //check simulation
+        onSimulazioneCheck: function (oEvent) {
+          debugger;
+          this.checked = oEvent.getParameter("selected");
+          if(this.checked){
+            this.checked = "X"
+          }else{
+            this.checked =""
+          }
+          this.byId("tableOda") !== undefined ? this.byId("tableOda").setVisible(false) : this.byId("tableMerci").setVisible(false);           
+          this.getModel("filterModel").setProperty("/simulazione", this.checked);
+        },       
         showBusy: function(delay) {
           // sap.ui.core.BusyIndicator.show(delay || 0);
           sap.ui.core.BusyIndicator.show(delay);
