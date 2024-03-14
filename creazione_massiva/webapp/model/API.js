@@ -53,16 +53,16 @@ sap.ui.define([
           });
       });
     },
-    //if errors ->log errori a video 
+    //if errors ->get log errori (servizio)
 
-    // if upload errol log === status ok --->
-    // get staging table function: 
+    // if upload status ok --->
+    // get staging table function: (servizio)
     // output tabella dati inseriti da utente, status blank
 
 
-    //
+    
 
-    // async get Output: action (simulate/oda/oda + mat)
+    // async get Output: action (simulate/oda/oda + mat) -->non è ancora async
     getOutputLogSet: function(oModel,Entity,check,button){
       debugger
       let filters = [];
@@ -100,9 +100,12 @@ sap.ui.define([
         });
       });
     },
-    //potenziale get per fine update tabelle dopo inserimento ordine
+    
+    //potenziale get per aggiornamento stato per fine update tabelle dopo inserimento ordine (servizio)
 
-     //get documento materiale 
+    //matchCode oda (servizio)
+
+     //get documento materiale (async?)
      getOutputLogMatDocSet: function (oModel,Entity,oda,check){
       debugger
       let filters = [];
@@ -136,6 +139,6 @@ sap.ui.define([
       });
     },
 
-    // potenziale get ultimo log
+    // potenziale get ultimo log (servizio)
   };
 });
