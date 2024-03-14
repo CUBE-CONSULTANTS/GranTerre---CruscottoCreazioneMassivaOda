@@ -15,7 +15,8 @@
        <MultiComboBox
               width="500px"
               showSelectAll="true"
-              id="odaComboBox"
+              id="odaComboBox"      
+              change="onChangeOda"
               items="{
                 path: 'odaModel>/'
               }"

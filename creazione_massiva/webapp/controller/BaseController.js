@@ -135,7 +135,7 @@ sap.ui.define(
         onClose: function (oEvent) {
           oEvent.getSource().getParent().close();
         },        
-         showBusy: function(delay) {
+        showBusy: function(delay) {
           // sap.ui.core.BusyIndicator.show(delay || 0);
           sap.ui.core.BusyIndicator.show(delay);
         },
