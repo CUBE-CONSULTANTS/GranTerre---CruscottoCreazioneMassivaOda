@@ -341,7 +341,22 @@
                     <m:Text text="{odaDocs>contratto}" wrapping="false"/>
                 </template>
             </Column>
-            
+            <Column
+                hAlign="Center" width="6rem"
+            >
+                <m:Text text="{i18n>ContrattoSAP}" />
+                  <template>
+                    <m:Text text="{odaDocs>contrattoSap}" wrapping="false"/>
+                </template>
+            </Column>
+            <Column
+                hAlign="Center" width="6rem"
+            >
+                <m:Text text="{i18n>PosContr}" />
+                  <template>
+                    <m:Text text="{odaDocs>poscontratto}" wrapping="false"/>
+                </template>
+            </Column>
         </columns>
         <!-- <rows>
             <ColumnListItem>

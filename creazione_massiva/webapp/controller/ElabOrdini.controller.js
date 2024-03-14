@@ -201,10 +201,10 @@ sap.ui.define(
         //gestione download/upload tracciato
         DownloadExcel: function (oEvent) {
           debugger;
-          let sExcelFilePath = "public/Tracciato.xlsx";
+          let sExcelFilePath = "public/TracciatoCaricamentoOda.xlsx";
           let link = document.createElement("a");
           link.href = sExcelFilePath;
-          link.download = "TemplateTracciato.xlsx";
+          link.download = "TracciatoCaricamentoOda.xlsx";
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);
