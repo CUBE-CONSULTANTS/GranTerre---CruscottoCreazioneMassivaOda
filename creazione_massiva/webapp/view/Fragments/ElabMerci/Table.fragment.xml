@@ -10,6 +10,7 @@
         visible="false"
         class="sapUiTinyMarginTop"
         selectionMode="None"
+        width="100%"  
     >
     <extension>
       <m:OverflowToolbar height="6vh">
@@ -31,15 +32,23 @@
       <Column
           hAlign="Center" width="7rem"
       >
-          <m:Text text="{i18n>Doc Acquisto}" />
+          <m:Text text="{i18n>DocAcquisto}" />
             <template>
               <m:Text text="{odaDocs>ordAcq}" wrapping="false"/>
           </template>
       </Column>
       <Column
+                hAlign="Center" width="5rem"
+            >
+                <m:Text text="{i18n>InizioOrdine}" />
+                  <template>
+                    <m:Text text="{odaDocs>startOrder}" wrapping="false"/>
+                </template>
+            </Column>
+      <Column
           hAlign="Center" width="5rem"
       >
-          <m:Text text="{i18n>Pos Doc Acquisto}" />
+          <m:Text text="{i18n>PosDocAcquisto}" />
             <template>
               <m:Text text="{odaDocs>PosDoc}" wrapping="false"/>
           </template>
@@ -47,7 +56,7 @@
       <Column
           hAlign="Center" width="6rem"
       >
-          <m:Text text="{i18n>Doc Materiale}" />
+          <m:Text text="{i18n>DocMateriale}" />
             <template>
               <m:Text text="{odaDocs>DocMat}" wrapping="false"/>
           </template>
@@ -55,7 +64,7 @@
       <Column
           hAlign="Center" width="4rem"
       >
-          <m:Text text="{i18n>Pos Doc Materiale}" />
+          <m:Text text="{i18n>PosDocMateriale}" />
             <template>
               <m:Text text="{odaDocs>PosDocMat}" wrapping="false"/>
           </template>
@@ -63,7 +72,7 @@
       <Column
           hAlign="Center" width="4rem"
       >
-          <m:Text text="{i18n>Società}" />
+          <m:Text text="{i18n>Societa}" />
             <template>
               <m:Text text="{odaDocs>Soc}" wrapping="false"/>
           </template>
@@ -79,7 +88,7 @@
       <Column
           hAlign="Center" width="6rem"
       >
-          <m:Text text="{i18n>Condizioni Pagamento}" />
+          <m:Text text="{i18n>CondizioniPagamento}" />
             <template>
               <m:Text text="{odaDocs>condPag}" wrapping="false"/>
           </template>
@@ -88,13 +97,13 @@
           hAlign="Center"
           width="6rem"
       >
-          <m:Text text="{i18n>Data Documento}" />
+          <m:Text text="{i18n>DataDocumento}" />
             <template>
               <m:Text text="{odaDocs>dataDoc}" wrapping="false"/>
           </template>
       </Column>
       <Column hAlign="Center" width="6rem">
-          <m:Text text="{i18n>Tipo Documento}" />
+          <m:Text text="{i18n>TipoDocumento}" />
             <template>
               <m:Text text="{odaDocs>tpDoc}" wrapping="false"/>
           </template>
@@ -118,7 +127,7 @@
       <Column
           hAlign="Center" width="4rem"
       >
-          <m:Text text="{i18n>Note Testata}" />
+          <m:Text text="{i18n>NoteTestata}" />
             <template>
               <m:Text text="{odaDocs>NoteTestata}" wrapping="false"/>
           </template>
@@ -126,7 +135,7 @@
       <Column
           hAlign="Center" width="4rem"
       >
-          <m:Text text="{i18n>Ord AS400 migrato}" />
+          <m:Text text="{i18n>OrdAS400migrato}" />
             <template>
               <m:Text text="{odaDocs>ord400migr}" wrapping="false"/>
           </template>
@@ -151,7 +160,7 @@
       <Column
           hAlign="Center"
       >
-          <m:Text text="{i18n>Tipo Pos}" />
+          <m:Text text="{i18n>TipoPos}" />
             <template>
               <m:Text text="{odaDocs>tpPos}" wrapping="false"/>
           </template>
@@ -159,7 +168,7 @@
       <Column
           hAlign="Center"
       >
-          <m:Text text="{i18n>Pos Resi}" />
+          <m:Text text="{i18n>PosResi}" />
             <template>
               <m:Text text="{odaDocs>PosResi}" wrapping="false"/>
           </template>
@@ -167,7 +176,7 @@
       <Column
           hAlign="Center" width="8rem"
       >
-          <m:Text text="{i18n>Tipo Contabilizzazione}" />
+          <m:Text text="{i18n>TipoContabilizzazione}" />
             <template>
               <m:Text text="{odaDocs>tpCont}" wrapping="false"/>
           </template>
@@ -175,7 +184,7 @@
       <Column
           hAlign="Center" width="5rem"
       >
-          <m:Text text="{i18n>Codice Materiale}" />
+          <m:Text text="{i18n>CodiceMateriale}" />
             <template>
               <m:Text text="{odaDocs>codMat}" wrapping="false"/>
           </template>
@@ -183,7 +192,7 @@
       <Column
           hAlign="Center" width="6rem"
       >
-          <m:Text text="{i18n>Descrizione Mat}" />
+          <m:Text text="{i18n>DescrizioneMat}" />
             <template>
               <m:Text text="{odaDocs>descr}" wrapping="false"/>
           </template>
@@ -191,7 +200,7 @@
       <Column
           hAlign="Center" width="5rem"
       >
-          <m:Text text="{i18n>Numero Partita}" />
+          <m:Text text="{i18n>NumeroPartita}" />
             <template>
               <m:Text text="{odaDocs>nPartita}" wrapping="false"/>
           </template>
@@ -207,7 +216,7 @@
       <Column
           hAlign="Center" width="6rem"
       >
-          <m:Text text="{i18n>Attività}" />
+          <m:Text text="{i18n>Attivita}" />
             <template>
               <m:Text text="{odaDocs>attivita}" wrapping="false"/>
           </template>
@@ -215,7 +224,7 @@
       <Column
           hAlign="Center" width="8rem"
       >
-          <m:Text text="{i18n>Descrizione Attività}" />
+          <m:Text text="{i18n>DescrizioneAttivita}" />
             <template>
               <m:Text text="{odaDocs>descrAtt}" wrapping="false"/>
           </template>
@@ -223,7 +232,7 @@
       <Column
           hAlign="Center" width="6rem"
       >
-          <m:Text text="{i18n>Targa Autovettura}" />
+          <m:Text text="{i18n>TargaAutovettura}" />
             <template>
               <m:Text text="{odaDocs>targa}" wrapping="false"/>
           </template>
@@ -283,7 +292,7 @@
           width="6rem"
           hAlign="Center"
       >
-          <m:Text text="{i18n>Centro di Costo}" />
+          <m:Text text="{i18n>CentrodiCosto}" />
             <template>
               <m:Text text="{odaDocs>cdc}" wrapping="false"/>
           </template>
@@ -292,7 +301,7 @@
           width="6rem"
           hAlign="Center"
       >
-          <m:Text text="{i18n>Ordine Interno}" />
+          <m:Text text="{i18n>OrdineInterno}" />
             <template>
               <m:Text text="{odaDocs>ordInt}" wrapping="false"/>
           </template>
@@ -301,7 +310,7 @@
           width="6rem"
           hAlign="Center"
       >
-          <m:Text text="{i18n>Conto Co.Ge}" />
+          <m:Text text="{i18n>ContoCoGe}" />
             <template>
               <m:Text text="{odaDocs>coge}" wrapping="false"/>
           </template>
@@ -310,7 +319,7 @@
           hAlign="Center"
           width="7rem"
       >
-          <m:Text text="{i18n>Data Registrazione}" />
+          <m:Text text="{i18n>DataRegistrazione}" />
             <template>
               <m:Text text="{odaDocs>dataReg}" wrapping="false"/>
           </template>
@@ -318,11 +327,35 @@
       <Column
           hAlign="Center" width="6rem"
       >
-          <m:Text text="{i18n>Data Competenza}" />
+          <m:Text text="{i18n>DataCompetenza}" />
             <template>
               <m:Text text="{odaDocs>dataComp}" wrapping="false"/>
           </template>
       </Column>
+      <Column
+                hAlign="Center" width="6rem"
+            >
+                <m:Text text="{i18n>Contratto}" />
+                  <template>
+                    <m:Text text="{odaDocs>contratto}" wrapping="false"/>
+                </template>
+            </Column>
+            <Column
+                hAlign="Center" width="6rem"
+            >
+                <m:Text text="{i18n>ContrattoSAP}" />
+                  <template>
+                    <m:Text text="{odaDocs>contrattoSap}" wrapping="false"/>
+                </template>
+            </Column>
+            <Column
+                hAlign="Center" width="6rem"
+            >
+                <m:Text text="{i18n>PosContr}" />
+                  <template>
+                    <m:Text text="{odaDocs>poscontratto}" wrapping="false"/>
+                </template>
+            </Column>
   </columns>
         <!-- <items>
             <ColumnListItem

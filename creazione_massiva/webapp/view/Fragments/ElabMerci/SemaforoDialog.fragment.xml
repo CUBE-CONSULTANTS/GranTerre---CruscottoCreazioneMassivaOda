@@ -3,14 +3,14 @@
     xmlns:f="sap.f"
     xmlns="sap.m"
 >
-<Dialog afterClose="" title="{i18n>ListaErrori}" contentWidth="600px">
+<Dialog title="{i18n>ListaErrori}" contentWidth="600px">
 <Table items="{errorModel>/}">
   <columns>
     <Column >
-      <Label  text="Messaggio"></Label>
+      <Label  text="{i18n>Messaggio}"></Label>
     </Column>
     <Column >
-      <Label  text="Descrizione" ></Label>
+      <Label  text="{i18n>Descrizione}" ></Label>
     </Column>
   </columns>
   <items>
