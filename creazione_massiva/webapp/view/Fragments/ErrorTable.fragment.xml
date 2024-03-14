@@ -9,36 +9,39 @@
 >
 	<columns>
         <Column>
-            <Text text="LineItem"/>
+            <Text text="{i18n>Riga}"/>
         </Column>
         <Column>
-            <Text text="Type"/>
+            <Text text="{i18n>Tipo}"/>
         </Column>
         <Column>
-            <Text text="ZzerrorMsg"/>
+            <Text text="{i18n>MessaggioError}"/>
         </Column>
         <Column>
-            <Text text="Zzfieldlabel"/>
+            <Text text="{i18n>Campo}"/>
         </Column>
         <Column>
-            <Text text="Zzpart"/>
+            <Text text="{i18n>Parte}"/>
         </Column>
         <Column>
-            <Text text="Zzprogressive"/>
+            <Text text="{i18n>Progressivo}"/>
         </Column>
     </columns>
     <items>
         <ColumnListItem>
             <cells>
-                <Text text="{LineItem}"/>
-                <Text text="{Type}"/>
-                <Text text="{ZzerrorMsg}"/>
-                <Text text="{Zzfieldlabel}"/>
-                <Text text="{Zzpart}"/>
-                <Text text="{Zzprogressive}"/>
+                <Text text="{errorUploadModel>LineItem}"/>
+                <Text text="{errorUploadModel>Type}"/>
+                <Text text="{errorUploadModel>ZzerrorMsg}"/>
+                <Text text="{errorUploadModel>Zzfieldlabel}"/>
+                <Text text="{errorUploadModel>Zzpart}"/>
+                <Text text="{errorUploadModel>Zzprogressive}"/>
             </cells>
         </ColumnListItem>
     </items>
 </Table>
+<buttons>
+<Button type="Emphasized" press="onClose" icon="sap-icon://decline" text="{i18n>Chiudi}"/>
+</buttons>
 </Dialog>
 </c:FragmentDefinition>

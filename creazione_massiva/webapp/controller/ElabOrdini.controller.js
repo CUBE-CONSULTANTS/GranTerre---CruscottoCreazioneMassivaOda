@@ -252,11 +252,12 @@ sap.ui.define(
           }      
         }, 
         getErrorlog: async function(){
+          debugger
           let oModel = new JSONModel()
           try {
             let errorLog = await API.getEntity(this.getOwnerComponent().getModel(),"/UploadOutputSet")
             oModel.setData({
-              results: errorLog
+              results: errorLog.results
             })
             this.setModel(oModel, "errorUploadModel")
             this.onOpenDialog("nDialog","granterre.creazionemassiva.view.Fragments.ErrorTable",this,"errorUploadModel");      
