@@ -248,7 +248,7 @@ sap.ui.define(
             MessageBox.error('Si è verificato un errore durante la conversione del file');
             this.hideBusy(0)
           }
-          oFileUploader.setValue()
+          // oFileUploader.setValue()
           }      
         }, 
         getErrorlog: async function(){
