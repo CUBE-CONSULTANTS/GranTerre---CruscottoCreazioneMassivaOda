@@ -203,7 +203,7 @@
             >
                 <m:Text text="{i18n>NumeroPartita}" />
                   <template>
-                    <m:Text text="{ordiniModel>}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Charg}" wrapping="false"/>
                 </template>
             </Column>
             <Column
