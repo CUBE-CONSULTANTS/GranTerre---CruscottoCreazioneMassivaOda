@@ -276,7 +276,7 @@ sap.ui.define(
           let oModel = new JSONModel()
           try {
             let errorLog = await API.getEntity(this.getOwnerComponent().getModel(),"/UploadOutputSet","UploadOutputValidation")
-            errorLog.results.forEach(element=>console.log(element.UploadOutputValidation.results))
+            
             oModel.setData({
               results: errorLog.results.flatMap(element => element.UploadOutputValidation.results)
             })
@@ -287,8 +287,20 @@ sap.ui.define(
           }
         },
         getStagingTable: async function(){
-          //una volta caricati i dati nel modello e bindato in tabella rendi la tabella visible
           debugger
+          let oModel = new JSONModel()
+          try {
+            let stagingData = await API.getEntity(this.getOwnerComponent().getModel(),"/UploadOutputSet","UploadOutputValidation")
+            
+            oModel.setData({
+              results: stagingData
+            })
+            this.setModel(oModel, "ordiniModel") 
+               
+          }catch (error) {
+            MessageBox.error("Si è verificato un errore durante l'operazione");
+          }
+          this.byId("tableOda").setVisible(true)
 
         },
         //fine gestione download/upload tracciato  

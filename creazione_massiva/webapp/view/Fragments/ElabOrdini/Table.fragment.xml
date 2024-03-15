@@ -6,7 +6,7 @@
 >
     <Table
         id="tableOda"
-        rows="{odaDocs>/dati}"    
+        rows="{ordiniModel>/results}"    
         alternateRowColors="true"
         rowSelectionChange="onSelectOda"
         visible="false"
@@ -24,9 +24,9 @@
                   <template>
                     <core:Icon
                         press=".onIconPress"
-                        src="{odaDocs>semaforo}"
+                        src="{ordiniModel>semaforo}"
                         size="1.3rem"
-                        color="{odaDocs>color}"
+                        color="{ordiniModel>color}"
                     />
                 </template>
             </Column>
@@ -35,7 +35,7 @@
             >
                 <m:Text text="{i18n>DocAcquisto}" />
                   <template>
-                    <m:Text text="{odaDocs>ordAcq}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>ordAcq}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -43,7 +43,7 @@
             >
                 <m:Text text="{i18n>InizioOrdine}" />
                   <template>
-                    <m:Text text="{odaDocs>startOrder}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>ZzstartOrder}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -51,7 +51,7 @@
             >
                 <m:Text text="{i18n>PosDocAcquisto}" />
                   <template>
-                    <m:Text text="{odaDocs>PosDoc}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>PosDoc}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -59,7 +59,7 @@
             >
                 <m:Text text="{i18n>DocMateriale}" />
                   <template>
-                    <m:Text text="{odaDocs>DocMat}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>DocMat}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -67,7 +67,7 @@
             >
                 <m:Text text="{i18n>PosDocMateriale}" />
                   <template>
-                    <m:Text text="{odaDocs>PosDocMat}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>PosDocMat}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -75,7 +75,7 @@
             >
                 <m:Text text="{i18n>Societa}" />
                   <template>
-                    <m:Text text="{odaDocs>Soc}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Bukrs}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -83,7 +83,7 @@
             >
                 <m:Text text="{i18n>codForn}" />
                   <template>
-                    <m:Text text="{odaDocs>forn}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Lifnr}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -91,7 +91,7 @@
             >
                 <m:Text text="{i18n>CondizioniPagamento}" />
                   <template>
-                    <m:Text text="{odaDocs>condPag}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Zterm}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -100,13 +100,13 @@
             >
                 <m:Text text="{i18n>DataDocumento}" />
                   <template>
-                    <m:Text text="{odaDocs>dataDoc}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Bedat}" wrapping="false"/>
                 </template>
             </Column>
             <Column hAlign="Center" width="6rem">
                 <m:Text text="{i18n>TipoDocumento}" />
                   <template>
-                    <m:Text text="{odaDocs>tpDoc}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Bsart}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -114,7 +114,7 @@
             >
                 <m:Text text="{i18n>orgAcq}" />
                   <template>
-                    <m:Text text="{odaDocs>orgAcq}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Ekorg}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -122,7 +122,7 @@
             >
                 <m:Text text="{i18n>grpAcq}" />
                   <template>
-                    <m:Text text="{odaDocs>grpAcq}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Ekgrp}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -130,7 +130,7 @@
             >
                 <m:Text text="{i18n>NoteTestata}" />
                   <template>
-                    <m:Text text="{odaDocs>NoteTestata}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Ztxt}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -138,7 +138,7 @@
             >
                 <m:Text text="{i18n>OrdAS400migrato}" />
                   <template>
-                    <m:Text text="{odaDocs>ord400migr}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Zzas400}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -146,7 +146,7 @@
             >
                 <m:Text text="{i18n>Link}" />
                   <template>
-                    <m:Text text="{odaDocs>link}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Zzlink}" wrapping="false"/>
                 </template>
             </Column>
 
@@ -155,7 +155,7 @@
             >
                 <m:Text text="{i18n>pos}" />
                   <template>
-                    <m:Text text="{odaDocs>pos}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Ebelp}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -163,7 +163,7 @@
             >
                 <m:Text text="{i18n>TipoPos}" />
                   <template>
-                    <m:Text text="{odaDocs>tpPos}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Pstyp}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -171,7 +171,7 @@
             >
                 <m:Text text="{i18n>PosResi}" />
                   <template>
-                    <m:Text text="{odaDocs>PosResi}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Retpo}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -179,7 +179,7 @@
             >
                 <m:Text text="{i18n>TipoContabilizzazione}" />
                   <template>
-                    <m:Text text="{odaDocs>tpCont}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Knttp}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -187,7 +187,7 @@
             >
                 <m:Text text="{i18n>CodiceMateriale}" />
                   <template>
-                    <m:Text text="{odaDocs>codMat}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>Matnr}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -195,7 +195,7 @@
             >
                 <m:Text text="{i18n>DescrizioneMat}" />
                   <template>
-                    <m:Text text="{odaDocs>descr}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>descr}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -203,7 +203,7 @@
             >
                 <m:Text text="{i18n>NumeroPartita}" />
                   <template>
-                    <m:Text text="{odaDocs>nPartita}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -211,7 +211,7 @@
             >
                 <m:Text text="{i18n>TestoBreve}" />
                   <template>
-                    <m:Text text="{odaDocs>tBreve}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>tBreve}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -219,7 +219,7 @@
             >
                 <m:Text text="{i18n>Attivita}" />
                   <template>
-                    <m:Text text="{odaDocs>attivita}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>attivita}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -227,7 +227,7 @@
             >
                 <m:Text text="{i18n>DescrizioneAttivita}" />
                   <template>
-                    <m:Text text="{odaDocs>descrAtt}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>descrAtt}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -235,7 +235,7 @@
             >
                 <m:Text text="{i18n>TargaAutovettura}" />
                   <template>
-                    <m:Text text="{odaDocs>targa}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>targa}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -243,7 +243,7 @@
             >
                 <m:Text text="{i18n>qta}" />
                   <template>
-                    <m:Text text="{odaDocs>qta}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>qta}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -251,7 +251,7 @@
             >
                 <m:Text text="{i18n>um}" />
                   <template>
-                    <m:Text text="{odaDocs>um}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>um}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -259,7 +259,7 @@
             >
                 <m:Text text="{i18n>prz}" />
                   <template>
-                    <m:Text text="{odaDocs>prz}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>prz}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -268,7 +268,7 @@
             >
                 <m:Text text="{i18n>consegna}" />
                   <template>
-                    <m:Text text="{odaDocs>consegna}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>consegna}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -277,7 +277,7 @@
             >
                 <m:Text text="{i18n>Divisione}" />
                   <template>
-                    <m:Text text="{odaDocs>divisione}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>divisione}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -286,7 +286,7 @@
             >
                 <m:Text text="{i18n>Magazzino}" />
                   <template>
-                    <m:Text text="{odaDocs>mag}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>mag}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -295,7 +295,7 @@
             >
                 <m:Text text="{i18n>CentrodiCosto}" />
                   <template>
-                    <m:Text text="{odaDocs>cdc}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>cdc}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -304,7 +304,7 @@
             >
                 <m:Text text="{i18n>OrdineInterno}" />
                   <template>
-                    <m:Text text="{odaDocs>ordInt}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>ordInt}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -313,7 +313,7 @@
             >
                 <m:Text text="{i18n>ContoCoGe}" />
                   <template>
-                    <m:Text text="{odaDocs>coge}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>coge}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -322,7 +322,7 @@
             >
                 <m:Text text="{i18n>DataRegistrazione}" />
                   <template>
-                    <m:Text text="{odaDocs>dataReg}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>dataReg}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -330,7 +330,7 @@
             >
                 <m:Text text="{i18n>DataCompetenza}" />
                   <template>
-                    <m:Text text="{odaDocs>dataComp}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>dataComp}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -338,7 +338,7 @@
             >
                 <m:Text text="{i18n>Contratto}" />
                   <template>
-                    <m:Text text="{odaDocs>contratto}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>contratto}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -346,7 +346,7 @@
             >
                 <m:Text text="{i18n>ContrattoSAP}" />
                   <template>
-                    <m:Text text="{odaDocs>contrattoSap}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>contrattoSap}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -354,7 +354,7 @@
             >
                 <m:Text text="{i18n>PosContr}" />
                   <template>
-                    <m:Text text="{odaDocs>poscontratto}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>poscontratto}" wrapping="false"/>
                 </template>
             </Column>
         </columns>
