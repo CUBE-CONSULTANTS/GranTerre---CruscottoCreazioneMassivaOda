@@ -120,6 +120,7 @@ sap.ui.define(
         //get tabella con o senza errori
         showResultsInTable: async function (oEvent, flag) {
           debugger
+          let oTableModel = new JSONModel()
           let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content")
           let header = oEvent.getSource().getParent().getParent().getParent().getAggregation("content").getAggregation("extension")[0].getAggregation("content")[0].getProperty("text")
           if( flag === "process orders and matdoc"){
@@ -128,8 +129,13 @@ sap.ui.define(
           try {
             this.showBusy(0)
             let output = await API.getOutputLogSet(this.getOwnerComponent().getModel(),"/OutputLogSet",this.checked, flag)
+            if(output.success){
+              oTableModel.setData(output.results)
+              //aggiornare il modello della tabella ordini con i dati ottenuti finito il processo
+            }
             this.hideBusy(0)
             table.setVisible(true)
+            //nascondere o mostrare checkbox a seconda del risultato
           } catch (error) {
             console.log(error)
           }
@@ -197,6 +203,7 @@ sap.ui.define(
           document.body.removeChild(link);
         },
         handleChangeFile: async function(oEvent) {
+          //disabilitare quando è in corso il process attuale
           debugger
           var oModel = this.getOwnerComponent().getModel();
           let oFileUploader = oEvent.getSource().getParent().getAggregation("content")[2];
@@ -229,13 +236,26 @@ sap.ui.define(
             this.showBusy(0)
             let res = await API.uploadFile(this.file,oHeaders)
             this.hideBusy(0)
-            if (res && res.all[7].children[1].innerHTML === 'File validated. Errors Found') {
-              MessageBox.warning("File Caricato. Sono presenti Errori di Compilazione",{
-                actions: [MessageBox.Action.CLOSE],
-                onClose: function (sAction) {
-                 that.getErrorlog()
-                }
-              });
+            if (res){
+              if (res.all[7].children[1].innerHTML === 'File validated. Errors Found') {
+                MessageBox.warning("File Caricato. Sono presenti Errori di Compilazione",{
+                  actions: [MessageBox.Action.CLOSE],
+                  onClose: function (sAction) {
+                   that.getErrorlog()
+                  }
+                });
+              }  
+              if(res.all[7].children[1].innerHTML === 'Upload file is empty'){
+                MessageBox.error("Il file caricato risulta vuoto");
+              } 
+              if(res.all[7].children[1].innerHTML === 'File uploaded without errors'){
+                MessageBox.success("File Caricato con successo",{
+                  actions: [MessageBox.Action.CLOSE],
+                  onClose: function (sAction) {
+                   that.getStagingTable()
+                  }
+                });
+              }
             } else {
                 MessageBox.success("File Caricato con successo",{
                   actions: [MessageBox.Action.CLOSE],
@@ -255,9 +275,10 @@ sap.ui.define(
           debugger
           let oModel = new JSONModel()
           try {
-            let errorLog = await API.getEntity(this.getOwnerComponent().getModel(),"/UploadOutputSet")
+            let errorLog = await API.getEntity(this.getOwnerComponent().getModel(),"/UploadOutputSet","UploadOutputValidation")
+            errorLog.results.forEach(element=>console.log(element.UploadOutputValidation.results))
             oModel.setData({
-              results: errorLog.results
+              results: errorLog.results.flatMap(element => element.UploadOutputValidation.results)
             })
             this.setModel(oModel, "errorUploadModel")
             this.onOpenDialog("nDialog","granterre.creazionemassiva.view.Fragments.ErrorTable",this,"errorUploadModel");      
@@ -266,6 +287,8 @@ sap.ui.define(
           }
         },
         getStagingTable: async function(){
+          //una volta caricati i dati nel modello e bindato in tabella rendi la tabella visible
+          debugger
 
         },
         //fine gestione download/upload tracciato  

@@ -53,9 +53,18 @@ sap.ui.define([
       });
     },
     //if errors ->get log errori (servizio) /sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV/UploadOutputSet?$format=json.
-    getEntity: function(oModel,Entity){
+    getEntity: function(oModel,Entity,Expands){
+      let urlParameters = {};
+      if (Expands && Array.isArray(Expands) && Expands.length > 0) {
+        urlParameters.$expand = Expands.join(",");
+      }else{
+        urlParameters = {
+          "$expand": Expands
+        } 
+      }
       return new Promise((resolve, reject) => {
         oModel.read(Entity, {
+          urlParameters: urlParameters,
           success: (odata) => {
             resolve({
               "results": odata.results,

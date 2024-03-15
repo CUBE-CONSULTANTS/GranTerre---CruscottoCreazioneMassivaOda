@@ -23,6 +23,9 @@
         <Column>
             <Text text="{i18n>Parte}"/>
         </Column>
+         <Column>
+            <Text text="{i18n>Indicatore}"/>
+        </Column>
         <Column>
             <Text text="{i18n>Progressivo}"/>
         </Column>
@@ -35,6 +38,7 @@
                 <Text text="{errorUploadModel>ZzerrorMsg}"/>
                 <Text text="{errorUploadModel>Zzfieldlabel}"/>
                 <Text text="{errorUploadModel>Zzpart}"/>
+                <Text text="{errorUploadModel>Zzindicator}"/>
                 <Text text="{errorUploadModel>Zzprogressive}"/>
             </cells>
         </ColumnListItem>
