@@ -7,7 +7,8 @@ sap.ui.define(
     "sap/ui/export/Spreadsheet",
 	  "sap/ui/model/Sorter",
     "granterre/creazionemassiva/model/formatter",
-	"sap/m/MessageBox"
+	  "sap/m/MessageBox",
+    "../model/formatter",
   ],
   function (Controller,
 	History,
