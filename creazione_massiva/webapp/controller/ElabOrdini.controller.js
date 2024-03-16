@@ -5,18 +5,20 @@ sap.ui.define(
     "../model/API",
     "../model/formatter",
     "sap/ui/model/json/JSONModel",
-    "sap/m/MessageBox"
+    "sap/m/MessageBox",
+	"sap/m/MessageToast"
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
   function (
     BaseController,
-    models,
-    API,
-    formatter,
-    JSONModel,
-    MessageBox,
+	models,
+	API,
+	formatter,
+	JSONModel,
+	MessageBox,
+	MessageToast,
   ) {
     "use strict";
 
@@ -29,12 +31,12 @@ sap.ui.define(
           debugger;
           this.setModel(models.odaDocModel(), "odaDocs");
           this.setModel(models.createFilterModel(), "filterModel");
-          this.checked;
+          this.checked;        
           this.errors;
           this.file
           this.selectedOda;
-          this.progressInterval = 0
-          this.progress = 0
+          // this.progressInterval = 0
+          // this.progress = 0
           this.getRouter().getRoute("ElabOrdini").attachMatched(this._onRouteMatched, this);
         },
         // eventulae chiamata ultimo log
@@ -100,6 +102,7 @@ sap.ui.define(
                   MessageBox.error("Il file caricato risulta vuoto");
                 }
                 if (res.all[7].children[1].innerHTML === 'File uploaded without errors') {
+                  that.getModel("filterModel").setProperty("/uploaded", true)
                   MessageBox.success("File Caricato con successo", {
                     actions: [MessageBox.Action.CLOSE],
                     onClose: function (sAction) {
@@ -152,7 +155,7 @@ sap.ui.define(
             })
             this.setModel(oModel, "ordiniModel")
             table.setSelectionMode("None")
-            iconStatus.setBlocked(true)
+            // iconStatus.detachPress();
             this.hideBusy(0)
           } catch (error) {
             MessageBox.error("Si è verificato un errore durante l'operazione");
@@ -238,9 +241,10 @@ sap.ui.define(
         //get tabella con o senza errori
         showResultsInTable: async function (oEvent, flag) {
           debugger
-          let oTableModel = new JSONModel()
+          let that = this
           let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content")
           let header = oEvent.getSource().getParent().getParent().getParent().getAggregation("content").getAggregation("extension")[0].getAggregation("content")[0].getProperty("text")
+          let icon = table.getAggregation("columns")[0].getAggregation("template")
           if (flag === "process orders and matdoc") {
             header += " e Documento Materiale";
           }
@@ -248,13 +252,36 @@ sap.ui.define(
             this.showBusy(0)
             let output = await API.getOutputLogSet(this.getOwnerComponent().getModel(), "/OutputLogSet", this.checked, flag)
             if (output.success) {
-              oTableModel.setData(output.results)
-              //aggiornare il modello della tabella ordini con i dati ottenuti finito il processo
-              //update bindings
+              that.getModel("ordiniModel").setData(output)
+              let aErrors = output.results.map(result => result.OutputToBapiret.results)
+              aErrors.forEach(array=>{
+                array.shift()
+              })
+              that.getModel("ordiniModel").getProperty("/results").forEach((element, index) => {
+                let errorsForElement = aErrors[index] || [];          
+                let hasError = errorsForElement.some(element => element.Type === "E");
+                let allWarnings = errorsForElement.every(element => element.Type === "W");    
+                let status = undefined;
+                if (hasError) {
+                  status = "error";
+                } else if (allWarnings) {
+                  status = "warning";
+                } else {
+                  status = "success";
+                }
+                that.getModel("ordiniModel").setProperty("/results/" + index + "/status", status);
+                icon.setColor(formatter.iconColor(status))
+              });
+              
             }
             this.hideBusy(0)
             table.setVisible(true)
-            //nascondere o mostrare checkbox a seconda del risultato
+            if(this.checked === 'X'){
+              MessageToast.show("Funz. eseguita in modalità Test")
+            }else{
+               //nascondere o mostrare checkbox a seconda del risultato
+            }
+           
           } catch (error) {
             console.log(error)
           }
@@ -301,8 +328,8 @@ sap.ui.define(
         //visualizzazione dialog errori x riga
         onIconPress: function (oEvent) {
           debugger;
-          let errors = oEvent.getSource().getBindingContext("odaDocs").getObject().errors;
-          let errorModel = new JSONModel(errors);
+          let errors = oEvent.getSource().getBindingContext("ordiniModel").getObject().OutputToBapiret
+          let errorModel = new JSONModel(errors.results);
           this.setModel(errorModel, "errorModel");
           if (errors) {
             this.onOpenDialog("mDialog", "granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog", this, "errorModel");

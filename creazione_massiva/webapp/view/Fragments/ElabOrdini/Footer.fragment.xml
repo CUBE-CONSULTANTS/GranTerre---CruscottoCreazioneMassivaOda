@@ -10,12 +10,14 @@
             visible="{= ${filterModel>/simulazione} ? false : true}"
             type="Emphasized"
             icon="sap-icon://excel-attachment"
-            press=".DownloadTable" />
+            press=".DownloadTable" 
+            enabled="{= ${filterModel>/uploaded} ? true : false}"/>
         <Button text="{i18n>goMerce}"
             visible="{= ${filterModel>/simulazione} ? false : true}"
             type="Success"
             icon="sap-icon://navigation-right-arrow"
-            press=".navToElabMerci" />
+            press=".navToElabMerci"
+            enabled="{= ${filterModel>/uploaded} ? true : false}" />
        
     </OverflowToolbar>
 </core:FragmentDefinition>

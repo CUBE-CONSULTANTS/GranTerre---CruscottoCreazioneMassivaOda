@@ -145,7 +145,7 @@ sap.ui.define(
           }else{
             this.checked =""
           }
-          this.byId("tableOda") !== undefined ? this.byId("tableOda").setVisible(false) : this.byId("tableMerci").setVisible(false);           
+          // this.byId("tableOda") !== undefined ? this.byId("tableOda").setVisible(false) : this.byId("tableMerci").setVisible(false);           
           this.getModel("filterModel").setProperty("/simulazione", this.checked);
         },       
         showBusy: function(delay) {

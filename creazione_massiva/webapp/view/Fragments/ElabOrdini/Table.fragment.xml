@@ -16,7 +16,7 @@
     >
     <extension>
       <m:OverflowToolbar height="6vh">
-        <m:Text class="tableHeader sapUiResponsiveMargin"  text="{= ${filterModel>/simulazione} ? ${i18n>modSim} + ' ' + ${i18n>tableH} : ${i18n>tableH} }"></m:Text>
+        <m:Text class="tableHeader"  text="{= ${filterModel>/simulazione} ? ${i18n>modSim} + ' ' + ${i18n>tableH} : ${i18n>tableH} }"></m:Text>
       </m:OverflowToolbar>
     </extension>
         <columns>
@@ -131,7 +131,7 @@
             >
                 <m:Text text="{i18n>NoteTestata}" />
                   <template>
-                    <m:Text text="{ordiniModel>ZzeadNotes}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>ZzheadNote}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -204,7 +204,7 @@
             >
                 <m:Text text="{i18n>NumeroPartita}" />
                   <template>
-                    <m:Text text="{ordiniModel>Charg}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>ZzmatchNum}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -236,7 +236,7 @@
             >
                 <m:Text text="{i18n>TargaAutovettura}" />
                   <template>
-                    <m:Text text="{ordiniModel>Zztra}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>ZzcarReg}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -332,7 +332,7 @@
             >
                 <m:Text text="{i18n>DataCompetenza}" />
                   <template>
-                    <m:Text text="{path: 'ordiniModel>Zzdat', formatter: '.formatter.formatDate'}" wrapping="false"/>
+                    <m:Text text="{path: 'ordiniModel>Zzaccrual', formatter: '.formatter.formatDate'}" wrapping="false"/>
                 </template>
             </Column>
             <Column

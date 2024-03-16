@@ -16,8 +16,8 @@
   <items>
     <ColumnListItem>
       <cells>
-        <Text text="{errorModel>msg}" />
-        <Text text="{errorModel>descr}" />
+        <Text text="{errorModel>Message1}" />
+        <Text text="{errorModel>Type}" />
       </cells>
     </ColumnListItem>
   </items>

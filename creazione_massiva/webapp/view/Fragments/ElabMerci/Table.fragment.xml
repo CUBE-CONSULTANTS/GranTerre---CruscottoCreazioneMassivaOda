@@ -14,7 +14,7 @@
     >
     <extension>
       <m:OverflowToolbar height="6vh">
-        <m:Text class="tableHeader sapUiResponsiveMargin"  text="{= ${filterModel>/simulazione} ? ${i18n>tableH2} + ' ' + ${i18n>modSim} : ${i18n>tableH2} }"></m:Text>
+        <m:Text class="tableHeader"  text="{= ${filterModel>/simulazione} ? ${i18n>tableH2} + ' ' + ${i18n>modSim} : ${i18n>tableH2} }"></m:Text>
       </m:OverflowToolbar>
     </extension>
     <columns>

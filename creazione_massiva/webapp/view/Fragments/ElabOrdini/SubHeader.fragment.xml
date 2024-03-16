@@ -46,136 +46,14 @@
       text="{i18n>Simulazione}"      
       class="checkText"     
       select="onSimulazioneCheck"
+      enabled="{= ${filterModel>/uploaded} ? true : false}"
       />
       <ToolbarSpacer/>
-      <Button width="100px" press="onOdaSelect" type="Emphasized"  text="{i18n>Crea}"/>  
+      <Button width="100px" press="onOdaSelect" type="Emphasized"  text="{i18n>Crea}" enabled="{= ${filterModel>/uploaded} ? true : false}"/>  
       <ToolbarSeparator class="sapUiSmallMarginBeginEnd"/>
-      <Button press="onOdaMerceSelect"  type="Emphasized" text="{i18n>Crea1}"/>
+      <Button press="onOdaMerceSelect"  type="Emphasized" text="{i18n>Crea1}" enabled="{= ${filterModel>/uploaded} ? true : false}"/>
  
     </OverflowToolbar>
   </f:DynamicPageHeader>
 </core:FragmentDefinition>
-    <!-- <fb:FilterBar
-      id="filterbar"
-      search="btnGoSearch"
-      filterChange="onChangeFilter"
-      showClearOnFB="true"
-      clear="onFilterBarClear"
-      defaultSpan="XL10 L8 M8 S8"
-      showFilterConfiguration="false"
-      useToolbar="false"
-      class="sapUiLargeMarginBegin"
-    >
-      <fb:filterGroupItems>
-        <fb:FilterGroupItem
-          visibleInFilterBar="true"
-          name="tipoDocumento"
-          label="{i18n>tipoDocumento}"
-          groupName="Group1"
-        >
-          <fb:control>
-            <ComboBox value="{filterModel>/tipoDocumento}" change="onDocChange" />
-          </fb:control>
-        </fb:FilterGroupItem>
-        <fb:FilterGroupItem
-          visibleInFilterBar="true"
-          name="fornitore"
-          label="{i18n>fornitore}"
-          groupName="Group1"
-        >
-          <fb:control>
-            <Input
-              showValueHelp="true"
-              value="{filterModel>/fornitore}"
-            />
-          </fb:control>
-        </fb:FilterGroupItem>
-        <fb:FilterGroupItem
-          visibleInFilterBar="true"
-          name="Download"
-          label="{i18n>Download}"
-          groupName="Group1"
-        >
-          <fb:control>
-            <Button
-              icon="sap-icon://download"
-              press="DownloadExcel"
-              class="button"
-              type="Emphasized"
-            />
-          </fb:control>
-        </fb:FilterGroupItem>
-        <fb:FilterGroupItem
-          visibleInFilterBar="true"
-          name="File"
-          label="{i18n>file}"
-          groupName="Group1"
-          mandatory="true"            
-        >
-          <fb:control>
-            <unified:FileUploader
-              id="fileUploader"
-              value="{filterModel>/file}"
-              style="Emphasized"
-              icon="sap-icon://search"
-              iconOnly="true"              
-              uploadUrl="upload/"
-              fileType="csv"          
-            />
-            
-          </fb:control>
-        </fb:FilterGroupItem>
-        <fb:FilterGroupItem
-          visibleInFilterBar="true"
-          name="upload"
-          label="{i18n>Upload}"
-          groupName="Group1"
-        >
-          <fb:control>
-            <Button
-              icon="sap-icon://upload"
-              class="button"
-              type="Emphasized"
-              press="handleUploadPress"
-            />
-          </fb:control>
-        </fb:FilterGroupItem>
-        
-        <fb:FilterGroupItem
-          visibleInFilterBar="true"
-          name="oda"
-          label="{i18n>Crea}"
-          groupName="Group1"
-          mandatory="true"
-        >
-          <fb:control>
-            <CheckBox select="onOdaSelect"/>
-          </fb:control>
-        </fb:FilterGroupItem>
-        <fb:FilterGroupItem
-          
-          visibleInFilterBar="true"
-          name="oda1"
-          label="{i18n>Crea1}"
-          groupName="Group1"
-          mandatory="true"
-        >
-          <fb:control>
-            <CheckBox  select="onOdaMerceSelect"/>
-          </fb:control>
-        </fb:FilterGroupItem>
-        <fb:FilterGroupItem
-          visibleInFilterBar="true"
-          name="simulazione"
-          label="{i18n>Simulazione}"
-          groupName="Group2"
-        >
-          <fb:control>
-            <CheckBox             
-              select="onSimulazioneCheck"
-            />
-          </fb:control>
-        </fb:FilterGroupItem>
-       
-      </fb:filterGroupItems>
-    </fb:FilterBar> -->
+    
