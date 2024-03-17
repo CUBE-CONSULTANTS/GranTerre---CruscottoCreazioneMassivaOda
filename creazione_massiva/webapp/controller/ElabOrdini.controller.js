@@ -39,7 +39,7 @@ sap.ui.define(
           // this.progress = 0
           this.getRouter().getRoute("ElabOrdini").attachMatched(this._onRouteMatched, this);
         },
-        // eventulae chiamata ultimo log
+        // eventuale chiamata ultimo log
         _onRouteMatched: async function (oEvent) {
           debugger;
 
@@ -56,7 +56,6 @@ sap.ui.define(
           document.body.removeChild(link);
         },
         handleChangeFile: async function (oEvent) {
-          //disabilitare quando è in corso il process attuale
           debugger
           var oModel = this.getOwnerComponent().getModel();
           let oFileUploader = oEvent.getSource().getParent().getAggregation("content")[2];
@@ -70,7 +69,6 @@ sap.ui.define(
             name: "Content-Type",
             value: this.file.type
           }));
-
           oFileUploader.addHeaderParameter(new sap.ui.unified.FileUploaderParameter({
             name: "x-csrf-token",
             value: oModel.getSecurityToken()
@@ -119,7 +117,7 @@ sap.ui.define(
                 });
               }
             } catch (error) {
-              MessageBox.error('Si è verificato un errore durante la conversione del file');
+              MessageBox.error('Si è verificato un errore durante il caricamento del file');
               this.hideBusy(0)
             }
             // oFileUploader.setValue()
@@ -131,7 +129,6 @@ sap.ui.define(
           try {
             this.showBusy(0)
             let errorLog = await API.getEntity(this.getOwnerComponent().getModel(), "/UploadOutputSet", "UploadOutputValidation")
-
             oModel.setData({
               results: errorLog.results.flatMap(element => element.UploadOutputValidation.results)
             })
@@ -155,7 +152,6 @@ sap.ui.define(
             })
             this.setModel(oModel, "ordiniModel")
             table.setSelectionMode("None")
-            // iconStatus.detachPress();
             this.hideBusy(0)
           } catch (error) {
             MessageBox.error("Si è verificato un errore durante l'operazione");
@@ -279,7 +275,16 @@ sap.ui.define(
             if(this.checked === 'X'){
               MessageToast.show("Funz. eseguita in modalità Test")
             }else{
-               //nascondere o mostrare checkbox a seconda del risultato
+               //nascondere o mostrare checkbox a seconda del risultato:
+
+               //se simulazione= false e crea ordine tutti verdi message.box("Ordini processati correttamente")
+               //si può andare in selezione (table.setSelectionMode("MultiToggle"))  per creare documento materiale se la colonna 
+              //  documento materiale è vuota 
+               //se anche solo un rosso : messagebox.error("ricompilare correttamente il foglio excel e riprovare")
+
+               //se simulazione=false e crea ordine + documento materiale tutto success:
+               //message.box("Ordini processati correttamente")
+               //se anche solo uno rosso : messagebox.error("ricompilare correttamente il foglio excel e riprovare")
             }
            
           } catch (error) {
@@ -320,11 +325,11 @@ sap.ui.define(
           //   this.byId("tableOda").setVisible(true);
           // }
         },
-        onSaveOda: function () {
-          if (this.errors) {
-            MessageBox.error("Sono presenti Errori, Elaborazione non eseguita");
-          }
-        },
+        // onSaveOda: function () {
+        //   if (this.errors) {
+        //     MessageBox.error("Sono presenti Errori, Elaborazione non eseguita");
+        //   }
+        // },
         //visualizzazione dialog errori x riga
         onIconPress: function (oEvent) {
           debugger;
@@ -344,7 +349,7 @@ sap.ui.define(
           let selectedRows = oEvent.getSource().getSelectedIndices();
           this.selectedOda = [];
           selectedRows.forEach((row) => {
-            let oDa = oEvent.getSource().getContextByIndex(row).getObject().ordAcq
+            let oDa = oEvent.getSource().getContextByIndex(row).getObject().Ebeln
             this.selectedOda.push(oDa);
           });
         },
