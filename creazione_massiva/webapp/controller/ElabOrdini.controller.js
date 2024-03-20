@@ -6,19 +6,19 @@ sap.ui.define(
     "../model/formatter",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
-	"sap/m/MessageToast"
+    "sap/m/MessageToast"
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
   function (
     BaseController,
-	models,
-	API,
-	formatter,
-	JSONModel,
-	MessageBox,
-	MessageToast,
+    models,
+    API,
+    formatter,
+    JSONModel,
+    MessageBox,
+    MessageToast,
   ) {
     "use strict";
 
@@ -31,12 +31,12 @@ sap.ui.define(
           debugger;
           this.setModel(models.odaDocModel(), "odaDocs");
           this.setModel(models.createFilterModel(), "filterModel");
-          this.checked;        
+          this.checked;
           this.errors;
           this.file
           this.selectedOda;
-          // this.progressInterval = 0
-          // this.progress = 0
+          this.progressInterval = 0
+          this.progress = 0
           this.getRouter().getRoute("ElabOrdini").attachMatched(this._onRouteMatched, this);
         },
         // eventuale chiamata ultimo log
@@ -164,74 +164,89 @@ sap.ui.define(
         onOdaSelect: function (oEvent) {
           debugger;
           let flag = "process orders";
-          // this.onOpenProgressDialog(flag)
-          this.showResultsInTable(oEvent, flag)
+          this.onOpenProgressDialog(oEvent,flag)
+          // this.showResultsInTable(oEvent, flag)
         },
         //genera Ordine + documento
         onOdaMerceSelect: function (oEvent) {
           debugger;
           let flag = "process orders and matdoc";
-          // this.onOpenProgressDialog(flag)
-          this.showResultsInTable(oEvent, flag)
+          this.onOpenProgressDialog(oEvent,flag)
+          // this.showResultsInTable(oEvent, flag)
         },
         //eventuale gestione asincrona
+
+        onOpenProgressDialog: function (oEvent,flag) {
+          let that = this
+          this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog" })
+          this.pDialog.then((oDialog) => {
+            debugger
+            let progressBar = new sap.m.ProgressIndicator({
+              width: "17rem",
+              displayValue: "0%",
+              percentValue: 0,
+              state: "Information",
+            });
+            if (!oDialog.getContent().length) {
+              oDialog.addContent(progressBar);
+            }
+            progressBar.setBusy(true)
+            oDialog.open()
+            that.onCheckProgress(flag, progressBar);
+          })
+        },
+        onCheckProgress: async function (flag, progressBar) {
+          let that = this;
+
+          this.progressInterval =  setInterval(()=> {
+            try {
+              that.backendProgress(flag, progressBar)
+              console.log("Controllo del progresso...");
+            } catch (error) {
+              console.error("Errore durante il controllo del progresso:", error);
+            }
+          }, 2000);
+        },
+        backendProgress: async function (flag, progressBar) {
+          try {
+            const progressResponse = await API.getOutputLogSet(this.getOwnerComponent().getModel(), "/OutputLogSet", this.checked, flag)
+           
+            if (progressResponse.status === "finished") {
+              clearInterval(this.progressInterval);
+              progressBar.setBusy(false);
+              this.onCloseProgress(progressBar.getParent(), flag);
+              this.progressInterval = 0;
+              this.progress = 0;
+              progressBar.setDisplayValue("100%");
+              progressBar.setPercentValue(100);
+              return;
+            }
+            this.progress++;
+            const totalSteps = 4;
+            let progressPercentage = Math.floor((this.progress / totalSteps) * 100);
         
-        // onOpenProgressDialog: function (flag) {
-        //   let that = this
-        //   this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog" })
-        //   this.pDialog.then((oDialog) => {
-        //     debugger
-        //     let progressBar = new sap.m.ProgressIndicator({
-        //       width: "17rem",
-        //       displayValue: "0%",
-        //       percentValue: 0,
-        //       state: "Information",
-        //     });
-        //     if (!oDialog.getContent().length) {
-        //       oDialog.addContent(progressBar);
-        //     }
-        //     progressBar.setBusy(true)
-        //     oDialog.open()
-        //     that.onCheckProgress(flag, progressBar);
-        //   })
-        // },
-        // onCheckProgress: async function (flag, progressBar) {
-        //   let aModel;
-        //   let that = this;
-
-        //   this.progressInterval = setInterval(() => {
-        //     try {
-        //       // aModel = await that._getDbPromised("/(flag='" + flag + "')")
-        //       that.simulateBackendProgress(flag, progressBar)
-        //       console.log("Controllo del progresso...");
-        //     } catch (error) {
-        //       console.error("Errore durante il controllo del progresso:", error);
-        //     }
-        //   }, 2000);
-        // },
-        // simulateBackendProgress: async function (flag, progressBar) {
-        //   debugger
-        //   const totalSteps = 4;
-        //   let progressPercentage = Math.floor((this.progress / totalSteps) * 100);
-
-        //   progressBar.setDisplayValue(progressPercentage + "%")
-        //   progressBar.setPercentValue(progressPercentage)
-        //   this.progress++
-
-        //   if (this.progress > totalSteps && progressPercentage === 100) {
-        //     clearInterval(this.progressInterval);
-        //     progressBar.setBusy(false)
-        //     this.onCloseProgress(progressBar.getParent(), flag)
-        //     this.progressInterval = 0
-        //     progressPercentage = 0
-        //     this.progress = 0
-        //   }
-        // },
-        // onCloseProgress: function (dialog, flag) {
-        //   dialog.removeAllContent();
-        //   dialog.close()
-        //   this.showResultsInTable(flag);
-        // },
+            progressBar.setDisplayValue(progressPercentage + "%");
+            progressBar.setPercentValue(progressPercentage);
+        
+            if (this.progress > totalSteps && progressPercentage === 100) {
+              clearInterval(this.progressInterval);
+              progressBar.setBusy(false);
+              this.onCloseProgress(progressBar.getParent(), flag);
+              this.progressInterval = 0;
+              this.progress = 0;
+              progressBar.setDisplayValue("100%");
+              progressBar.setPercentValue(100);
+            }
+          } catch (error) {
+            console.error("Errore durante il controllo del progresso:", error);
+            clearInterval(this.progressInterval);
+          }
+        },
+        onCloseProgress: function (dialog, flag) {
+          dialog.removeAllContent();
+          dialog.close()
+          this.showResultsInTable(oEvent,flag);
+        },
         //fine gestione asincrona
 
         //get tabella con o senza errori
@@ -246,17 +261,17 @@ sap.ui.define(
           }
           try {
             this.showBusy(0)
-            let output = await API.getOutputLogSet(this.getOwnerComponent().getModel(), "/OutputLogSet", this.checked, flag)
+            let output = await API.getEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret")
             if (output.success) {
               that.getModel("ordiniModel").setData(output)
               let aErrors = output.results.map(result => result.OutputToBapiret.results)
-              aErrors.forEach(array=>{
+              aErrors.forEach(array => {
                 array.shift()
               })
               that.getModel("ordiniModel").getProperty("/results").forEach((element, index) => {
-                let errorsForElement = aErrors[index] || [];          
+                let errorsForElement = aErrors[index] || [];
                 let hasError = errorsForElement.some(element => element.Type === "E");
-                let allWarnings = errorsForElement.every(element => element.Type === "W");    
+                let allWarnings = errorsForElement.every(element => element.Type === "W");
                 let status = undefined;
                 if (hasError) {
                   status = "error";
@@ -268,25 +283,25 @@ sap.ui.define(
                 that.getModel("ordiniModel").setProperty("/results/" + index + "/status", status);
                 icon.setColor(formatter.iconColor(status))
               });
-              
+
             }
             this.hideBusy(0)
             table.setVisible(true)
-            if(this.checked === 'X'){
+            if (this.checked === 'X') {
               MessageToast.show("Funz. eseguita in modalità Test")
-            }else{
-               //nascondere o mostrare checkbox a seconda del risultato:
+            } else {
+              //nascondere o mostrare checkbox a seconda del risultato:
 
-               //se simulazione= false e crea ordine tutti verdi message.box("Ordini processati correttamente")
-               //si può andare in selezione (table.setSelectionMode("MultiToggle"))  per creare documento materiale se la colonna 
+              //se simulazione= false e crea ordine tutti verdi message.box("Ordini processati correttamente")
+              //si può andare in selezione (table.setSelectionMode("MultiToggle"))  per creare documento materiale se la colonna 
               //  documento materiale è vuota 
-               //se anche solo un rosso : messagebox.error("ricompilare correttamente il foglio excel e riprovare")
+              //se anche solo un rosso : messagebox.error("ricompilare correttamente il foglio excel e riprovare")
 
-               //se simulazione=false e crea ordine + documento materiale tutto success:
-               //message.box("Ordini processati correttamente")
-               //se anche solo uno rosso : messagebox.error("ricompilare correttamente il foglio excel e riprovare")
+              //se simulazione=false e crea ordine + documento materiale tutto success:
+              //message.box("Ordini processati correttamente")
+              //se anche solo uno rosso : messagebox.error("ricompilare correttamente il foglio excel e riprovare")
             }
-           
+
           } catch (error) {
             console.log(error)
           }
