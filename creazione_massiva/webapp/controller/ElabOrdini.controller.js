@@ -164,89 +164,80 @@ sap.ui.define(
         onOdaSelect: function (oEvent) {
           debugger;
           let flag = "process orders";
-          this.onOpenProgressDialog(oEvent,flag)
-          // this.showResultsInTable(oEvent, flag)
+          this.onOpenProgressDialog(oEvent, flag)
         },
         //genera Ordine + documento
         onOdaMerceSelect: function (oEvent) {
           debugger;
           let flag = "process orders and matdoc";
-          this.onOpenProgressDialog(oEvent,flag)
-          // this.showResultsInTable(oEvent, flag)
+          this.onOpenProgressDialog(oEvent, flag)
         },
         //eventuale gestione asincrona
 
-        onOpenProgressDialog: function (oEvent,flag) {
-          let that = this
-          this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog" })
-          this.pDialog.then((oDialog) => {
+          onOpenProgressDialog: function (oEvent, flag) {
+            let that = this
+            this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog" })
+            this.pDialog.then((oDialog) => {
+              debugger
+              let progressBar = new sap.m.ProgressIndicator({
+                width: "17rem",
+                displayValue: "0%",
+                percentValue: 0,
+                state: "Information",
+              });
+              if (!oDialog.getContent().length) {
+                oDialog.addContent(progressBar);
+              }
+              progressBar.setBusy(true)
+              oDialog.open()
+              that.onCheckProgress(oEvent, flag, progressBar)
+            })
+          },
+          onCheckProgress: async function (oEvent, flag, progressBar) {
+            let that = this;
+            try{
+              const asyncCall = await API.getOutputLogSet(this.getOwnerComponent().getModel(), "/OutputLogSet", this.checked, flag)
+              if (asyncCall.success){
+                    that.backendProgress(oEvent, flag, progressBar)
+                  }           
+              }catch (error){
+              MessageBox.error(error)
+            }        
+          },
+          backendProgress: async function (oEvent, flag, progressBar) {
             debugger
-            let progressBar = new sap.m.ProgressIndicator({
-              width: "17rem",
-              displayValue: "0%",
-              percentValue: 0,
-              state: "Information",
-            });
-            if (!oDialog.getContent().length) {
-              oDialog.addContent(progressBar);
-            }
-            progressBar.setBusy(true)
-            oDialog.open()
-            that.onCheckProgress(flag, progressBar);
-          })
-        },
-        onCheckProgress: async function (flag, progressBar) {
-          let that = this;
-
-          this.progressInterval =  setInterval(()=> {
             try {
-              that.backendProgress(flag, progressBar)
-              console.log("Controllo del progresso...");
+              setInterval(async () => {
+                const progressResponse = await API.getEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret");
+                const totalSteps = progressResponse.results.length;
+                let lengthModelData = this.getView().getModel("ordiniModel").getData().results.length;
+          
+                if (totalSteps === lengthModelData) {
+                  clearInterval(this.progressInterval);
+                  progressBar.setBusy(false);
+                  progressBar.setDisplayValue("100%");
+                  progressBar.setPercentValue(100);
+                  this.onCloseProgress(oEvent, progressBar.getParent(), flag);
+                  this.progressInterval = 0;
+                  this.progress = 0;
+                  return;
+                }
+          
+                this.progress++;
+                let progressPercentage = Math.floor((this.progress / totalSteps) * 100);
+                progressBar.setDisplayValue(progressPercentage + "%");
+                progressBar.setPercentValue(progressPercentage);
+              }, 20000)
             } catch (error) {
-              console.error("Errore durante il controllo del progresso:", error);
-            }
-          }, 2000);
-        },
-        backendProgress: async function (flag, progressBar) {
-          try {
-            const progressResponse = await API.getOutputLogSet(this.getOwnerComponent().getModel(), "/OutputLogSet", this.checked, flag)
-           
-            if (progressResponse.status === "finished") {
+              MessageBox.error("Errore durante il controllo del progresso:", error);
               clearInterval(this.progressInterval);
-              progressBar.setBusy(false);
-              this.onCloseProgress(progressBar.getParent(), flag);
-              this.progressInterval = 0;
-              this.progress = 0;
-              progressBar.setDisplayValue("100%");
-              progressBar.setPercentValue(100);
-              return;
             }
-            this.progress++;
-            const totalSteps = 4;
-            let progressPercentage = Math.floor((this.progress / totalSteps) * 100);
-        
-            progressBar.setDisplayValue(progressPercentage + "%");
-            progressBar.setPercentValue(progressPercentage);
-        
-            if (this.progress > totalSteps && progressPercentage === 100) {
-              clearInterval(this.progressInterval);
-              progressBar.setBusy(false);
-              this.onCloseProgress(progressBar.getParent(), flag);
-              this.progressInterval = 0;
-              this.progress = 0;
-              progressBar.setDisplayValue("100%");
-              progressBar.setPercentValue(100);
-            }
-          } catch (error) {
-            console.error("Errore durante il controllo del progresso:", error);
-            clearInterval(this.progressInterval);
-          }
-        },
-        onCloseProgress: function (dialog, flag) {
-          dialog.removeAllContent();
-          dialog.close()
-          this.showResultsInTable(oEvent,flag);
-        },
+          },
+          onCloseProgress: function (oEvent, dialog, flag) {
+            dialog.removeAllContent();
+            dialog.close()
+            this.showResultsInTable(oEvent, flag);
+          },
         //fine gestione asincrona
 
         //get tabella con o senza errori

@@ -77,34 +77,25 @@ sap.ui.define([
         });
       });
     },
-    // if upload status ok --->
-    // get staging table function: (servizio)
-    // output tabella dati inseriti da utente, status blank
 
-
-    // async get Output: action (simulate/oda/oda + mat) -->non è ancora async
     getOutputLogSet: function (oModel, Entity, check, button) {
       debugger
-      let filters = [];
+      let filters = []
+        if (button === "process orders" && check === 'X') {
+          filters.push(new sap.ui.model.Filter("OrderOnly", sap.ui.model.FilterOperator.EQ, 'X'));
+          filters.push(new sap.ui.model.Filter("Simulate", sap.ui.model.FilterOperator.EQ, 'X'));
+        } else if (button === "process orders and matdoc" && check === 'X') {
+          filters.push(new sap.ui.model.Filter("Ordermatdoc", sap.ui.model.FilterOperator.EQ, 'X'));
+          filters.push(new sap.ui.model.Filter("Simulate", sap.ui.model.FilterOperator.EQ, 'X'));
+        } else if (button === "process orders") {
+          filters.push(new sap.ui.model.Filter("OrderOnly", sap.ui.model.FilterOperator.EQ, 'X'));
+        } else if (button === "process orders and matdoc") {
+          filters.push(new sap.ui.model.Filter("Ordermatdoc", sap.ui.model.FilterOperator.EQ, 'X'));
+        }
 
-      if (button === "process orders" && check === 'X') {
-        filters.push(new sap.ui.model.Filter("OrderOnly", sap.ui.model.FilterOperator.EQ, 'X'));
-        filters.push(new sap.ui.model.Filter("Simulate", sap.ui.model.FilterOperator.EQ, 'X'));
-      } else if (button === "process orders and matdoc" && check === 'X') {
-        filters.push(new sap.ui.model.Filter("Ordermatdoc", sap.ui.model.FilterOperator.EQ, 'X'));
-        filters.push(new sap.ui.model.Filter("Simulate", sap.ui.model.FilterOperator.EQ, 'X'));
-      } else if (button === "process orders") {
-        filters.push(new sap.ui.model.Filter("OrderOnly", sap.ui.model.FilterOperator.EQ, 'X'));
-      } else if (button === "process orders and matdoc") {
-        filters.push(new sap.ui.model.Filter("Ordermatdoc", sap.ui.model.FilterOperator.EQ, 'X'));
-      }
-      // let urlParameters = {
-      //   "$expand": "OutputToBapiret"
-      // };
       return new Promise((resolve, reject) => {
         oModel.read(Entity, {
           filters: filters,
-          // urlParameters: urlParameters,
           success: (odata) => {
             resolve({
               "results": odata.results,
@@ -120,8 +111,6 @@ sap.ui.define([
         });
       });
     },
-
-    //potenziale get per aggiornamento stato per fine update tabelle dopo inserimento ordine (servizio)
 
     //matchCode oda (servizio)
 
@@ -140,11 +129,6 @@ sap.ui.define([
       if (check === 'X') {
         filters.push(new sap.ui.model.Filter("Simulate", sap.ui.model.FilterOperator.EQ, 'X'));
       }
-
-      //expand Anthea --> è sempre asincrona va chiamata dopo la fine del processo. 
-      // let urlParameters = {
-      //   "$expand": "OutputToBapiret2"
-      // };
 
       return new Promise((resolve, reject) => {
         oModel.read(Entity, {
