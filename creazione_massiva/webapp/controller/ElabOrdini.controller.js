@@ -261,8 +261,8 @@ sap.ui.define(
               })
               that.getModel("ordiniModel").getProperty("/results").forEach((element, index) => {
                 let errorsForElement = aErrors[index] || [];
-                let hasError = errorsForElement.some(element => element.Type === "E");
-                let allWarnings = errorsForElement.every(element => element.Type === "W");
+                let hasError = errorsForElement.some(element => element.Status === "E");
+                let allWarnings = errorsForElement.every(element => element.Status === "W");
                 let status = undefined;
                 if (hasError) {
                   status = "error";
