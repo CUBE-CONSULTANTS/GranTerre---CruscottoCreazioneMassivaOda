@@ -5,8 +5,6 @@ sap.ui.define(
     "sap/ui/core/UIComponent",
     "sap/ui/core/Fragment",
     "sap/ui/export/Spreadsheet",
-	  "sap/ui/model/Sorter",
-    "granterre/creazionemassiva/model/formatter",
 	  "sap/m/MessageBox",
     "../model/formatter",
   ],
@@ -15,9 +13,9 @@ sap.ui.define(
 	UIComponent,
 	Fragment,
 	Spreadsheet,
-	Sorter,
-	formatter,
-	MessageBox  ) {
+  MessageBox,
+	formatter
+	 ) {
     "use strict";
 
     return Controller.extend(

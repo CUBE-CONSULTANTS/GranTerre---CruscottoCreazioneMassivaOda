@@ -23,9 +23,6 @@ sap.ui.define([
           onInit: function () {
             debugger
             this.setModel(models.odaDocModel2(), "odaDocs");
-            // this.btnGo1 = this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnGo")
-            // this.btnGo1.setProperty("text","Esegui")
-            // this.byId("container-granterre.creazionemassiva---ElabMerci--filterbar-btnClear").setProperty("text","Resetta Filtri")
             this.checked;
             this.setModel(models.createFilterModel(), "filterModel");
             this.getRouter().getRoute("ElabMerci").attachMatched(this._onRouteMatched, this);
@@ -55,26 +52,14 @@ sap.ui.define([
             debugger;
             let aOda = []
             this.byId("idMultiInput").getTokens().forEach(token=>{aOda.push(token.getProperty("text"))})
-            let output = await API.getOutputLogMatDocSet(this.getOwnerComponent().getModel(),"/OutputLogMatDocSet",aOda,this.checked)
-            this.byId("tableMerci").setVisible(true);
-            // let error;
-            // let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
-            // dataToCheck.forEach((element) => {
-            //   if (element.color === "red") {
-            //     error = true;
-            //   }
-            // });
-            // if (!this.checked) {
-            //   this.byId("tableMerci").setVisible(true);
-            //   if (error) {
-            //     MessageBox.error("Non è consentita l'Elaborazione con Errori");
-            //   }
-            // } else {
-            //   this.byId("tableMerci").setVisible(true);
-            //   if (error) {
-            //     MessageToast.show("Sono presenti Errori in fase di Simulazione");
-            //   }
-            // }
+            try {
+              let asyncCall = await API.getOutputLogMatDocSet(this.getOwnerComponent().getModel(),"/OutputLogMatDocSet",aOda,this.checked)
+              if(asyncCall.success){
+                
+              }
+            } catch (error) {
+              
+            }
           },
           onIconPress: function (oEvent) {
             debugger;

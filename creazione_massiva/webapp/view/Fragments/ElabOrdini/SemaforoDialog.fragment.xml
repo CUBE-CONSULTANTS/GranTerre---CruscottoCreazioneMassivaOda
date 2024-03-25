@@ -6,18 +6,18 @@
 <Dialog title="{i18n>ListaErrori}" contentWidth="600px">
 <Table items="{errorModel>/}">
   <columns>
-    <Column >
-      <Label  text="Messaggio"></Label>
+    <Column width="20%" hAlign="Center" >
+      <Label  text="{i18n>Descrizione}"></Label>
     </Column>
     <Column >
-      <Label  text="Descrizione" ></Label>
+      <Label  text="{i18n>Messaggio}" ></Label>
     </Column>
   </columns>
   <items>
     <ColumnListItem>
       <cells>
-        <Text text="{errorModel>Message1}" />
         <Text text="{errorModel>Status}" />
+        <Text text="{errorModel>Message1}" /> 
       </cells>
     </ColumnListItem>
   </items>

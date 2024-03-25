@@ -30,7 +30,6 @@ sap.ui.define([
     },
     //POST upload
     uploadFile: function (file, oHeaders) {
-      debugger;
       return new Promise((resolve, reject) => {
         jQuery.ajax({
           type: 'POST',
@@ -52,8 +51,7 @@ sap.ui.define([
         });
       });
     },
-    //if errors ->get log errori (servizio) /sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV/UploadOutputSet?$format=json.
-    getEntity: function (oModel, Entity, Expands) {
+    getExpandedEntity: function (oModel, Entity, Expands) {
       let urlParameters = {};
       if (Expands && Array.isArray(Expands) && Expands.length > 0) {
         urlParameters.$expand = Expands.join(",");
@@ -77,9 +75,8 @@ sap.ui.define([
         });
       });
     },
-
+    //get oda
     getOutputLogSet: function (oModel, Entity, check, button) {
-      debugger
       let filters = []
         if (button === "process orders" && check === 'X') {
           filters.push(new sap.ui.model.Filter("OrderOnly", sap.ui.model.FilterOperator.EQ, 'X'));
@@ -111,14 +108,10 @@ sap.ui.define([
         });
       });
     },
-
-    //matchCode oda (servizio)
-
-    //get documento materiale (async?)
+    //get documento materiale
     getOutputLogMatDocSet: function (oModel, Entity, oda, check) {
       debugger
       let filters = [];
-
       if (Array.isArray(oda)) {
         oda.forEach(function (oda) {
           filters.push(new sap.ui.model.Filter("Ebeln", sap.ui.model.FilterOperator.EQ, oda));
@@ -133,7 +126,6 @@ sap.ui.define([
       return new Promise((resolve, reject) => {
         oModel.read(Entity, {
           filters: filters,
-          urlParameters: urlParameters,  //aggiunta dell'expand
           success: (odata) => {
             resolve({
               "results": odata.results,

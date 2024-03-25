@@ -28,11 +28,9 @@ sap.ui.define(
         formatter: formatter,
 
         onInit: async function () {
-          debugger;
           this.setModel(models.odaDocModel(), "odaDocs");
           this.setModel(models.createFilterModel(), "filterModel");
           this.checked;
-          this.errors;
           this.file
           this.selectedOda;
           this.progressInterval = 0
@@ -41,12 +39,10 @@ sap.ui.define(
         },
         // eventuale chiamata ultimo log
         _onRouteMatched: async function (oEvent) {
-          debugger;
 
         },
         //gestione download/upload tracciato
         DownloadExcel: function (oEvent) {
-          debugger;
           let sExcelFilePath = "public/TracciatoCaricamentoOda.xlsx";
           let link = document.createElement("a");
           link.href = sExcelFilePath;
@@ -56,8 +52,7 @@ sap.ui.define(
           document.body.removeChild(link);
         },
         handleChangeFile: async function (oEvent) {
-          debugger
-          var oModel = this.getOwnerComponent().getModel();
+          let oModel = this.getOwnerComponent().getModel();
           let oFileUploader = oEvent.getSource().getParent().getAggregation("content")[2];
 
           this.file = oEvent.getParameter("files")[0];
@@ -128,7 +123,7 @@ sap.ui.define(
           let oModel = new JSONModel()
           try {
             this.showBusy(0)
-            let errorLog = await API.getEntity(this.getOwnerComponent().getModel(), "/UploadOutputSet", "UploadOutputValidation")
+            let errorLog = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/UploadOutputSet", "UploadOutputValidation")
             oModel.setData({
               results: errorLog.results.flatMap(element => element.UploadOutputValidation.results)
             })
@@ -146,7 +141,7 @@ sap.ui.define(
           let oModel = new JSONModel()
           try {
             this.showBusy(0)
-            let stagingData = await API.getEntity(this.getOwnerComponent().getModel(), "/UploadOutputSet", "UploadOutputValidation")
+            let stagingData = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/UploadOutputSet", "UploadOutputValidation")
             oModel.setData({
               results: stagingData.results
             })
@@ -162,23 +157,19 @@ sap.ui.define(
 
         //genera Ordine
         onOdaSelect: function (oEvent) {
-          debugger;
           let flag = "process orders";
           this.onOpenProgressDialog(oEvent, flag)
         },
         //genera Ordine + documento
         onOdaMerceSelect: function (oEvent) {
-          debugger;
           let flag = "process orders and matdoc";
           this.onOpenProgressDialog(oEvent, flag)
         },
-        //eventuale gestione asincrona
-
-          onOpenProgressDialog: function (oEvent, flag) {
+        // gestione asincrona
+        onOpenProgressDialog: function (oEvent, flag) {
             let that = this
             this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog" })
             this.pDialog.then((oDialog) => {
-              debugger
               let progressBar = new sap.m.ProgressIndicator({
                 width: "17rem",
                 displayValue: "0%",
@@ -190,47 +181,58 @@ sap.ui.define(
               }
               progressBar.setBusy(true)
               oDialog.open()
-              that.onCheckProgress(oEvent, flag, progressBar)
+              that.onStartProgress(oEvent, flag, progressBar)
             })
-          },
-          onCheckProgress: async function (oEvent, flag, progressBar) {
-            let that = this;
+        },
+        onStartProgress: async function (oEvent, flag, progressBar) {
             try{
               const asyncCall = await API.getOutputLogSet(this.getOwnerComponent().getModel(), "/OutputLogSet", this.checked, flag)
               if (asyncCall.success){
-                    that.backendProgress(oEvent, flag, progressBar)
+                    this.checkProgress(oEvent, flag, progressBar)
                   }           
               }catch (error){
               MessageBox.error(error)
             }        
-          },
-          backendProgress: async function (oEvent, flag, progressBar) {
-            debugger
-            try {
+        },
+        checkProgress: async function (oEvent, flag, progressBar) {
+          debugger
+          try {
+            const progressResponse = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret");
+            if (progressResponse.results.length > 0) {
+              progressBar.setBusy(false);
+              progressBar.setDisplayValue("100%");
+              progressBar.setPercentValue(100);
+              setTimeout(() => {
+                this.onCloseProgress(oEvent, progressBar.getParent(), flag)
+              }, 3000)
+              return
+            }else{
+              let totalSteps = 10;    
               this.progressInterval = setInterval(async () => {
-                const progressResponse = await API.getEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret");
-                // const totalSteps = progressResponse.results.length;
-                // let lengthModelData = this.getView().getModel("ordiniModel").getData().results.length;
-          
-                if (progressResponse.results.length) {
-                  clearInterval(this.progressInterval);
-                  progressBar.setBusy(false);
-                  progressBar.setDisplayValue("100%");
-                  progressBar.setPercentValue(100);
-                  this.onCloseProgress(oEvent, progressBar.getParent(), flag);
-                  this.progressInterval = 0;
-                  this.progress = 0;
-                  return;
-                }
-          
-                this.progress++;
-                let progressPercentage = Math.floor((this.progress / totalSteps) * 100);
-                progressBar.setDisplayValue(progressPercentage + "%");
-                progressBar.setPercentValue(progressPercentage);
-              }, 20000)
+                try {
+                  const progressResponse = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret");
+                    if (progressResponse.results.length > 0) {
+                      clearInterval(this.progressInterval)
+                      progressBar.setBusy(false)
+                      progressBar.setDisplayValue("100%")
+                      progressBar.setPercentValue(100)
+                      setTimeout(() => {
+                        this.onCloseProgress(oEvent, progressBar.getParent(), flag);
+                      }, 3000)
+                      return
+                    }
+                    this.progress++;
+                    let progressPercentage = Math.floor((this.progress / totalSteps) * 100);
+                    progressBar.setDisplayValue(progressPercentage + "%");
+                    progressBar.setPercentValue(progressPercentage);
+                  } catch (error) {
+                    clearInterval(this.progressInterval);
+                    MessageBox.error("Errore durante il controllo del progresso:", error);
+                  }
+                }, 20000);
+              }     
             } catch (error) {
               MessageBox.error("Errore durante il controllo del progresso:", error);
-              clearInterval(this.progressInterval);
             }
           },
           onCloseProgress: function (oEvent, dialog, flag) {
@@ -239,7 +241,6 @@ sap.ui.define(
             this.showResultsInTable(oEvent, flag);
           },
         //fine gestione asincrona
-
         //get tabella con o senza errori
         showResultsInTable: async function (oEvent, flag) {
           debugger
@@ -253,7 +254,7 @@ sap.ui.define(
           }
           try {
             this.showBusy(0)
-            let output = await API.getEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret")
+            let output = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret")
             if (output.success) {
               that.getModel("ordiniModel").setData(output)
               let aErrors = output.results.map(result => result.OutputToBapiret.results)
@@ -273,74 +274,40 @@ sap.ui.define(
                 }
                 that.getModel("ordiniModel").setProperty("/results/" + index + "/status", status);
                 icon.setColor(formatter.iconColor(status))
-              });
-
+                if ((status === "warning" || status === "success") && !element.Mblnr) {
+                  table.setSelectionMode("MultiToggle")
+                }
+              })
             }
             this.hideBusy(0)
             table.setVisible(true)
             if (this.checked === 'X') {
-              MessageToast.show("Funz. eseguita in modalità Test")
+              if(status === "error"){
+                MessageToast.show("Funz. eseguita in modalità Test, sono presenti Errori bloccanti" )
+              }
+              if(status === "warning"){
+                MessageToast.show("Funz. eseguita in modalità Test, sono presenti Errori non bloccanti" )
+              }
+              if(status === "success"){
+                MessageToast.show("Funz. eseguita in modalità Test, non sono presenti Errori" )
+              }
             } else {
               if(status === "error"){
-                MessageBox.error("Ricompilare correttamente il foglio excel e riprovare")
+                MessageBox.error("Sono presenti Errori, elaborazione non eseguita. Ricompilare correttamente il foglio excel e riprovare")
               }
-              
+              if(status === "warning"){
+                MessageBox.warning("Ordini processati correttamente, sono presenti Errori non bloccanti" )
+              }           
               if(status === "success"){
                 MessageBox.success("Ordini processati correttamente")
               }
-              //nascondere o mostrare checkbox a seconda del risultato:
-
-              // e crea ordine tutti verdi message.box("Ordini processati correttamente")
-              //si può andare in selezione (table.setSelectionMode("MultiToggle"))  per creare documento materiale se la colonna 
-              //  documento materiale è vuota 
             }
-
           } catch (error) {
             console.log(error)
-          }
-          // if (flag === 2) {
-          //   let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
-          //   dataToCheck.forEach((element) => {
-          //     if (element.color === "red") {
-          //       this.errors = true;
-          //     }
-          //   });
-          //   if (this.checked) {
-          //     if (this.errors) {
-          //       MessageToast.show("Sono presenti Errori in fase di Simulazione");
-          //     }
-          //   } else {
-          //     this.onSaveOda();
-          //   }
-          //   let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content");
-          //   let header = table.getHeaderText();
-          //   table.setHeaderText((header += " e Documento Materiale"));
-          //   table.setVisible(true);
-          // } else {
-          //   let dataToCheck = this.getModel("odaDocs").getContext("/dati").getObject();
-          //   dataToCheck.forEach((element) => {
-          //     if (element.color === "red") {
-          //       this.errors = true;
-          //     }
-          //   });
-          //   if (this.checked) {
-          //     if (this.errors) {
-          //       MessageToast.show("Sono presenti Errori in fase di Simulazione");
-          //     }
-          //   } else {
-          //     this.onSaveOda();
-          //   }
-          //   this.byId("tableOda").setVisible(true);
-          // }
+          }     
         },
-        // onSaveOda: function () {
-        //   if (this.errors) {
-        //     MessageBox.error("Sono presenti Errori, Elaborazione non eseguita");
-        //   }
-        // },
         //visualizzazione dialog errori x riga
         onIconPress: function (oEvent) {
-          debugger;
           let errors = oEvent.getSource().getBindingContext("ordiniModel").getObject().OutputToBapiret
           let errorModel = new JSONModel(errors.results);
           this.setModel(errorModel, "errorModel");
@@ -350,10 +317,8 @@ sap.ui.define(
             // this.pDialog.then((oDialog)=>oDialog.open())
           }
         },
-
         // selezione degli ordini per cui ripetere elaborazione doc materiale
         onSelectOda: function (oEvent) {
-          debugger;
           let selectedRows = oEvent.getSource().getSelectedIndices();
           this.selectedOda = [];
           selectedRows.forEach((row) => {
@@ -361,7 +326,6 @@ sap.ui.define(
             this.selectedOda.push(oDa);
           });
         },
-
         //navigation
         NavToLaunch: function () {
           // this.onFilterBarClear()
@@ -369,7 +333,6 @@ sap.ui.define(
           this.getRouter().navTo("RouteLaunchTile");
         },
         navToElabMerci: function () {
-          debugger;
           this.getRouter().navTo("ElabMerci", {
             selected: JSON.stringify(this.selectedOda),
           });
