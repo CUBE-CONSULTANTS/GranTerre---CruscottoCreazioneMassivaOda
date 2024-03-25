@@ -201,6 +201,8 @@ sap.ui.define(
                 icon.setColor(formatter.iconColor(status))
                 if ((status === "warning" || status === "success") && !element.Mblnr) {
                   table.setSelectionMode("MultiToggle")
+                }else{
+                  table.setSelectionMode("None")
                 }
               })
             }

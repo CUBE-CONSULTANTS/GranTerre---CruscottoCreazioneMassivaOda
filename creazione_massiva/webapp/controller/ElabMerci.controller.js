@@ -132,6 +132,7 @@ sap.ui.define([
           },
           NavToLaunch: function () {
             debugger
+            this.byId("idMultiInput").removeAllTokens()
             if(this.getModel("odaModel") !== undefined){
               this.getModel("odaModel").setProperty("/","")
             } 
@@ -139,6 +140,7 @@ sap.ui.define([
             this.getRouter().navTo("RouteLaunchTile");
           },
           navToElabOrdine: function () {
+            this.byId("idMultiInput").removeAllTokens()
             this.getRouter().navTo("ElabOrdini");
           },
       });
