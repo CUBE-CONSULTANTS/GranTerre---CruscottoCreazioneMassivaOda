@@ -39,14 +39,17 @@ sap.ui.define([
             if(oda){
               let selectedOda = JSON.parse(oda)             
               selectedOda.forEach(function(item,index) {
-                let oToken = new sap.m.Token({
-                  key: item,
-                  text: item
-                })
-                aTokens.push(oToken)
-              });         
-              this.byId("idMultiInput").removeAllTokens()
-              this.byId("idMultiInput").setTokens(aTokens)
+                // let oToken = new sap.m.Token({
+                //   key: item,
+                //   text: item
+                // })
+                // aTokens.push(oToken)
+                odaData={item}
+              });   
+              odaModel.setData(odaData)
+              this.setModel(odaModel,"odaModel")   
+              // this.byId("idMultiInput").removeAllTokens()
+              // this.byId("idMultiInput").setTokens(aTokens)
             }      
             this.hideBusy(0)
           },
@@ -132,7 +135,7 @@ sap.ui.define([
           },
           NavToLaunch: function () {
             debugger
-            this.byId("idMultiInput").removeAllTokens()
+            // this.byId("idMultiInput").removeAllTokens()
             if(this.getModel("odaModel") !== undefined){
               this.getModel("odaModel").setProperty("/","")
             } 
@@ -140,7 +143,10 @@ sap.ui.define([
             this.getRouter().navTo("RouteLaunchTile");
           },
           navToElabOrdine: function () {
-            this.byId("idMultiInput").removeAllTokens()
+            // this.byId("idMultiInput").removeAllTokens()
+            if(this.getModel("odaModel") !== undefined){
+              this.getModel("odaModel").setProperty("/","")
+            } 
             this.getRouter().navTo("ElabOrdini");
           },
       });
