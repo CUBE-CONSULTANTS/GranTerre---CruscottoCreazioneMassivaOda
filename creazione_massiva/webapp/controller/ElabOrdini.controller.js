@@ -207,12 +207,12 @@ sap.ui.define(
           backendProgress: async function (oEvent, flag, progressBar) {
             debugger
             try {
-              setInterval(async () => {
+              this.progressInterval = setInterval(async () => {
                 const progressResponse = await API.getEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret");
-                const totalSteps = progressResponse.results.length;
-                let lengthModelData = this.getView().getModel("ordiniModel").getData().results.length;
+                // const totalSteps = progressResponse.results.length;
+                // let lengthModelData = this.getView().getModel("ordiniModel").getData().results.length;
           
-                if (totalSteps === lengthModelData) {
+                if (progressResponse.results.length) {
                   clearInterval(this.progressInterval);
                   progressBar.setBusy(false);
                   progressBar.setDisplayValue("100%");
@@ -244,6 +244,7 @@ sap.ui.define(
         showResultsInTable: async function (oEvent, flag) {
           debugger
           let that = this
+          let status = undefined;
           let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content")
           let header = oEvent.getSource().getParent().getParent().getParent().getAggregation("content").getAggregation("extension")[0].getAggregation("content")[0].getProperty("text")
           let icon = table.getAggregation("columns")[0].getAggregation("template")
@@ -263,7 +264,6 @@ sap.ui.define(
                 let errorsForElement = aErrors[index] || [];
                 let hasError = errorsForElement.some(element => element.Status === "E");
                 let allWarnings = errorsForElement.every(element => element.Status === "W");
-                let status = undefined;
                 if (hasError) {
                   status = "error";
                 } else if (allWarnings) {
@@ -281,16 +281,18 @@ sap.ui.define(
             if (this.checked === 'X') {
               MessageToast.show("Funz. eseguita in modalità Test")
             } else {
+              if(status === "error"){
+                MessageBox.error("Ricompilare correttamente il foglio excel e riprovare")
+              }
+              
+              if(status === "success"){
+                MessageBox.success("Ordini processati correttamente")
+              }
               //nascondere o mostrare checkbox a seconda del risultato:
 
-              //se simulazione= false e crea ordine tutti verdi message.box("Ordini processati correttamente")
+              // e crea ordine tutti verdi message.box("Ordini processati correttamente")
               //si può andare in selezione (table.setSelectionMode("MultiToggle"))  per creare documento materiale se la colonna 
               //  documento materiale è vuota 
-              //se anche solo un rosso : messagebox.error("ricompilare correttamente il foglio excel e riprovare")
-
-              //se simulazione=false e crea ordine + documento materiale tutto success:
-              //message.box("Ordini processati correttamente")
-              //se anche solo uno rosso : messagebox.error("ricompilare correttamente il foglio excel e riprovare")
             }
 
           } catch (error) {
