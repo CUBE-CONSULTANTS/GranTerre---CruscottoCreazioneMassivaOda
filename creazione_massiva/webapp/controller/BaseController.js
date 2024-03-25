@@ -7,6 +7,7 @@ sap.ui.define(
     "sap/ui/export/Spreadsheet",
 	  "sap/m/MessageBox",
     "../model/formatter",
+    "../model/API",
   ],
   function (Controller,
 	History,
@@ -14,7 +15,8 @@ sap.ui.define(
 	Fragment,
 	Spreadsheet,
   MessageBox,
-	formatter
+	formatter,
+  API
 	 ) {
     "use strict";
 
@@ -168,7 +170,62 @@ sap.ui.define(
             let blob = new Blob([file]);
             reader.readAsDataURL(blob);
           });
-        }
+        },
+        // gestione asincrona
+        onOpenProgressDialog: function (oEvent, flag, service, expand) {
+          let that = this
+          this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog" })
+          this.pDialog.then((oDialog) => {
+           
+            oDialog.open()
+            oDialog.setBusy(true)
+            that.onStartProgress(oEvent, flag, oDialog, service, expand)
+          })
+      },
+      onStartProgress: async function (oEvent, flag, oDialog,service, expand) {
+          try{
+            const asyncCall = await API.getOutputLogSet(this.getOwnerComponent().getModel(), service, this.checked, flag)
+            if (asyncCall.success){
+                  this.checkProgress(oEvent, flag, oDialog,service, expand)
+                }           
+            }catch (error){
+            MessageBox.error(error)
+          }        
+      },
+      checkProgress: async function (oEvent, flag, oDialog,service, expand) {
+        debugger
+        try {
+          const progressResponse = await API.getExpandedEntity(this.getOwnerComponent().getModel(), service, expand);
+          if (progressResponse.results.length > 0) {
+            oDialog.setBusy(false);
+            this.onCloseProgress(oEvent, oDialog, flag)
+            return
+          }else{        
+            this.progressInterval = setInterval(async () => {
+              try {
+                const progressResponse = await API.getExpandedEntity(this.getOwnerComponent().getModel(), service, expand);
+                  if (progressResponse.results.length > 0) {
+                    clearInterval(this.progressInterval)
+                    oDialog.setBusy(false)
+                    this.onCloseProgress(oEvent, oDialog, flag);
+                    return
+                  }
+                } catch (error) {
+                  clearInterval(this.progressInterval);
+                  MessageBox.error("Errore durante il controllo del progresso:", error);
+                }
+              }, 2000);
+            }     
+          } catch (error) {
+            MessageBox.error("Errore durante il controllo del progresso:", error);
+          }
+        },
+        onCloseProgress: function (oEvent, dialog, flag) {
+          debugger
+          dialog.close()
+          this.oView._controllerName === "granterre.creazionemassiva.controller.ElabOrdini" ? 
+          this.showResultsInTable(oEvent, flag) : this.showMerciResultsInTable(oEvent, flag)          
+        },
       }
     );
   }

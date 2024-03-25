@@ -158,89 +158,14 @@ sap.ui.define(
         //genera Ordine
         onOdaSelect: function (oEvent) {
           let flag = "process orders";
-          this.onOpenProgressDialog(oEvent, flag)
+          this.onOpenProgressDialog(oEvent, flag,"/OutputLogSet","OutputToBapiret")
         },
         //genera Ordine + documento
         onOdaMerceSelect: function (oEvent) {
           let flag = "process orders and matdoc";
-          this.onOpenProgressDialog(oEvent, flag)
+          this.onOpenProgressDialog(oEvent, flag, "/OutputLogSet","OutputToBapiret")
         },
-        // gestione asincrona
-        onOpenProgressDialog: function (oEvent, flag) {
-            let that = this
-            this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog" })
-            this.pDialog.then((oDialog) => {
-              let progressBar = new sap.m.ProgressIndicator({
-                width: "17rem",
-                displayValue: "0%",
-                percentValue: 0,
-                state: "Information",
-              });
-              if (!oDialog.getContent().length) {
-                oDialog.addContent(progressBar);
-              }
-              progressBar.setBusy(true)
-              oDialog.open()
-              that.onStartProgress(oEvent, flag, progressBar)
-            })
-        },
-        onStartProgress: async function (oEvent, flag, progressBar) {
-            try{
-              const asyncCall = await API.getOutputLogSet(this.getOwnerComponent().getModel(), "/OutputLogSet", this.checked, flag)
-              if (asyncCall.success){
-                    this.checkProgress(oEvent, flag, progressBar)
-                  }           
-              }catch (error){
-              MessageBox.error(error)
-            }        
-        },
-        checkProgress: async function (oEvent, flag, progressBar) {
-          debugger
-          try {
-            const progressResponse = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret");
-            if (progressResponse.results.length > 0) {
-              progressBar.setBusy(false);
-              progressBar.setDisplayValue("100%");
-              progressBar.setPercentValue(100);
-              setTimeout(() => {
-                this.onCloseProgress(oEvent, progressBar.getParent(), flag)
-              }, 3000)
-              return
-            }else{
-              let totalSteps = 10;    
-              this.progressInterval = setInterval(async () => {
-                try {
-                  const progressResponse = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret");
-                    if (progressResponse.results.length > 0) {
-                      clearInterval(this.progressInterval)
-                      progressBar.setBusy(false)
-                      progressBar.setDisplayValue("100%")
-                      progressBar.setPercentValue(100)
-                      setTimeout(() => {
-                        this.onCloseProgress(oEvent, progressBar.getParent(), flag);
-                      }, 3000)
-                      return
-                    }
-                    this.progress++;
-                    let progressPercentage = Math.floor((this.progress / totalSteps) * 100);
-                    progressBar.setDisplayValue(progressPercentage + "%");
-                    progressBar.setPercentValue(progressPercentage);
-                  } catch (error) {
-                    clearInterval(this.progressInterval);
-                    MessageBox.error("Errore durante il controllo del progresso:", error);
-                  }
-                }, 20000);
-              }     
-            } catch (error) {
-              MessageBox.error("Errore durante il controllo del progresso:", error);
-            }
-          },
-          onCloseProgress: function (oEvent, dialog, flag) {
-            dialog.removeAllContent();
-            dialog.close()
-            this.showResultsInTable(oEvent, flag);
-          },
-        //fine gestione asincrona
+
         //get tabella con o senza errori
         showResultsInTable: async function (oEvent, flag) {
           debugger
