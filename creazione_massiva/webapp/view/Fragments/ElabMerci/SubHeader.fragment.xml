@@ -16,6 +16,7 @@
         required="true"
         type="Number"
         change="onChangeToken"
+        tokenUpdate="onChangeToken"
       >
         <tokens>
      

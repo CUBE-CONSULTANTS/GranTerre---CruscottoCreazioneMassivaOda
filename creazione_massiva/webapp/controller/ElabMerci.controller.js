@@ -56,7 +56,18 @@ sap.ui.define([
           },
           onChangeToken: async function (oEvent){
             debugger
-            let odas = oEvent.getSource().getTokens();
+            if(oEvent.sId === "tokenUpdate"){
+              if(oEvent.getParameter("type") === "removed"){
+              let updatedTokens =  this.getModel("tokenModel").getProperty("/tokens").filter(token=> {
+                  return !oEvent.getParameters().removedTokens.includes(token);
+              });
+              this.getModel("tokenModel").setProperty("/tokens", updatedTokens);
+              if(this.getModel("tokenModel").getProperty("/tokens").length === 0){
+                this.getModel("tokenModel").setProperty("/tokens", undefined)
+              }
+              }                
+            }else{
+              let odas = oEvent.getSource().getTokens();
             let inputValue = oEvent.getParameter("value")
             let filterValues = [];
             
@@ -75,7 +86,6 @@ sap.ui.define([
                   MessageBox.error("Ordine: " + result.Ebeln + " Non Esistente");
                   debugger
                   }else{
-                    MessageToast.show("Ordine: " + result.Ebeln + "Esistente");
                     odaValid.push(result.Ebeln);
                   }
                 })
@@ -86,11 +96,13 @@ sap.ui.define([
               if(odaValid.length>0){
                 if(odaValid.includes(inputValue)){
                   if(!oEvent.getSource().getTokens().map(token => token.getKey()).includes(inputValue)){
-                    oEvent.getSource().addToken(new sap.m.Token({
+                   let newToken = oEvent.getSource().addToken(new sap.m.Token({
                       key: inputValue,
                       text: inputValue
                     }))
                     oEvent.getSource().setValue("")
+                    MessageToast.show("Ordine esistente")
+
                   }else{
                     oEvent.getSource().setValue("")
                     MessageBox.error("Valore già presente")
@@ -101,6 +113,8 @@ sap.ui.define([
               }else{
                 oEvent.getSource().setValue("")
               }              
+            }
+            
           },
           onElabMatDoc: async function (oEvent) {
             debugger;
