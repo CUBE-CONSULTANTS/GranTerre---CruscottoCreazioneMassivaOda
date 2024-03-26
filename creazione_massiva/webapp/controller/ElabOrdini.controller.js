@@ -97,6 +97,7 @@ sap.ui.define(
                 }
                 if (res.all[7].children[1].innerHTML === 'Upload file is empty') {
                   MessageBox.error("Il file caricato risulta vuoto");
+                  oFileUploader.setValue()
                 }
                 if (res.all[7].children[1].innerHTML === 'File uploaded without errors') {
                   that.getModel("filterModel").setProperty("/uploaded", true)
@@ -118,8 +119,8 @@ sap.ui.define(
             } catch (error) {
               MessageBox.error('Si è verificato un errore durante il caricamento del file');
               this.hideBusy(0)
-            }
-            // oFileUploader.setValue()
+              oFileUploader.setValue()
+            }         
           }
         },
         getErrorlog: async function () {

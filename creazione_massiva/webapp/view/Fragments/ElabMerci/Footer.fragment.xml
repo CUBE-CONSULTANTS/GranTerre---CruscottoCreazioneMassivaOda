@@ -10,11 +10,13 @@
             visible="{= ${filterModel>/simulazione} ? false : true}"
             type="Emphasized"
             icon="sap-icon://excel-attachment"
-            press=".DownloadTable" />
+            press=".DownloadTable"
+            enabled="{= ${tokenModel>/tokens} !== undefined ? true : false}" />
             <Button text="{i18n>goOrdine}"
                 visible="{= ${filterModel>/simulazione} ? false : true}"
                 type="Success"
                 icon="sap-icon://navigation-right-arrow"
-                press=".navToElabOrdine" />
+                press=".navToElabOrdine"
+                enabled="{= ${tokenModel>/tokens} !== undefined ? true : false}" />
     </OverflowToolbar>
 </core:FragmentDefinition>

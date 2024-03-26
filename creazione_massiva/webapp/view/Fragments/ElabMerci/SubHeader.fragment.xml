@@ -26,6 +26,7 @@
         text="{i18n>Simulazione}"
         class="checkText"
         select="onSimulazioneCheck"
+        enabled="{= ${tokenModel>/tokens} !== undefined ? true : false}"
       />
       <ToolbarSpacer />
       <Button
@@ -34,6 +35,7 @@
         press="onElabMatDoc"
         type="Emphasized"
         text="{i18n>Elabora}"
+        enabled="{= ${tokenModel>/tokens} !== undefined ? true : false}" 
       />
     </OverflowToolbar>
    

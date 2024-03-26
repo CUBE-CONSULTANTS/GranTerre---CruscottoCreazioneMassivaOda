@@ -29,7 +29,6 @@ sap.ui.define([
             // this.setModel(models.odaDocModel2(), "odaDocs");
             this.checked;
             this.progressInterval = 0
-            this.progress = 0
             this.setModel(models.createFilterModel(), "filterModel");
             this.getRouter().getRoute("ElabMerci").attachMatched(this._onRouteMatched, this);
           },
@@ -37,6 +36,7 @@ sap.ui.define([
             debugger
             this.showBusy(0)
             let aTokens = [];
+            let oModel = new JSONModel
             let oda = oEvent.getParameter("arguments").selected;
             if(oda){
               let selectedOda = JSON.parse(oda)             
@@ -47,11 +47,11 @@ sap.ui.define([
                 })
                 aTokens.push(oToken)             
               });    
-              let oModel = new JSONModel({tokens: aTokens})
-              this.setModel(oModel,"tokenModel")
+              oModel.setData({tokens: aTokens})
               this.byId("idMultiInput").removeAllTokens()
               this.byId("idMultiInput").setTokens(aTokens)
-            }      
+            }   
+            this.setModel(oModel,"tokenModel")
             this.hideBusy(0)
           },
           onChangeToken: async function (oEvent){
@@ -59,24 +59,48 @@ sap.ui.define([
             let odas = oEvent.getSource().getTokens();
             let inputValue = oEvent.getParameter("value")
             let filterValues = [];
-
+            
             if (odas && odas.length > 0) {
               filterValues = odas.map(token => token.getKey())
             }
             if(inputValue){
               filterValues.push(inputValue)
-            }
-            
+            }  
+            let odaValid = []           
             try {
               const matchOda = await API.matchOda(this.getOwnerComponent().getModel(), "/POValidationSet", filterValues)
               if(matchOda.success){
-                matchOda.results.forEach(result=>{ if (result.message !== '') {
+                matchOda.results.forEach(result=>{
+                  if (result.message !== '') {
                   MessageBox.error("Ordine: " + result.Ebeln + " Non Esistente");
-              }})
+                  debugger
+                  }else{
+                    MessageToast.show("Ordine: " + result.Ebeln + "Esistente");
+                    odaValid.push(result.Ebeln);
+                  }
+                })
               }
             } catch (error) {
               MessageBox.error("Errore durante il processo")
-            }         
+            }    
+              if(odaValid.length>0){
+                if(odaValid.includes(inputValue)){
+                  if(!oEvent.getSource().getTokens().map(token => token.getKey()).includes(inputValue)){
+                    oEvent.getSource().addToken(new sap.m.Token({
+                      key: inputValue,
+                      text: inputValue
+                    }))
+                    oEvent.getSource().setValue("")
+                  }else{
+                    oEvent.getSource().setValue("")
+                    MessageBox.error("Valore già presente")
+                  }
+                }else{
+                  oEvent.getSource().setValue("")
+                }
+              }else{
+                oEvent.getSource().setValue("")
+              }              
           },
           onElabMatDoc: async function (oEvent) {
             debugger;
@@ -143,7 +167,7 @@ sap.ui.define([
                 }
               }
             } catch (error) {
-              console.log(error)
+              MessageBox.error(error)
             }     
           },
           onIconPress: function (oEvent) {
