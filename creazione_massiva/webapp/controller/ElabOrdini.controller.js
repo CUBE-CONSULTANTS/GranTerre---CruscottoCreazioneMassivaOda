@@ -28,7 +28,7 @@ sap.ui.define(
         formatter: formatter,
 
         onInit: async function () {
-          this.setModel(models.odaDocModel(), "odaDocs");
+          // this.setModel(models.odaDocModel(), "odaDocs");
           this.setModel(models.createFilterModel(), "filterModel");
           this.checked;
           this.file
@@ -52,6 +52,10 @@ sap.ui.define(
           document.body.removeChild(link);
         },
         handleChangeFile: async function (oEvent) {
+          debugger
+          this.getModel("filterModel").setProperty("/uploaded", false)
+          let table = this.byId("tableOda")
+          table !== undefined ?  table.setVisible(false) :  table.setVisible(true)
           let oModel = this.getOwnerComponent().getModel();
           let oFileUploader = oEvent.getSource().getParent().getAggregation("content")[2];
 
@@ -129,7 +133,7 @@ sap.ui.define(
             })
             this.setModel(oModel, "errorUploadModel")
             this.hideBusy(0)
-            this.onOpenDialog("nDialog", "granterre.creazionemassiva.view.Fragments.ErrorTable", this, "errorUploadModel");
+            this.onOpenDialog("nDialog", "granterre.creazionemassiva.view.Fragments.Dialogs.ErrorTable", this, "errorUploadModel");
           } catch (error) {
             MessageBox.error("Si è verificato un errore durante l'operazione");
           }
@@ -165,7 +169,6 @@ sap.ui.define(
           let flag = "process orders and matdoc";
           this.onOpenProgressDialog(oEvent, flag, "/OutputLogSet","OutputToBapiret")
         },
-
         //get tabella con o senza errori
         showResultsInTable: async function (oEvent, flag) {
           debugger
@@ -235,14 +238,7 @@ sap.ui.define(
         },
         //visualizzazione dialog errori x riga
         onIconPress: function (oEvent) {
-          let errors = oEvent.getSource().getBindingContext("ordiniModel").getObject().OutputToBapiret
-          let errorModel = new JSONModel(errors.results);
-          this.setModel(errorModel, "errorModel");
-          if (errors) {
-            this.onOpenDialog("mDialog", "granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog", this, "errorModel");
-            // this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.SemaforoDialog"})
-            // this.pDialog.then((oDialog)=>oDialog.open())
-          }
+          this.getElaborationErrors(oEvent,"ordiniModel")
         },
         // selezione degli ordini per cui ripetere elaborazione doc materiale
         onSelectOda: function (oEvent) {

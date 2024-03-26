@@ -14,9 +14,9 @@
         width="400px"
         id="idMultiInput"
         required="true"
-        value="{odaModel>/item}"
       >
         <tokens>
+     
         </tokens>
       </MultiInput>
       <ToolbarSpacer />

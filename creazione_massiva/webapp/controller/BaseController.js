@@ -8,6 +8,7 @@ sap.ui.define(
 	  "sap/m/MessageBox",
     "../model/formatter",
     "../model/API",
+    "sap/ui/model/json/JSONModel"
   ],
   function (Controller,
 	History,
@@ -16,7 +17,8 @@ sap.ui.define(
 	Spreadsheet,
   MessageBox,
 	formatter,
-  API
+  API,
+  JSONModel
 	 ) {
     "use strict";
 
@@ -174,7 +176,7 @@ sap.ui.define(
         // gestione asincrona
         onOpenProgressDialog: function (oEvent, flag, service, expand) {
           let that = this
-          this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.ElabOrdini.progressDialog" })
+          this.pDialog ??= this.loadFragment({ name: "granterre.creazionemassiva.view.Fragments.Dialogs.progressDialog" })
           this.pDialog.then((oDialog) => {
            
             oDialog.open()
@@ -225,6 +227,20 @@ sap.ui.define(
           dialog.close()
           this.oView._controllerName === "granterre.creazionemassiva.controller.ElabOrdini" ? 
           this.showResultsInTable(oEvent, flag) : this.showMerciResultsInTable(oEvent, flag)          
+        },
+        getElaborationErrors: function (oEvent,model) {
+          debugger
+          let errors = oEvent.getSource().getBindingContext(model).getObject()
+          if(model=== "emModel"){
+            errors = errors.OutputToBapiret2
+          }else{
+            errors = errors.OutputToBapiret
+          }
+          let errorModel = new JSONModel(errors.results);
+          this.setModel(errorModel, "errorModel");
+          if (errors) {
+            this.onOpenDialog("mDialog", "granterre.creazionemassiva.view.Fragments.Dialogs.SemaforoDialog", this, "errorModel");
+          }
         },
       }
     );
