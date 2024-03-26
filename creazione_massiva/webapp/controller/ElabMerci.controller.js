@@ -58,13 +58,16 @@ sap.ui.define([
             debugger
             if(oEvent.sId === "tokenUpdate"){
               if(oEvent.getParameter("type") === "removed"){
-              let updatedTokens =  this.getModel("tokenModel").getProperty("/tokens").filter(token=> {
-                  return !oEvent.getParameters().removedTokens.includes(token);
-              });
-              this.getModel("tokenModel").setProperty("/tokens", updatedTokens);
-              if(this.getModel("tokenModel").getProperty("/tokens").length === 0){
+                let removedTokens = oEvent.getParameters().removedTokens;
+                let tokens = this.getModel("tokenModel").getProperty("/tokens");
+                removedTokens.forEach(token => {
+                    let index = tokens.indexOf(token);               
+                    tokens.splice(index, 1);             
+                });
+                this.getModel("tokenModel").setProperty("/tokens", tokens);
+                if(this.getModel("tokenModel").getProperty("/tokens").length === 0){
                 this.getModel("tokenModel").setProperty("/tokens", undefined)
-              }
+                }
               }                
             }else{
               let odas = oEvent.getSource().getTokens();
@@ -96,13 +99,15 @@ sap.ui.define([
               if(odaValid.length>0){
                 if(odaValid.includes(inputValue)){
                   if(!oEvent.getSource().getTokens().map(token => token.getKey()).includes(inputValue)){
-                   let newToken = oEvent.getSource().addToken(new sap.m.Token({
+                   oEvent.getSource().addToken(new sap.m.Token({
                       key: inputValue,
                       text: inputValue
                     }))
                     oEvent.getSource().setValue("")
                     MessageToast.show("Ordine esistente")
-
+                    let tokens = this.getModel("tokenModel").getProperty("/tokens") || []
+                    tokens.push(inputValue)
+                    this.getModel("tokenModel").setProperty("/tokens", tokens)
                   }else{
                     oEvent.getSource().setValue("")
                     MessageBox.error("Valore già presente")
