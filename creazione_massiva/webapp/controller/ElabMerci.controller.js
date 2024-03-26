@@ -7,18 +7,20 @@ sap.ui.define([
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
     "sap/m/MessageToast",
+	"sap/ui/model/odata/MessageScope",
 ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
   function (BaseController,
-    models,
-    API,
-    formatter,
-    Fragment,
-    JSONModel,
-    MessageBox,
-    MessageToast) {
+	models,
+	API,
+	formatter,
+	Fragment,
+	JSONModel,
+	MessageBox,
+	MessageToast,
+	MessageScope) {
       "use strict";
 
       return BaseController.extend("granterre.creazionemassiva.controller.ElabMerci", {
@@ -51,6 +53,30 @@ sap.ui.define([
               this.byId("idMultiInput").setTokens(aTokens)
             }      
             this.hideBusy(0)
+          },
+          onChangeToken: async function (oEvent){
+            debugger
+            let odas = oEvent.getSource().getTokens();
+            let inputValue = oEvent.getParameter("value")
+            let filterValues = [];
+
+            if (odas && odas.length > 0) {
+              filterValues = odas.map(token => token.getKey())
+            }
+            if(inputValue){
+              filterValues.push(inputValue)
+            }
+            
+            try {
+              const matchOda = await API.matchOda(this.getOwnerComponent().getModel(), "/POValidationSet", filterValues)
+              if(matchOda.success){
+                matchOda.results.forEach(result=>{ if (result.message !== '') {
+                  MessageBox.error("Ordine: " + result.Ebeln + " Non Esistente");
+              }})
+              }
+            } catch (error) {
+              MessageBox.error("Errore durante il processo")
+            }         
           },
           onElabMatDoc: async function (oEvent) {
             debugger;

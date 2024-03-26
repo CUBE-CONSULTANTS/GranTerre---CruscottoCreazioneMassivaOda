@@ -4,30 +4,6 @@ sap.ui.define([
 ], function (Filter, FilterOperator) {
   "use strict";
   return {
-    // Get generale
-    _getDbPromised: function (oModel, Entity, Property, aFilters, aSorters, Expands) {
-      let urlParameters = {};
-      if (Expands && Array.isArray(Expands) && Expands.length > 0) {
-        urlParameters.$expand = Expands.join(",");
-      }
-      return new Promise((resolve, reject) => {
-        oModel.read(Entity, {
-          filters: aFilters,
-          sorters: aSorters,
-          urlParameters: urlParameters,
-          success: (odata) => {
-            let sProp = Property;
-            resolve({
-              [sProp]: odata.results,
-              success: true
-            });
-          },
-          error: (err) => {
-            reject({ success: false, error: err })
-          },
-        });
-      });
-    },
     //POST upload
     uploadFile: function (file, oHeaders) {
       return new Promise((resolve, reject) => {
@@ -141,7 +117,36 @@ sap.ui.define([
         });
       });
     },
+    //matchcode Oda
+    matchOda: function (oModel, Entity, oda) {
+      debugger
+      let filters = [];
+      if (Array.isArray(oda)) {
+        oda.forEach(function (oda) {
+          filters.push(new sap.ui.model.Filter("Ebeln", sap.ui.model.FilterOperator.EQ, oda));
+        });
+      } else {
+        filters.push(new sap.ui.model.Filter("Ebeln", sap.ui.model.FilterOperator.EQ, oda));
+      }
 
+      return new Promise((resolve, reject) => {
+        oModel.read(Entity, {
+          filters: filters,
+          success: (odata) => {
+            resolve({
+              "results": odata.results,
+              success: true
+            });
+          },
+          error: (err) => {
+            reject({
+              success: false,
+              error: err
+            });
+          },
+        });
+      });
+    },
     // potenziale get ultimo log (servizio)
   };
 });

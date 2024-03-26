@@ -14,6 +14,8 @@
         width="400px"
         id="idMultiInput"
         required="true"
+        type="Number"
+        change="onChangeToken"
       >
         <tokens>
      
@@ -34,38 +36,7 @@
         text="{i18n>Elabora}"
       />
     </OverflowToolbar>
-    <!-- <fb:FilterBar
-      id="filterbar"
-      search="btnGoSearch"
-      filterChange="onChangeFilter"
-      showClearOnFB="false"
-      defaultSpan="XL12 L8 M8 S8"
-      showFilterConfiguration="false"
-      useToolbar="false"
-      
-    >
-      <fb:filterGroupItems>
-        <fb:FilterGroupItem
-          visibleInFilterBar="true"
-          name="oda"
-          label="{i18n>oda}"
-          groupName="Group1"
-        >
-          <fb:control>
-            
-          </fb:control>
-        </fb:FilterGroupItem>
-        <fb:FilterGroupItem
-          visibleInFilterBar="true"
-          name="simulazione"
-          label="{i18n>Simulazione}"
-          groupName="Group2"
-        >
-          <fb:control>
-            <CheckBox select="onSimulazioneCheck" />
-          </fb:control>
-        </fb:FilterGroupItem>
-      </fb:filterGroupItems>
-    </fb:FilterBar> -->
+   
+
   </f:DynamicPageHeader>
 </core:FragmentDefinition>
