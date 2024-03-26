@@ -55,6 +55,9 @@ sap.ui.define([
             this.hideBusy(0)
           },
           onChangeToken: async function (oEvent){
+            if(this.byId("tableMerci").getVisible()){
+              this.byId("tableMerci").setVisible(false)
+            }
             debugger
             if(oEvent.sId === "tokenUpdate"){
               if(oEvent.getParameter("type") === "removed"){
