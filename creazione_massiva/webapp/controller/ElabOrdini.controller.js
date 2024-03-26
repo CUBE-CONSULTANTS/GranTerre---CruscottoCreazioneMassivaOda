@@ -30,6 +30,8 @@ sap.ui.define(
         onInit: async function () {
           // this.setModel(models.odaDocModel(), "odaDocs");
           this.setModel(models.createFilterModel(), "filterModel");
+          let oModel = new JSONModel()
+          this.setModel(oModel, "ordiniModel")
           this.checked;
           this.file
           this.selectedOda;
@@ -37,10 +39,17 @@ sap.ui.define(
           this.progress = 0
           this.getRouter().getRoute("ElabOrdini").attachMatched(this._onRouteMatched, this);
         },
-        // eventuale chiamata ultimo log
+        // ultimo log
         _onRouteMatched: async function (oEvent) {
-
-        },
+          debugger
+          this.showBusy(0)
+          try{
+            this.showResultsInTable() 
+          }catch (error){
+            console.log(error)
+          }
+          this.hideBusy(0)
+          },
         //gestione download/upload tracciato
         DownloadExcel: function (oEvent) {
           let sExcelFilePath = "public/TracciatoCaricamentoOda.xlsx";
@@ -143,14 +152,14 @@ sap.ui.define(
           debugger
           let table = this.byId("tableOda")
           let iconStatus = table.getAggregation("columns")[0].getAggregation("template")
-          let oModel = new JSONModel()
+          
           try {
             this.showBusy(0)
             let stagingData = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/UploadOutputSet", "UploadOutputValidation")
-            oModel.setData({
+            this.getModel("ordiniModel").setData({
               results: stagingData.results
             })
-            this.setModel(oModel, "ordiniModel")
+            
             table.setSelectionMode("None")
             this.hideBusy(0)
           } catch (error) {
@@ -171,16 +180,18 @@ sap.ui.define(
           this.onOpenProgressDialog(oEvent, flag, "/OutputLogSet","OutputToBapiret")
         },
         //get tabella con o senza errori
-        showResultsInTable: async function (oEvent, flag) {
+        showResultsInTable: async function (oEvent,flag) {
           debugger
           let that = this
           let status = undefined;
-          let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content")
-          let header = oEvent.getSource().getParent().getParent().getParent().getAggregation("content").getAggregation("extension")[0].getAggregation("content")[0].getProperty("text")
+          let table = this.byId("tableOda")
+          let header = table.getExtension()[0].getAggregation("content")[0].getProperty("text")
           let icon = table.getAggregation("columns")[0].getAggregation("template")
-          if (flag === "process orders and matdoc") {
-            header += " e Documento Materiale";
-          }
+          if(flag){
+            if (flag === "process orders and matdoc") {
+              header += " e Documento Materiale";
+            }
+          }        
           try {
             this.showBusy(0)
             let output = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret")
