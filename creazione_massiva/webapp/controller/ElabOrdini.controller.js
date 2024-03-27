@@ -37,24 +37,39 @@ sap.ui.define(
           this.checked;
           this.file
           this.selectedOda;
+          this.firstVisit = true
           this.progressInterval = 0
           this.progress = 0
           this.getRouter().getRoute("ElabOrdini").attachMatched(this._onRouteMatched, this);
         },
         // ultimo log
-        _onRouteMatched: async function (oEvent) {
-          debugger  
-          try{
-            this.showBusy(0)
-            MessageBox.
-            this.showResultsInTable() 
-            this.getModel("filterModel").setProperty("/uploaded", true)
-          }catch (error){
-            console.log(error)
-          }
-          this.hideBusy(0)
-          
-          },
+        _onRouteMatched: function (oEvent) {
+          debugger 
+          let that = this
+          if(this.firstVisit){
+            this.firstVisit = false
+            let routeMatchedPromise = new Promise(function(resolve, reject) {
+              that.getRouter().fireRoutePatternMatched(oEvent);
+              resolve();
+          });
+          routeMatchedPromise.then(function() {
+            that.showBusy(0)
+            MessageBox.warning("Visualizzare l'esito dell'ultima operazione?", {
+              actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+              emphasizedAction: MessageBox.Action.OK,
+              onClose: function (sAction,oEvent) {
+                if (sAction === MessageBox.Action.OK){          
+                    that.showResultsInTable() 
+                    that.getModel("filterModel").setProperty("/uploaded", true)
+                    that.hideBusy(0)
+                }else{
+                  that.hideBusy(0)
+                }
+              }.bind(this) 
+             });
+            });
+          }    
+        },
         //gestione download/upload tracciato
         DownloadExcel: function (oEvent) {
           let sExcelFilePath = "public/TracciatoCaricamentoOda.xlsx";
@@ -201,7 +216,8 @@ sap.ui.define(
             this.showBusy(0)
             let output = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/OutputLogSet", "OutputToBapiret")
             if (output.success) {
-              that.getModel("ordiniModel").setData(output)
+              if(output.results.length >0){
+                that.getModel("ordiniModel").setData(output)
               let aErrors = output.results.map(result => result.OutputToBapiret.results)
               aErrors.forEach(array => {
                 array.shift()
@@ -225,6 +241,9 @@ sap.ui.define(
                   table.setSelectionMode("None")
                 }
               })
+              }else{
+                MessageBox.warning("Processo in corso")
+              }
             }
             this.hideBusy(0)
             table.setVisible(true)
