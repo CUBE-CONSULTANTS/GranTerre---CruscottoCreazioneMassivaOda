@@ -15,7 +15,7 @@ sap.ui.define([
             "SLUG": oHeaders[0].getValue(),
             "x-csrf-token": oHeaders[2].getValue()
           },
-          cache: "false",
+          cache: false,
           processData: false,
           contentType: oHeaders[1].getValue(),
           data: file,
