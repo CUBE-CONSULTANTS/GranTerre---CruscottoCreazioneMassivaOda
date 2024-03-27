@@ -72,10 +72,12 @@ sap.ui.define(
         },
         //gestione download/upload tracciato
         DownloadExcel: function (oEvent) {
-          let sExcelFilePath = "public/TracciatoCaricamentoOda.xlsx";
+          debugger
+          let sExcelFilePath = "granterre/creazionemassiva/public/TracciatoCaricamentoOda.xlsx";
           let link = document.createElement("a");
           link.href = sap.ui.require.toUrl(sExcelFilePath);
           link.download = "TracciatoCaricamentoOda.xlsx";
+          
           document.body.appendChild(link);
           link.click();
           document.body.removeChild(link);

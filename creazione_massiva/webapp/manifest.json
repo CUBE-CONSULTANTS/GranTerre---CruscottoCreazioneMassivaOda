@@ -40,7 +40,7 @@
     }
   },
   "sap.ui": {
-    "fullWidth": false,
+    "fullWidth": true,
     "technology": "UI5",
     "icons": {
       "icon": "",
@@ -102,6 +102,12 @@
         {
           "uri": "public/images/",
           "name": "granterre.images"
+        }
+      ],
+      "file": [
+        {
+          "uri": "public/TracciatoCaricamentoOda.xlsx",
+          "name": "TracciatoCaricamentoOda.xlsx"
         }
       ]
     },
