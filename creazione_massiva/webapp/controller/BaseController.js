@@ -236,9 +236,10 @@ sap.ui.define(
             errors = errors.OutputToBapiret
           }
           if(errors !== undefined){
+            debugger
             let errorModel = new JSONModel(errors.results)
             this.setModel(errorModel, "errorModel")
-            if(errors){
+            if(errors.results[0].Status !== 'S'){
               this.onOpenDialog("mDialog", "granterre.creazionemassiva.view.Fragments.Dialogs.SemaforoDialog", this, "errorModel");
             }
           }
