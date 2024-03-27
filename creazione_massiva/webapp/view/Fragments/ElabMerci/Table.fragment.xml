@@ -94,7 +94,7 @@
       >
           <m:Text text="{i18n>DescrizioneMat}" />
             <template>
-              <m:Text text="{emModel>Txz01}" wrapping="false"/>
+              <m:Text text="{emModel>Maktx}" wrapping="false"/>
           </template>
       </Column>
       <Column
@@ -102,7 +102,7 @@
       >
           <m:Text text="{i18n>NumeroPartita}" />
             <template>
-              <m:Text text="{emModel>ZzmatchNum}" wrapping="false"/>
+              <m:Text text="{emModel>Charg}" wrapping="false"/>
           </template>
       </Column>
       <Column
@@ -170,7 +170,7 @@
       >
           <m:Text text="{i18n>DataCompetenza}" />
             <template>
-              <m:Text text="{path: 'emModel>Zzdat', formatter: '.formatter.formatDate'}" wrapping="false"/>
+              <m:Text text="{path: 'emModel>Zzaccrual', formatter: '.formatter.formatDate'}" wrapping="false"/>
           </template>
       </Column>
       

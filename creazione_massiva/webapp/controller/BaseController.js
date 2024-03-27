@@ -79,14 +79,13 @@ sap.ui.define(
           return UIComponent.getRouterFor(this);
         },
 
-        onNavBack: function () {
+        getLastHash: function () {
           debugger;
           const sPreviousHash = History.getInstance().getPreviousHash();
-
           if (sPreviousHash !== undefined) {
-            window.history.back();
+            return sPreviousHash
           } else {
-            this.getRouter().navTo("appHome", {}, true /* no history*/);
+            return undefined
           }
         },
         _getColumnsConfig: function (oTable) {

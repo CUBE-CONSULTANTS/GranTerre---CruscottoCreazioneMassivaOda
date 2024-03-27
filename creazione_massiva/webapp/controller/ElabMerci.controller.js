@@ -31,27 +31,56 @@ sap.ui.define([
             this.progressInterval = 0
             this.setModel(models.createFilterModel(), "filterModel");
             this.getRouter().getRoute("ElabMerci").attachMatched(this._onRouteMatched, this);
+            this.firstVisit = true
           },
           _onRouteMatched: async function(oEvent) {
             debugger
             this.showBusy(0)
-            let aTokens = [];
-            let oModel = new JSONModel
-            let oda = oEvent.getParameter("arguments").selected;
-            if(oda){
-              let selectedOda = JSON.parse(oda)             
-              selectedOda.forEach(function(item,index) {
-                let oToken = new sap.m.Token({
-                  key: item,
-                  text: item
-                })
-                aTokens.push(oToken)             
-              });    
-              oModel.setData({tokens: aTokens})
-              this.byId("idMultiInput").removeAllTokens()
-              this.byId("idMultiInput").setTokens(aTokens)
-            }   
-            this.setModel(oModel,"tokenModel")
+            let that = this
+            if(this.firstVisit){
+              if(this.getLastHash() === undefined || this.getLastHash() === "" ){
+                this.firstVisit = false
+              let routeMatchedPromise = new Promise(function(resolve, reject) {
+                that.getRouter().fireRoutePatternMatched(oEvent);
+                resolve();
+            });
+            routeMatchedPromise.then(function() {
+              that.showBusy(0)
+              MessageBox.warning("Visualizzare l'esito dell'ultima operazione?", {
+                actions: [MessageBox.Action.OK, MessageBox.Action.CANCEL],
+                emphasizedAction: MessageBox.Action.OK,
+                onClose: function (sAction,oEvent) {
+                  if (sAction === MessageBox.Action.OK){          
+                      that.showMerciResultsInTable() 
+                      that.getModel("tokenModel").setProperty("/tokens", undefined)
+                      that.hideBusy(0)
+                  }else{
+                    that.hideBusy(0)
+                  }
+                }.bind(this) 
+               });
+              });
+              }else if(this.getLastHash() === "ordini"){
+              
+                let aTokens = [];
+                let oModel = new JSONModel
+                let oda = oEvent.getParameter("arguments").selected;
+                if(oda){
+                  let selectedOda = JSON.parse(oda)             
+                  selectedOda.forEach(function(item,index) {
+                    let oToken = new sap.m.Token({
+                      key: item,
+                      text: item
+                    })
+                    aTokens.push(oToken)             
+                  });    
+                  oModel.setData({tokens: aTokens})
+                  this.byId("idMultiInput").removeAllTokens()
+                  this.byId("idMultiInput").setTokens(aTokens)
+                }   
+                this.setModel(oModel,"tokenModel")
+              }
+            }       
             this.hideBusy(0)
           },
           onChangeToken: async function (oEvent){
@@ -69,7 +98,7 @@ sap.ui.define([
                 });
                 this.getModel("tokenModel").setProperty("/tokens", tokens);
                 if(this.getModel("tokenModel").getProperty("/tokens").length === 0){
-                this.getModel("tokenModel").setProperty("/tokens", undefined)
+                 this.getModel("tokenModel").setProperty("/tokens", undefined)
                 }
               }                
             }else{
@@ -135,14 +164,14 @@ sap.ui.define([
             debugger
             let that = this
             let status = undefined;
-            let table = oEvent.getSource().getParent().getParent().getParent().getAggregation("content")
+            let table = this.byId("tableMerci")
             let icon = table.getAggregation("columns")[0].getAggregation("template")
-            let oModel = new JSONModel()
-           
+            let oModel = new JSONModel()          
             try {
               this.showBusy(0)
               let output = await API.getExpandedEntity(this.getOwnerComponent().getModel(), "/OutputLogMatDocSet", "OutputToBapiret2")
               if (output.success) {
+                if(output.results.length >0){
                 oModel.setData({
                   results: output.results
                 })
@@ -164,6 +193,9 @@ sap.ui.define([
                   that.getModel("emModel").setProperty("/results/" + index + "/status", status);
                   icon.setColor(formatter.iconColor(status))
                 })
+              }else{
+                MessageBox.warning("Processo in corso")
+              }
               }
               this.hideBusy(0)
               table.setVisible(true)
