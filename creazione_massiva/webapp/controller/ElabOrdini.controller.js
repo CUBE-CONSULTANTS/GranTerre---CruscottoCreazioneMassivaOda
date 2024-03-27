@@ -115,7 +115,7 @@ sap.ui.define(
           } else {
             try {
               this.showBusy(0)
-              let res = await API.uploadFile(this.file, oHeaders)
+              let res = await API.uploadFile(this.file, oHeaders,this.getOwnerComponent().getModel())
               this.hideBusy(0)
               if (res) {
                 if (res.all[7].children[1].innerHTML === 'File validated. Errors Found') {

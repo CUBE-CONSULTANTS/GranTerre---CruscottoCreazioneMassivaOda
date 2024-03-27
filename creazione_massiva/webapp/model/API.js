@@ -5,12 +5,12 @@ sap.ui.define([
   "use strict";
   return {
     //POST upload
-    uploadFile: function (file, oHeaders) {
+    uploadFile: function (file, oHeaders,oModel) {
       debugger
       return new Promise((resolve, reject) => {
         jQuery.ajax({
           type: 'POST',
-          url: '/sap/opu/odata/sap/ZMM_PO_MATDOC_CREATE_SRV/UploadDataSet',
+          url: oModel.sServiceUrl + "/UploadDataSet",
           headers: {
             "SLUG": oHeaders[0].getValue(),
             "x-csrf-token": oHeaders[2].getValue()
