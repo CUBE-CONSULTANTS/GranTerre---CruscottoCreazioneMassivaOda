@@ -97,6 +97,12 @@
         {
           "uri": "css/style.css"
         }
+      ],
+      "img": [
+        {
+          "uri": "public/images/",
+          "name": "granterre.images"
+        }
       ]
     },
     "routing": {

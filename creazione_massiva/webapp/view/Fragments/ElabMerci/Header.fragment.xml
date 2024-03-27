@@ -2,10 +2,22 @@
     xmlns:core="sap.ui.core"
     xmlns:f="sap.f"
     xmlns="sap.m"
+    xmlns:layout="sap.ui.layout"
 >
     <f:DynamicPageTitle>
             <f:heading >
             <Title titleStyle="H2" text="{i18n>elabMerce}"/>    
           </f:heading>
+          <f:actions>
+          <layout:HorizontalLayout allowWrapping="true">
+            <layout:VerticalLayout>
+              <Image					
+                src="{ value: 'granterre/creazionemassiva/public/images/logo-granterre_new.png', formatter: 'sap.ui.require.toUrl'}"         
+                height="45.00000000px"
+                width="100%"
+              />
+            </layout:VerticalLayout>
+          </layout:HorizontalLayout>
+        </f:actions>
         </f:DynamicPageTitle>
 </core:FragmentDefinition>

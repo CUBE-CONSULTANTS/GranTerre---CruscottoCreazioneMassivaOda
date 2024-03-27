@@ -14,7 +14,7 @@ xmlns:layout="sap.ui.layout"
           <layout:HorizontalLayout allowWrapping="true">
             <layout:VerticalLayout>
               <Image					
-                src="../public/logo-granterre_new.png"
+                src="{ value: 'granterre/creazionemassiva/public/images/logo-granterre_new.png', formatter: 'sap.ui.require.toUrl'}"         
                 height="45.00000000px"
                 width="100%"
               />
@@ -26,7 +26,7 @@ xmlns:layout="sap.ui.layout"
     
     <f:content>
         <HBox justifyContent="SpaceAround" class="sapUiLargeMarginTop margin" alignItems="Center" width="50%" >
-            <GenericTile   class="sapUiResponsiveMargin tileLayout" header="{i18n>elabOrdine}" press="navToElabOrdine">
+            <GenericTile  class="sapUiResponsiveMargin tileLayout" header="{i18n>elabOrdine}" press="navToElabOrdine">
                 <TileContent>
                 </TileContent>
             </GenericTile>

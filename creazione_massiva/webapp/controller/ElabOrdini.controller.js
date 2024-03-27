@@ -74,7 +74,7 @@ sap.ui.define(
         DownloadExcel: function (oEvent) {
           let sExcelFilePath = "public/TracciatoCaricamentoOda.xlsx";
           let link = document.createElement("a");
-          link.href = sExcelFilePath;
+          link.href = sap.ui.require.toUrl(sExcelFilePath);
           link.download = "TracciatoCaricamentoOda.xlsx";
           document.body.appendChild(link);
           link.click();
