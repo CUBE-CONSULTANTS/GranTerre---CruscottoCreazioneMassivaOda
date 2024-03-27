@@ -6,19 +6,21 @@ sap.ui.define(
     "../model/formatter",
     "sap/ui/model/json/JSONModel",
     "sap/m/MessageBox",
-    "sap/m/MessageToast"
+    "sap/m/MessageToast",
+	"sap/m/Dialog"
   ],
   /**
    * @param {typeof sap.ui.core.mvc.Controller} Controller
    */
   function (
     BaseController,
-    models,
-    API,
-    formatter,
-    JSONModel,
-    MessageBox,
-    MessageToast,
+	models,
+	API,
+	formatter,
+	JSONModel,
+	MessageBox,
+	MessageToast,
+	Dialog,
   ) {
     "use strict";
 
@@ -41,14 +43,17 @@ sap.ui.define(
         },
         // ultimo log
         _onRouteMatched: async function (oEvent) {
-          debugger
-          this.showBusy(0)
+          debugger  
           try{
+            this.showBusy(0)
+            MessageBox.
             this.showResultsInTable() 
+            this.getModel("filterModel").setProperty("/uploaded", true)
           }catch (error){
             console.log(error)
           }
           this.hideBusy(0)
+          
           },
         //gestione download/upload tracciato
         DownloadExcel: function (oEvent) {
