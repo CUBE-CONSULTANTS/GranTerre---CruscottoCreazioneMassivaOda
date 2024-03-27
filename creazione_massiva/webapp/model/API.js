@@ -6,6 +6,7 @@ sap.ui.define([
   return {
     //POST upload
     uploadFile: function (file, oHeaders) {
+      debugger
       return new Promise((resolve, reject) => {
         jQuery.ajax({
           type: 'POST',
@@ -14,6 +15,7 @@ sap.ui.define([
             "SLUG": oHeaders[0].getValue(),
             "x-csrf-token": oHeaders[2].getValue()
           },
+          cache: "false",
           processData: false,
           contentType: oHeaders[1].getValue(),
           data: file,
