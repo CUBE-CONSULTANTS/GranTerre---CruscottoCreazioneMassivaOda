@@ -39,14 +39,14 @@
                     <m:Text text="{ordiniModel>Ebeln}" wrapping="false"/>
                 </template>
             </Column>
-            <Column
+            <!-- <Column
                 hAlign="Center" width="5rem"
             >
                 <m:Text text="{i18n>InizioOrdine}" />
                   <template>
                     <m:Text text="{ordiniModel>ZzstartOrder}" wrapping="false"/>
                 </template>
-            </Column>
+            </Column> -->
             <Column
                 hAlign="Center" width="5rem"
             >
@@ -131,7 +131,7 @@
             >
                 <m:Text text="{i18n>NoteTestata}" />
                   <template>
-                    <m:Text text="{ordiniModel>ZzheadNote}" wrapping="false"/>
+                    <m:Text text="{ordiniModel>ZzeadNotes}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -150,7 +150,7 @@
                     <m:Text text="{ordiniModel>Zzlink}" wrapping="false"/>
                 </template>
             </Column>
-
+<!-- 
             <Column
                 hAlign="Center"
             >
@@ -158,7 +158,7 @@
                   <template>
                     <m:Text text="{ordiniModel>Ebelp}" wrapping="false"/>
                 </template>
-            </Column>
+            </Column> -->
             <Column
                 hAlign="Center"
             >
