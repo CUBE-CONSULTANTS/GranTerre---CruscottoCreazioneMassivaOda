@@ -68,7 +68,7 @@
       >
           <m:Text text="{i18n>DataDocumento}" />
             <template>
-              <m:Text text= "{path: 'emModel>Bldat', formatter: '.formatter.formatDate'}"/>
+              <m:Text text= "{path: 'emModel>Bldat',type:'sap.ui.model.odata.type.Date', formatOptions:{pattern:'dd/MM/yyyy'}}"/>
           </template>
       </Column>
       <Column
@@ -77,7 +77,7 @@
       >
        <m:Text text="{i18n>DataRegistrazione}" />
             <template>
-              <m:Text text="{path: 'emModel>Budat', formatter: '.formatter.formatDate'}"/>
+              <m:Text text="{path: 'emModel>Budat',type:'sap.ui.model.odata.type.Date', formatOptions:{pattern:'dd/MM/yyyy'}}"/>
           </template>
       </Column>
       
@@ -170,7 +170,7 @@
       >
           <m:Text text="{i18n>DataCompetenza}" />
             <template>
-              <m:Text text="{path: 'emModel>Zzaccrual', formatter: '.formatter.formatDate'}" wrapping="false"/>
+              <m:Text text="{path: 'emModel>Zzaccrual',type:'sap.ui.model.odata.type.Date', formatOptions:{pattern:'dd/MM/yyyy'}}" wrapping="false"/>
           </template>
       </Column>
       

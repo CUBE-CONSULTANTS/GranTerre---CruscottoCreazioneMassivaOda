@@ -101,7 +101,7 @@
             >
                 <m:Text text="{i18n>DataDocumento}" />
                   <template>
-                    <m:Text text="{path: 'ordiniModel>Bedat', formatter: '.formatter.formatDate'}" wrapping="false"/>
+                    <m:Text text="{path: 'ordiniModel>Bedat',type:'sap.ui.model.odata.type.Date', formatOptions:{pattern:'dd/MM/yyyy'}}" wrapping="false"/>
                 </template>
             </Column>
             <Column hAlign="Center" width="6rem">
@@ -269,7 +269,7 @@
             >
                 <m:Text text="{i18n>consegna}" />
                   <template>
-                    <m:Text text="{path: 'ordiniModel>Eindt', formatter: '.formatter.formatDate' }" wrapping="false"/>
+                    <m:Text text="{path: 'ordiniModel>Eindt',type:'sap.ui.model.odata.type.Date', formatOptions:{pattern:'dd/MM/yyyy'}}" wrapping="false"/>
                     
                 </template>
             </Column>
@@ -324,7 +324,7 @@
             >
                 <m:Text text="{i18n>DataRegistrazione}" />
                   <template>
-                    <m:Text text="{path: 'ordiniModel>Budat', formatter: '.formatter.formatDate'}" wrapping="false"/>
+                    <m:Text text="{path: 'ordiniModel>Budat',type:'sap.ui.model.odata.type.Date', formatOptions:{pattern:'dd/MM/yyyy'}}" wrapping="false"/>
                 </template>
             </Column>
             <Column
@@ -332,7 +332,7 @@
             >
                 <m:Text text="{i18n>DataCompetenza}" />
                   <template>
-                    <m:Text text="{path: 'ordiniModel>Zzaccrual', formatter: '.formatter.formatDate'}" wrapping="false"/>
+                    <m:Text text="{path: 'ordiniModel>Zzaccrual',type:'sap.ui.model.odata.type.Date', formatOptions:{pattern:'dd/MM/yyyy'}}" wrapping="false"/>
                 </template>
             </Column>
             <Column

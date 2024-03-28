@@ -26,8 +26,8 @@ xmlns:layout="sap.ui.layout"
     
     <f:content>
         <HBox justifyContent="SpaceAround" class="sapUiLargeMarginTop margin" alignItems="Center" width="50%" >
-            <GenericTile  class="sapUiResponsiveMargin tileLayout" header="{i18n>elabOrdine}" press="navToElabOrdine">
-                <TileContent>
+            <GenericTile class="sapUiResponsiveMargin tileLayout" header="{i18n>elabOrdine}" press="navToElabOrdine">
+                <TileContent >
                 </TileContent>
             </GenericTile>
             <GenericTile class="sapUiResponsiveMargin tileLayout" header="{i18n>elaboraMerci}" press="navToElabMerci">

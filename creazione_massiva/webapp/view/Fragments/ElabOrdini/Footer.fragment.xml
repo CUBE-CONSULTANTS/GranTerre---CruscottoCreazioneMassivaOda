@@ -4,7 +4,7 @@
         <Button text="{i18n>Indietro}"
             type="Emphasized"
             icon="sap-icon://home"
-            press=".NavToLaunch" />
+            press="NavToLaunch" />
         <ToolbarSpacer/>    
         <Button text="{i18n>ScaricaExcel}"
             visible="{= ${filterModel>/simulazione} ? false : true}"

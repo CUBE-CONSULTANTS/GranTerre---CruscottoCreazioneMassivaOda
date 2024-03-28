@@ -14,13 +14,13 @@ sap.ui.define(
    */
   function (
     BaseController,
-	models,
-	API,
-	formatter,
-	JSONModel,
-	MessageBox,
-	MessageToast,
-	Dialog,
+    models,
+    API,
+    formatter,
+    JSONModel,
+    MessageBox,
+    MessageToast,
+    Dialog,
   ) {
     "use strict";
 
@@ -289,7 +289,7 @@ sap.ui.define(
         },
         //navigation
         NavToLaunch: function () {
-          // this.onFilterBarClear()
+          this.getModel("filterModel").setProperty("/", "")
           this.byId("tableOda").setVisible(false);
           this.getRouter().navTo("RouteLaunchTile");
         },

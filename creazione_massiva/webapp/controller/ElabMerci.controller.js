@@ -60,8 +60,7 @@ sap.ui.define([
                 }.bind(this) 
                });
               });
-              }else if(this.getLastHash() === "ordini"){
-              
+              }else if(this.getLastHash() === "ordini"){             
                 let aTokens = [];
                 let oModel = new JSONModel
                 let oda = oEvent.getParameter("arguments").selected;
@@ -80,8 +79,26 @@ sap.ui.define([
                 }   
                 this.setModel(oModel,"tokenModel")
               }
-            }       
-            this.hideBusy(0)
+            }else if (this.getLastHash() === "ordini") {
+              let aTokens = [];
+              let oModel = new JSONModel;
+              let oda = oEvent.getParameter("arguments").selected;
+              if (oda) {
+                  let selectedOda = JSON.parse(oda);             
+                  selectedOda.forEach(function(item,index) {
+                      let oToken = new sap.m.Token({
+                          key: item,
+                          text: item
+                      });
+                      aTokens.push(oToken);
+                  });    
+                  oModel.setData({tokens: aTokens});
+                  this.byId("idMultiInput").removeAllTokens();
+                  this.byId("idMultiInput").setTokens(aTokens);
+              }   
+              this.setModel(oModel, "tokenModel");
+            }
+            this.hideBusy(0);
           },
           onChangeToken: async function (oEvent){
             if(this.byId("tableMerci").getVisible()){

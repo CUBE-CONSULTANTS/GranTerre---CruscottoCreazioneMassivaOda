@@ -11,7 +11,7 @@ sap.ui.define([
             if (!date) {
                 return "";
             }
-            var oDateFormat = DateFormat.getDateInstance({pattern: "dd/MM/yyyy"});
+            let oDateFormat = DateFormat.getDateInstance({pattern: "dd/MM/yyyy"});
             return oDateFormat.format(date);
         },
 		iconColor: function(status) {

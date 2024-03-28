@@ -89,31 +89,39 @@ sap.ui.define(
           }
         },
         _getColumnsConfig: function (oTable) {
-          debugger;
-          const aCols = [];
+          debugger
+          const aCols = []
 
-          oTable.getColumns().forEach((el, key) => {
-            debugger;
+          oTable.getColumns().forEach((el, key) => {         
             if (key !== 0) {
-              let property = "";
+              let property = ""
+              let type = String;
+              let formatOptions = {}
               oTable.getRows().forEach((row, i) => {
                 const cell = row.getCells()[key];
-                if (
-                  cell.getMetadata().getElementName() === "sap.ui.core.Icon"
-                ) {
+                if (cell.getMetadata().getElementName() === "sap.ui.core.Icon") {
                   property = "note";
                 } else if (cell.getBindingInfo("text")) {
+                  const bindingInfo = cell.getBindingInfo("text");
                   property = cell.getBindingInfo("text").parts[0].path;
+
+                  const bindingType = bindingInfo.binding.getType();
+                    if (bindingType) {
+                        type = bindingType.getFormat().type || String;
+                        formatOptions = bindingType.getFormatOptions() || {}; 
+                    }
                 }
-              });
+              })
+
               aCols.push({
                 label: el.getLabel().getText(),
                 property: property,
-                type: String,
-              });
+                type: type,
+                formatOptions: formatOptions
+              })
             }
-          });
-          return aCols;
+          })
+          return aCols
         },
 
         DownloadTable: function (oEvent) {
@@ -121,11 +129,12 @@ sap.ui.define(
           const oTable = oEvent.getSource().getParent().getParent().getAggregation("content");
           const oRowBinding = oTable.getBinding("rows");
           const aCols = this._getColumnsConfig(oTable);
+         
           const oSheet = new Spreadsheet({
             workbook: {
               columns: aCols,
               hierarchyLevel: "Level",
-            },
+            },       
             dataSource: oRowBinding,
             fileName: "Lista OdA Elaborati",
           });
